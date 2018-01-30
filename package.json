@@ -1,0 +1,17 @@
+{
+  "name": "y",
+  "version": "0.0.1",
+  "description": "y",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest test/"
+  },
+  "author": "Samuel Bodin",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "jest": "^22.1.4"
+  }
+}
