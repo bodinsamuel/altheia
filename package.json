@@ -1,13 +1,26 @@
 {
-  "name": "y",
+  "name": "altheia",
   "version": "0.0.1",
-  "description": "y",
+  "description": "A very simple async data validator",
   "main": "index.js",
   "scripts": {
     "test": "jest test/"
   },
   "author": "Samuel Bodin",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bodinsamuel/altheia.git"
+  },
+  "homepage": "https://github.com/bodinsamuel/altheia#readme",
+  "engines": {
+    "node": ">= 7.6"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint"
+    ]
+  },
   "dependencies": {
     "lodash": "^4.17.4"
   },

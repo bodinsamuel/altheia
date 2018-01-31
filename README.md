@@ -16,8 +16,14 @@ const hasError = await Altheia({
     login: Altheia.string().min(3).not('admin'),
     email: Altheia.string().email().custom((value) => searchDBForAnOccurence())
     eyes: Altheia.number().integer().positive().max(2)
-}).required(true).unknow(false)
-.validate({ login: 'leela', email: 'leela@planetexpress.earth', eyes: 1 });
+}).options({
+    required: true,
+    unknown: false
+}).validate({
+    login: 'leela',
+    email: 'captain@planetexpress.earth',
+    eyes: 1
+});
 
 console.log(hasError); // false
 ```
