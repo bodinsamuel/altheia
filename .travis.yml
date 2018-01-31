@@ -6,3 +6,14 @@ node_js:
   - "node"
 
 sudo: false
+
+branches:
+   only:
+   - master
+
+cache:
+  directories:
+    - "node_modules"
+
+script:
+  - "npm run lint"

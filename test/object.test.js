@@ -1,7 +1,6 @@
 const Alt = require('./../src');
 
 describe('Object', () => {
-
   describe('typeof()', () => {
     test('should pass', async () => {
       const hasError = await Alt.object().validate({});

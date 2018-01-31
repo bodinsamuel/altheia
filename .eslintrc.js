@@ -5,14 +5,16 @@ module.exports = {
     env: {
         browser: false,
         es6: true,
-        node: true
+        node: true,
+        'jest/globals': true
     },
     parserOptions: {
         'ecmaVersion': 8,
     },
-    'globals': {
+    globals: {
         'Promise': true
     },
+    plugins: ['jest'],
     // add your custom rules here
     'rules': {
         // allow debugger during development
