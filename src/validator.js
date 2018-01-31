@@ -42,6 +42,9 @@ module.exports = class Validator {
     if (this._options.unknown === false) {
       const only = await new ObjectValidator().in(Object.keys(this._schema)).validate(this._body);
       if (only) {
+        if (callback) {
+          callback(only);
+        }
         return only;
       }
     }
@@ -62,6 +65,9 @@ module.exports = class Validator {
     }
 
     if (errors.length > 0) {
+      if (callback) {
+        callback(errors);
+      }
       return errors;
     }
     return false;
