@@ -1,91 +1,55 @@
 const Alt = require('./../src');
-const Validator = require('./../src/validator');
+const StringValidator = require('./../src/string');
 
-describe('index', () => {
-  test('Should be a func', async () => {
-    expect(Alt).toBeInstanceOf(Function);
-  });
+describe('Validator', () => {
+  describe('instance()', () => {
+    test('clone should not alter themselves nor the original', () => {
+      const alt1 = Alt.instance();
+      const alt2 = Alt.instance();
+      alt1.foo = 'bar';
+      alt2.bar = 'foo';
+      expect(alt1).toHaveProperty('foo');
+      expect(alt1).not.toHaveProperty('bar');
 
-  test('Should validate with callback', async () => {
-    let mark = false;
-    const result = await Alt.string().validate('foobar', (error) => {
-      expect(error).toBe(false);
-      mark = true;
-    });
+      expect(alt2).toHaveProperty('bar');
+      expect(alt2).not.toHaveProperty('foo');
 
-    // to avoid false positive we check the callback real use
-    expect(mark).toBe(true);
-  });
-
-  test('Should validate with callback and error', async () => {
-    let mark = false;
-    const result = await Alt.string().validate(1, (error) => {
-      expect(error).toBeTruthy();
-      mark = true;
-    });
-
-    // to avoid false positive we check the callback real use
-    expect(mark).toBe(true);
-  });
-
-  test('Should validate with await', async () => {
-    const result = await Alt.string().validate('foobar');
-    expect(result).toBe(false);
-  });
-
-  test('Should validate with callback and error', async () => {
-    const result = await Alt.string().validate(1);
-    expect(result).toBeTruthy();
-  });
-
-  describe('schema()', () => {
-    test('should pass', async () => {
-      const instance = Alt({ foo: Alt.string() });
-      expect(instance).toBeInstanceOf(Validator);
-    });
-    test('should throw error on bad params', async () => {
-      expect(() => {
-        Alt(true);
-      }).toThrow('schema should be object');
+      expect(Alt).not.toHaveProperty('bar');
+      expect(Alt).not.toHaveProperty('foo');
     });
   });
 
-  describe('options()', () => {
-    test('should throw error on bad params', async () => {
-      expect(() => {
-        Alt({}).options(true);
-      }).toThrow('schema should be object');
+  describe('template()', () => {
+    test('should add a template in the instance', () => {
+      const alt1 = Alt.instance();
+      const alt2 = Alt.instance();
+      alt1.template('login', Alt.string().min(6).max(10));
+
+      expect(alt1).toHaveProperty('templates');
+      expect(alt1.templates).toHaveProperty('login');
+      expect(alt1.templates.login).toBeInstanceOf(StringValidator);
+
+      expect(alt2.templates).not.toHaveProperty('login');
     });
 
-    describe('unknown', () => {
-      test('should failed', async () => {
-        const hasError = await Alt({
-          name: Alt.string(),
-          login: Alt.string()
-        }).body({
-          name: 'top',
-          foo: 'bar'
-        }).options({
-          unknown: false
-        }).validate();
+    test('should get template back', () => {
+      const alt1 = Alt.instance();
+      alt1.template('login', Alt.string().min(6).max(10));
 
-        expect(hasError).toEqual({ type: 'only' });
-      });
-    });
-  });
+      const back = alt1.is('login');
 
-  describe('validate()', () => {
-    test('Should validate simple schema', async () => {
-      const hasError = await Alt({
-        login: Alt.string()
-      }).body({ login: 'foobar' }).validate();
-      expect(hasError).toBe(false);
+      expect(back).toBeInstanceOf(StringValidator);
     });
-    test('Should not pass simple schema', async () => {
-      const hasError = await Alt({
-        login: Alt.string()
-      }).body({ login: 1 }).validate();
-      expect(hasError).toBeTruthy();
+
+    test('should get template back and not modify template', () => {
+      const alt1 = Alt.instance();
+      alt1.template('login', Alt.string().min(6).max(10));
+
+      const back = alt1.is('login').lowercase();
+      expect(back).toBeInstanceOf(StringValidator);
+      expect(back.tests.length).toBe(4);
+
+      expect(alt1.is('login').tests.length).toBe(3);
     });
   });
 });

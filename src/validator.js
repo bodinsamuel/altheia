@@ -40,7 +40,7 @@ module.exports = class Validator {
 
   async validate(callback) {
     if (this._options.unknown === false) {
-      const only = await new ObjectValidator().only(Object.keys(this._schema)).validate(this._body);
+      const only = await new ObjectValidator().in(Object.keys(this._schema)).validate(this._body);
       if (only) {
         return only;
       }
