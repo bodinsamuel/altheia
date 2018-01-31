@@ -68,4 +68,4 @@ module.exports = class Str extends Base {
     });
     return this;
   }
-}
+};

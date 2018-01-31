@@ -11,8 +11,7 @@ module.exports = {
         'ecmaVersion': 8,
     },
     'globals': {
-        'Promise': true,
-        'Sequelize': true
+        'Promise': true
     },
     // add your custom rules here
     'rules': {
@@ -226,7 +225,7 @@ module.exports = {
         quotes: ['error', 'single', { avoidEscape: true }],
         'require-jsdoc': 'off',
         semi: ['error','always'],
-        'space-before-function-paren': ['error','never'],
+        'space-before-function-paren': ['error', {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
 
 
         strict: ['error', 'never'],

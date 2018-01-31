@@ -1,14 +1,14 @@
-const Api = require('./../src');
+const Alt = require('./../src');
 const Validator = require('./../src/validator');
 
 describe('index', () => {
   test('Should be a func', async () => {
-    expect(Api).toBeInstanceOf(Function);
+    expect(Alt).toBeInstanceOf(Function);
   });
 
   test('Should validate with callback', async () => {
     let mark = false;
-    const result = await Api.string().validate('foobar', (error) => {
+    const result = await Alt.string().validate('foobar', (error) => {
       expect(error).toBe(false);
       mark = true;
     });
@@ -19,7 +19,7 @@ describe('index', () => {
 
   test('Should validate with callback and error', async () => {
     let mark = false;
-    const result = await Api.string().validate(1, (error) => {
+    const result = await Alt.string().validate(1, (error) => {
       expect(error).toBeTruthy();
       mark = true;
     });
@@ -29,23 +29,23 @@ describe('index', () => {
   });
 
   test('Should validate with await', async () => {
-    const result = await Api.string().validate('foobar');
+    const result = await Alt.string().validate('foobar');
     expect(result).toBe(false);
   });
 
   test('Should validate with callback and error', async () => {
-    const result = await Api.string().validate(1);
+    const result = await Alt.string().validate(1);
     expect(result).toBeTruthy();
   });
 
   describe('schema()', () => {
     test('should pass', async () => {
-      const instance = Api({ foo: Api.string() });
+      const instance = Alt({ foo: Alt.string() });
       expect(instance).toBeInstanceOf(Validator);
     });
     test('should throw error on bad params', async () => {
       expect(() => {
-        Api(true);
+        Alt(true);
       }).toThrow('schema should be object');
     });
   });
@@ -53,15 +53,15 @@ describe('index', () => {
   describe('options()', () => {
     test('should throw error on bad params', async () => {
       expect(() => {
-        Api({}).options(true);
+        Alt({}).options(true);
       }).toThrow('schema should be object');
     });
 
     describe('unknown', () => {
       test('should failed', async () => {
-        const hasError = await Api({
-          name: Api.string(),
-          login: Api.string()
+        const hasError = await Alt({
+          name: Alt.string(),
+          login: Alt.string()
         }).body({
           name: 'top',
           foo: 'bar'
@@ -76,14 +76,14 @@ describe('index', () => {
 
   describe('validate()', () => {
     test('Should validate simple schema', async () => {
-      const hasError = await Api({
-        login: Api.string()
+      const hasError = await Alt({
+        login: Alt.string()
       }).body({ login: 'foobar' }).validate();
       expect(hasError).toBe(false);
     });
     test('Should not pass simple schema', async () => {
-      const hasError = await Api({
-        login: Api.string()
+      const hasError = await Alt({
+        login: Alt.string()
       }).body({ login: 1 }).validate();
       expect(hasError).toBeTruthy();
     });

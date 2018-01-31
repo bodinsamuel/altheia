@@ -1,4 +1,4 @@
-# Altheia
+# Alt
 A very simple async data validator.
 
 
@@ -10,12 +10,12 @@ It aim to be used in models Validation (i.e: for API)
 
 # Example
 ```javascript
-const Altheia = require('altheia');
+const Alt = require('Alt');
 
-const hasError = await Altheia({
-    login: Altheia.string().min(3).not('admin'),
-    email: Altheia.string().email().custom((value) => searchDBForAnOccurence())
-    eyes: Altheia.number().integer().positive().max(2)
+const hasError = await Alt({
+    login: Alt.string().min(3).not('admin'),
+    email: Alt.string().email().custom((value) => searchDBForAnOccurence())
+    eyes: Alt.number().integer().positive().max(2)
 }).options({
     required: true,
     unknown: false
