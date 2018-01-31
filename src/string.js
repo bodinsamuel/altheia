@@ -1,6 +1,6 @@
 const Base = require('./base');
 
-class Str extends Base {
+module.exports = class Str extends Base {
   constructor() {
     super();
     this.typeof();
@@ -69,5 +69,3 @@ class Str extends Base {
     return this;
   }
 }
-
-module.exports = Str;

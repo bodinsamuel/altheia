@@ -4,15 +4,17 @@ const isPlainObject = require('lodash/isPlainObject');
 
 const ObjectValidator = require('./object');
 
-module.exports = class Valoche {
+module.exports = class Validator {
   constructor(schema) {
-    this.schema(schema);
+    this._schema = {};
     this._body = {};
     this._errors = [];
     this._options = {
       required: false,
       unknown: true
     };
+
+    this.schema(schema);
   }
 
   body(body) {
@@ -44,18 +46,20 @@ module.exports = class Valoche {
       }
     }
 
-    const response = [];
+    const errors = [];
     await eachObject(this._schema, async (item, key) => {
       const value = getKeyOrDefault(this._body, key, null);
-      console.log('validating', key);
       await item.validate(value, (error) => {
-        response.push({ name: item.name, error });
+        if (!error) {
+          return;
+        }
+        errors.push({ name: key, error });
       });
     });
 
-    if (response.length > 0) {
-      return response;
+    if (errors.length > 0) {
+      return errors;
     }
-    return true;
+    return false;
   }
 };
