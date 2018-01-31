@@ -87,5 +87,21 @@ describe('Validator', () => {
       }).body({ login: 1 }).validate();
       expect(hasError).toBeTruthy();
     });
+
+    test('Should pass mid-complexe schema', async () => {
+      const hasError = await Alt({
+        login: Alt.string().min(6).max(15).pattern(/[a-z]+/),
+        password: Alt.string().min(10)
+      }).body({ login: 'foobar', password: 'foobarfoobar' }).validate();
+      expect(hasError).toBe(false);
+    });
+
+    test('Should not pass mid-complexe schema', async () => {
+      const hasError = await Alt({
+        login: Alt.string().min(6).max(15).pattern(/^[a-z]+$/),
+        password: Alt.string().min(10)
+      }).body({ login: 'foobAr', password: 'foob' }).validate();
+      expect(hasError).toBeTruthy();
+    });
   });
 });

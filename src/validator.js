@@ -47,15 +47,19 @@ module.exports = class Validator {
     }
 
     const errors = [];
-    await eachObject(this._schema, async (item, key) => {
+
+    // Use old syntax to allow await in loop without manipulating promise
+    const keys = Object.keys(this._schema);
+    for (var i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const item = this._schema[key];
       const value = getKeyOrDefault(this._body, key, null);
-      await item.validate(value, (error) => {
-        if (!error) {
-          return;
-        }
-        errors.push({ name: key, error });
-      });
-    });
+      const hasError = await item.validate(value);
+      if (!hasError) {
+        continue;
+      }
+      errors.push({ name: key, error: hasError });
+    }
 
     if (errors.length > 0) {
       return errors;
