@@ -87,8 +87,41 @@ describe('String', () => {
     });
   });
 
+  describe('email()', () => {
+    test('should pass', async () => {
+      const hasError = await Api.string().email().validate('foo@bar');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Api.string().email().validate('foobar');
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('lowercase()', () => {
+    test('should pass', async () => {
+      const hasError = await Api.string().lowercase().validate('foobar');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Api.string().lowercase().validate('fooBar');
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('uppercase()', () => {
+    test('should pass', async () => {
+      const hasError = await Api.string().uppercase().validate('FOOBAR');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Api.string().uppercase().validate('FOObAR');
+      expect(hasError).toBeTruthy();
+    });
+  });
+
   describe('*', () => {
-    test('full possible sequence (with async custom)', async () => {
+    test('longest possible sequence (with async custom)', async () => {
       const hasError = await Api.string()
         .min(2)
         .max(15)

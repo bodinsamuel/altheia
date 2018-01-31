@@ -1,15 +1,62 @@
 const Api = require('./../src');
 
-test('Object unknown should failed', async () => {
-  const hasError = await Api({
-    name: Api.string(),
-    login: Api.string()
-  }).body({
-    name: 'top',
-    foo: 'bar'
-  }).options({
-    unknown: false
-  }).validate();
+describe('Object', () => {
 
-  expect(hasError).toEqual({ type: 'only' });
+  describe('typeof()', () => {
+    test('should pass', async () => {
+      const hasError = await Api.object().validate({});
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: int', async () => {
+      const hasError = await Api.object().validate(1);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: boolean', async () => {
+      const hasError = await Api.object().validate(true);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: func', async () => {
+      const hasError = await Api.object().validate(() => 1);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: string', async () => {
+      const hasError = await Api.object().validate('{}');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Api.object().validate(undefined);
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('only()', () => {
+    test('should pass', async () => {
+      const hasError = await Api.object().only('foobar').validate({ foobar: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should pass', async () => {
+      const hasError = await Api.object().only('foo', 'bar').validate({ foo: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should pass', async () => {
+      const hasError = await Api.object().only('foo', 'bar').validate({ foo: 1, bar: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should pass', async () => {
+      const hasError = await Api.object().only(['foo', 'bar']).validate({ foo: 1, bar: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Api.object().only('foobar').validate({ barfoo: 1 });
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass', async () => {
+      const hasError = await Api.object().only('foobar').validate({ barfoo: 1, foobar: 1 });
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass', async () => {
+      const hasError = await Api.object().only('foo', 'bar').validate({ foo: 1, alice: 1 });
+      expect(hasError).toBeTruthy();
+    });
+  });
 });

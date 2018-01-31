@@ -31,4 +31,15 @@ module.exports = class Base {
     }
     return false;
   }
+
+  custom(callback) {
+    this.test('custom', async (str) => {
+      try {
+        return await callback(str);
+      } catch (e) {
+        return false;
+      }
+    });
+    return this;
+  }
 };

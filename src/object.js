@@ -16,9 +16,15 @@ class Obj extends Base {
     return this;
   }
 
-  only(array) {
+  only(...array) {
+    let only = array;
+    // handle someone passing literal array instead of multiple args
+    if (array.length === 1 && Array.isArray(array[0])) {
+      only = array[0];
+    }
+
     this.test('only', (str) => {
-      const diff = arrayDiff(Object.keys(str), array);
+      const diff = arrayDiff(Object.keys(str), only);
       return diff.length === 0;
     });
     return this;

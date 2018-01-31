@@ -48,13 +48,23 @@ class Str extends Base {
     return this;
   }
 
-  custom(callback) {
-    this.test('custom', async (str) => {
-      try {
-        return await callback(str);
-      } catch (e) {
-        return false;
-      }
+  email() {
+    this.test('email', (str) => {
+      return str.match('@') !== null;
+    });
+    return this;
+  }
+
+  lowercase() {
+    this.test('lowercase', (str) => {
+      return str.toLocaleLowerCase() === str;
+    });
+    return this;
+  }
+
+  uppercase() {
+    this.test('lowercase', (str) => {
+      return str.toLocaleUpperCase() === str;
     });
     return this;
   }
