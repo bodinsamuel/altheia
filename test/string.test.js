@@ -130,7 +130,7 @@ describe('String', () => {
         .pattern(/[a-z]+/)
         .in('published', 'delete')
         .not('draft')
-        .custom(timeoutSuccess)
+        .custom('timeout', timeoutSuccess)
         .validate('published');
 
       expect(hasError).toBe(false);

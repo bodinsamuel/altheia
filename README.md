@@ -2,7 +2,8 @@
 [![Build Status](https://travis-ci.org/bodinsamuel/altheia.svg?branch=master)](https://travis-ci.org/bodinsamuel/altheia)
 
 A very simple async data validator.
-`await Alt.string().email().custom((val) => searchDBForAnOccurence(val))`
+
+`await Alt.string().email().custom('notinbd', (val) => searchDB(val))`
 
 # Introduction
 After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aim at being very lightweight, simple to use and obvioulsy allow us to check anything from standard schema to very custom ones.
@@ -11,7 +12,7 @@ It aim to be used in models Validation (i.e: for API)
 
 # Install
 ```bash
-npm install altheia
+$ npm install altheia
 ```
 
 
@@ -45,8 +46,8 @@ const Instance = Alt.instance();
 ```
 
 ## Template
-When you are manipulating a large api, you can feel that you are writing the same validation hover and hover. Templates are a easy way to reduce redundancy in your code and sync all schemas, while being very light to use.
-N.N: It only available in instance.
+When you are manipulating a large api, you can feel you are writing the same validation hover and hover. Templates are a very easy way to reduce redundancy in your code and sync all your schemas, while being very light to use.
+N.B: It is only available in instance.
 
 ```javascript
 const alt = Alt.instance();
