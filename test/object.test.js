@@ -16,7 +16,9 @@ describe('Object', () => {
       expect(hasError).toBeTruthy();
     });
     test('should not pass: func', async () => {
-      const hasError = await Alt.object().validate(() => 1);
+      const hasError = await Alt.object().validate(() => {
+        return 1;
+      });
       expect(hasError).toBeTruthy();
     });
     test('should not pass: string', async () => {
