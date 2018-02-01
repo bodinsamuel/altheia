@@ -1,9 +1,14 @@
 
-number()
+- Plugins / extend capability
+- export as standalone lib
+- test in browserg
+
+```
+number
     min(:ref) // not possible for now
     max(:ref) // not possible for now
 
-string()
+string
   ip()
   uuid()
   uri()
@@ -12,10 +17,10 @@ string()
   url()
   creditcard()
 
-object()
+object
     not()
 
-array()
+array
     unique()
     min()
     max()
@@ -24,8 +29,9 @@ array()
     items()
 
 // probably need a plugin with momentjs/luxon integration
-date()
+date
     format()
     max()
     min()
     timestamp()
+```
