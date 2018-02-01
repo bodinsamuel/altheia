@@ -18,3 +18,9 @@ cache:
 script:
   - "npm run lint"
   - "npm run test"
+
+jobs:
+  include:
+    - stage: Produce Coverage
+      node_js: node
+      script: npm run coveralls
