@@ -3,7 +3,7 @@ const isPlainObject = require('lodash/isPlainObject');
 
 const Base = require('./base');
 
-class Obj extends Base {
+module.exports = class object extends Base {
   constructor() {
     super();
     this.typeof();
@@ -23,12 +23,10 @@ class Obj extends Base {
       only = array[0];
     }
 
-    this.test('only', (str) => {
+    this.test('in', (str) => {
       const diff = arrayDiff(Object.keys(str), only);
       return diff.length === 0;
-    });
+    }, { in: array });
     return this;
   }
-}
-
-module.exports = Obj;
+};

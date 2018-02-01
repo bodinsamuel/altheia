@@ -1,6 +1,6 @@
 const Base = require('./base');
 
-module.exports = class String extends Base {
+module.exports = class string extends Base {
   constructor() {
     super();
     this.typeof();
@@ -55,7 +55,7 @@ module.exports = class String extends Base {
 
   email() {
     this.test('email', (str) => {
-      return str.match('@') !== null;
+      return str.search('@') >= 0;
     });
 
     return this;
@@ -70,7 +70,7 @@ module.exports = class String extends Base {
   }
 
   uppercase() {
-    this.test('lowercase', (str) => {
+    this.test('uppercase', (str) => {
       return str.toLocaleUpperCase() === str;
     });
 

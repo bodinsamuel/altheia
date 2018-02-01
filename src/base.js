@@ -21,42 +21,49 @@ module.exports = class Base {
     });
   }
 
-  presence(toTest) {
-    if (toTest === null || typeof toTest === 'undefined' || toTest === undefined) {
-      return false;
+  callback(callback, result) {
+    if (callback) {
+      callback(result);
     }
-    if (typeof toTest === 'string' && toTest.length <= 0) {
-      return false;
-    }
-
-    return true;
+    return result;
   }
 
   async validate(toTest, callback) {
+    // Test presence early to fail/pass early
     const presence = this.presence(toTest);
     if (presence === false) {
       if (this._required === false) {
-        return false;
+        return this.callback(callback, false);
       }
-      return { name: 'required', func: null, args: null, isValid: false };
+      return this.callback(callback, { name: 'required', func: null, args: null, isValid: false });
     }
 
+    // Iterate all tests
     for (var i = 0; i < this.tests.length; i++) {
-      const test = this.tests[i];
-      test.isValid = await test.func(toTest);
+      let test = this.tests[i];
 
+      // Special condition for IF() we need to display error of deep validation
+      if (test.name.indexOf('.if') >= 0) {
+        test = await test.func(toTest);
+      } else {
+        test.isValid = await test.func(toTest);
+      }
+
+      // Do not go deeper in test
       if (test.isValid === false) {
-        if (callback) {
-          callback(test);
-        }
-        return test;
+        return this.callback(callback, test);
       }
     }
 
-    if (callback) {
-      callback(false);
-    }
-    return false;
+    return this.callback(callback, false);
+  }
+
+  /**
+   * Pass this object to required
+   */
+  required() {
+    this._required = true;
+    return this;
   }
 
   /**
@@ -74,8 +81,42 @@ module.exports = class Base {
     return this;
   }
 
-  required() {
-    this._required = true;
+  /**
+   * Presence validation
+   * @param  {mixed} toTest
+   * @return {boolean}
+   */
+  presence(toTest) {
+    if (toTest === null || typeof toTest === 'undefined' || toTest === undefined) {
+      return false;
+    }
+    if (typeof toTest === 'string' && toTest.length <= 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * If branch validator
+   * @param  {function} args.test
+   * @param  {function} args.then
+   * @param  {function} args.otherwise
+   */
+  if({ test, then, otherwise }) {
+    this.test('if', async (str) => {
+      const clone = this.clone();
+      clone.tests = [];
+
+      const hasError = await test(clone).validate(str);
+      if (hasError === false) {
+        clone.tests = [];
+        return await then(clone).validate(str);
+      }
+
+      clone.tests = [];
+      return await otherwise(clone).validate(str);
+    });
     return this;
   }
 };

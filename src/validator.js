@@ -1,25 +1,27 @@
 const eachObject = require('lodash/forEach');
 const getKeyOrDefault = require('lodash/get');
 const isPlainObject = require('lodash/isPlainObject');
+const isEqual = require('lodash/isEqual');
 
 const ObjectValidator = require('./object');
 
 module.exports = class Validator {
-  constructor(schema, lang) {
+  constructor(schema, inst) {
+    this.inst = inst;
     this._schema = {};
     this._body = {};
     this._errors = [];
+    this._confirm = [];
     this._options = {
       required: false,
       unknown: true
     };
-    this._lang = lang;
 
     this.schema(schema);
   }
 
   body(body) {
-    this._body = body;
+    this._body = Object.assign({}, body);
     return this;
   }
 
@@ -39,30 +41,22 @@ module.exports = class Validator {
     return this;
   }
 
-  getError(type, label, args) {
-    // Get messages from error
-    let msg;
-    if (typeof this._lang[type] !== 'undefined') {
-      msg = this._lang[type](label, args);
-    } else {
-      msg = 'invalid';
-    }
+  formatError(error, label) {
+    return this.inst.formatError(error, label);
+  }
 
-    return {
-      name: label,
-      error: type,
-      message: msg
-    };
+  callback(callback, result) {
+    if (callback) {
+      callback(result);
+    }
+    return result;
   }
 
   async validate(callback) {
     if (this._options.unknown === false) {
       const only = await new ObjectValidator().in(Object.keys(this._schema)).validate(this._body);
       if (only) {
-        if (callback) {
-          callback(only);
-        }
-        return only;
+        return this.callback(callback, [this.formatError(only, 'schema')]);
       }
     }
 
@@ -74,6 +68,7 @@ module.exports = class Validator {
       const key = keys[i];
       const item = this._schema[key];
       const value = getKeyOrDefault(this._body, key, null);
+      this._body[key] = value;
 
       // If not required pass
       if (value === null && this._options.required === true) {
@@ -85,19 +80,31 @@ module.exports = class Validator {
         continue;
       }
 
-      errors.push(this.getError(hasError.name, key, hasError.args));
+      errors.push(this.formatError(hasError, key));
+    }
+    this._errors = errors;
+
+    // Check confirm after validation
+    if (this._confirm.length > 0) {
+      this._confirm.forEach((item) => {
+        const initial = this._body[item.initial];
+        const comparison = this._body[item.comparison];
+        if (isEqual(initial, comparison)) {
+          return;
+        }
+        this._errors.push(this.formatError({ name: 'confirm' }, item.comparison));
+      });
     }
 
     if (errors.length > 0) {
-      if (callback) {
-        callback(errors);
-      }
-      return errors;
+      return this.callback(callback, errors);
     }
 
-    if (callback) {
-      callback(false);
-    }
-    return false;
+    return this.callback(callback, false);
+  }
+
+  confirm(initial, comparison) {
+    this._confirm.push({ initial, comparison });
+    return this;
   }
 };

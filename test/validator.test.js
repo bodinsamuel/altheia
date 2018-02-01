@@ -8,7 +8,7 @@ describe('Validator', () => {
 
   test('Should validate with callback', async () => {
     let mark = false;
-    const result = await Alt.string().validate('foobar', (error) => {
+    const result = await Alt({ foo: Alt.number() }).body({ foo: 1 }).validate((error) => {
       expect(error).toBe(false);
       mark = true;
     });
@@ -19,7 +19,7 @@ describe('Validator', () => {
 
   test('Should validate with callback and error', async () => {
     let mark = false;
-    const result = await Alt.string().validate(1, (error) => {
+    const result = await Alt({ foo: Alt.string() }).body({ foo: 1 }).validate((error) => {
       expect(error).toBeTruthy();
       mark = true;
     });
@@ -33,8 +33,8 @@ describe('Validator', () => {
     expect(result).toBe(false);
   });
 
-  test('Should validate with callback and error', async () => {
-    const result = await Alt.string().validate(1);
+  test('Should validate with error', async () => {
+    const result = await Alt({ foo: Alt.string() }).body({ foo: 1 }).validate()
     expect(result).toBeTruthy();
   });
 
@@ -61,7 +61,8 @@ describe('Validator', () => {
       test('should fail', async () => {
         const hasError = await Alt({
           name: Alt.string(),
-          login: Alt.string()
+          login: Alt.string(),
+          password: Alt.string()
         }).body({
           name: 'top'
         }).options({
@@ -69,8 +70,15 @@ describe('Validator', () => {
         }).validate();
 
         expect(hasError).toBeTruthy();
-        expect(hasError.length).toBe(1);
-        expect(hasError[0].name).toBe('login');
+        expect(hasError).toEqual([{
+          label: 'login',
+          message: 'login is required',
+          type: 'required'
+        }, {
+          label: 'password',
+          message: 'password is required',
+          type: 'required'
+        }]);
       });
 
       test('should pass', async () => {
@@ -111,6 +119,11 @@ describe('Validator', () => {
         }).validate();
 
         expect(hasError).toBeTruthy();
+        expect(hasError).toEqual([{
+          label: 'schema',
+          message: 'schema must only contains these keys [name,login]',
+          type: 'object.in'
+        }]);
       });
 
       test('should pass', async () => {
@@ -172,13 +185,13 @@ describe('Validator', () => {
       expect(hasError.length).toBe(2);
 
       expect(hasError[0]).toEqual({
-        name: 'login',
-        error: 'String.min',
+        label: 'login',
+        type: 'string.min',
         message: 'login must be at least 6 characters long'
       });
       expect(hasError[1]).toEqual({
-        name: 'password',
-        error: 'String.min',
+        label: 'password',
+        type: 'string.min',
         message: 'password must be at least 10 characters long'
       });
     });
@@ -186,7 +199,7 @@ describe('Validator', () => {
 
   describe('custom()', () => {
     test('Should use custom message', async () => {
-      Alt.lang('String.custom.sync', () => 'foobar');
+      Alt.lang('string.custom.sync', () => 'foobar');
 
       const hasError = await Alt({
         login: Alt.string().custom('sync', (value) => {
@@ -248,6 +261,26 @@ describe('Validator', () => {
 
       expect(hasError).toBeTruthy();
       expect(mark).toBe(true);
+    });
+  });
+
+  describe('confirm()', () => {
+    test('Should confirm correctly', async () => {
+      const hasError = await Alt({
+        login: Alt.string(),
+        relogin: Alt.string()
+      }).body({ login: 'foobar', relogin: 'foobar' })
+        .confirm('login', 'relogin').validate();
+      expect(hasError).toBe(false);
+    });
+    test('Should fail on confirm', async () => {
+      const hasError = await Alt({
+        login: Alt.string(),
+        relogin: Alt.string()
+      }).body({ login: 'foobar', relogin: 'barfoo' })
+        .confirm('login', 'relogin').validate();
+
+      expect(hasError).toBeTruthy();
     });
   });
 });

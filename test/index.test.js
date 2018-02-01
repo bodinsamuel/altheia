@@ -20,20 +20,20 @@ describe('Index', () => {
 
     test('should have basic lang', () => {
       const alt1 = Alt.instance();
-      expect(alt1({})._lang).toBeInstanceOf(Object);
-      expect(alt1({})._lang['String.min']).toBeInstanceOf(Function);
-      expect(alt1({})._lang['String.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
+      expect(alt1.langList).toBeInstanceOf(Object);
+      expect(alt1.langList['string.min']).toBeInstanceOf(Function);
+      expect(alt1.langList['string.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
     });
 
     test('should merge lang and keep original', () => {
       const alt1 = Alt.instance({
-        'String.min': (name, args) => 'foobar'
+        'string.min': (name, args) => 'foobar'
       });
-      expect(alt1({})._lang).toBeInstanceOf(Object);
-      expect(alt1({})._lang['String.min']).toBeInstanceOf(Function);
-      expect(alt1({})._lang['String.min']('value', { min: 1 })).toBe('foobar');
+      expect(alt1.langList).toBeInstanceOf(Object);
+      expect(alt1.langList['string.min']).toBeInstanceOf(Function);
+      expect(alt1.langList['string.min']('value', { min: 1 })).toBe('foobar');
 
-      expect(Alt({})._lang['String.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
+      expect(Alt.langList['string.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
     });
   });
 

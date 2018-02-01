@@ -13,6 +13,11 @@ describe('Number', () => {
     test('should not pass: string', async () => {
       const hasError = await Alt.number().validate('1');
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.typeof',
+        message: 'value must be a valid number'
+      });
     });
     test('should not pass: boolean', async () => {
       const hasError = await Alt.number().validate(true);
@@ -42,6 +47,11 @@ describe('Number', () => {
     test('should not pass', async () => {
       const hasError = await Alt.number().min(2).validate(1);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.min',
+        message: 'value must be at least 2'
+      });
     });
   });
 
@@ -57,6 +67,11 @@ describe('Number', () => {
     test('should not pass', async () => {
       const hasError = await Alt.number().max(20).validate(21);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.max',
+        message: 'value must be less than or equal to 20'
+      });
     });
   });
 
@@ -68,6 +83,11 @@ describe('Number', () => {
     test('should not pass', async () => {
       const hasError = await Alt.number().integer().validate(1.1);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.integer',
+        message: 'value must be an integer'
+      });
     });
   });
 
@@ -79,6 +99,11 @@ describe('Number', () => {
     test('should not pass', async () => {
       const hasError = await Alt.number().unsigned().validate(-1);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.unsigned',
+        message: 'value must be an unsigned number'
+      });
     });
   });
 
@@ -90,6 +115,11 @@ describe('Number', () => {
     test('should not pass', async () => {
       const hasError = await Alt.number().positive().validate(0);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.positive',
+        message: 'value must be a positive number'
+      });
     });
   });
 
@@ -101,6 +131,11 @@ describe('Number', () => {
     test('should not pass', async () => {
       const hasError = await Alt.number().negative().validate(1);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.negative',
+        message: 'value must be a negative number'
+      });
     });
   });
 

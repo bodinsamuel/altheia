@@ -1,6 +1,6 @@
 const Base = require('./base');
 
-module.exports = class Str extends Base {
+module.exports = class number extends Base {
   constructor() {
     super();
     this.typeof();
@@ -16,14 +16,14 @@ module.exports = class Str extends Base {
   min(min) {
     this.test('min', (str) => {
       return str >= min;
-    });
+    }, { min });
     return this;
   }
 
   max(max) {
     this.test('max', (str) => {
       return str <= max;
-    });
+    }, { max });
     return this;
   }
 

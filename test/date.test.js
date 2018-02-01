@@ -21,6 +21,11 @@ describe('Date', () => {
     test('should not pass: boolean', async () => {
       const hasError = await Alt.date().validate(true);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'date.typeof',
+        message: 'value must be a valid date'
+      });
     });
     test('should not pass: func', async () => {
       const hasError = await Alt.date().validate(() => {
@@ -46,8 +51,14 @@ describe('Date', () => {
     test('should not pass', async () => {
       const hasError = await Alt.date().iso().validate('1');
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'date.iso',
+        message: 'value must be an ISO-8601 date'
+      });
     });
   });
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.date().required().validate('2017-05-15');

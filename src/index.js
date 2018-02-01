@@ -7,26 +7,9 @@ const ObjectValidator = require('./object');
 const NumberValidator = require('./number');
 const DateValidator = require('./date');
 
-// function Api(schema, lang = Lang) {
-//   return new Validator(schema, lang);
-// }
-
-// Api.string = () => {
-//   return new StringValidator();
-// };
-// Api.number = () => {
-//   return new NumberValidator();
-// };
-// Api.date = () => {
-//   return new DateValidator();
-// };
-// Api.object = () => {
-//   return new ObjectValidator();
-// };
-
 const Instance = (lang) => {
   const inst = (schema) => {
-    return new Validator(schema, inst.langList);
+    return new Validator(schema, inst);
   };
 
   inst.string = () => {
@@ -65,6 +48,21 @@ const Instance = (lang) => {
   inst.langList = Object.assign({}, LangBase, lang);
   inst.lang = (key, tpl) => {
     inst.langList[key] = tpl;
+  };
+  inst.formatError = ({ name, args }, label = 'value') => {
+    // Get messages from error
+    let msg;
+    if (typeof inst.langList[name] !== 'undefined') {
+      msg = inst.langList[name](label, args);
+    } else {
+      msg = 'Invalid value';
+    }
+
+    return {
+      label,
+      type: name,
+      message: msg
+    };
   };
 
   return inst;

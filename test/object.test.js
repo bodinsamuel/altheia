@@ -9,6 +9,11 @@ describe('Object', () => {
     test('should not pass: int', async () => {
       const hasError = await Alt.object().validate(1);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.typeof',
+        message: 'value must be a valid object'
+      });
     });
     test('should not pass: boolean', async () => {
       const hasError = await Alt.object().validate(true);
@@ -54,6 +59,11 @@ describe('Object', () => {
     test('should not pass', async () => {
       const hasError = await Alt.object().in('foo', 'bar').validate({ foo: 1, alice: 1 });
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.in',
+        message: 'value must only contains these keys [foo,bar]'
+      });
     });
   });
 
