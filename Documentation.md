@@ -1,5 +1,5 @@
 # Documentation
-## Global Concept
+## Global Concepts
 ### Instance
 To keep Altheia simple and fast, the lib is not fully immutable but you can create an instance of altheia to avoid modifying the global object.
 
@@ -14,30 +14,29 @@ To allow this, the code was builded around async/await.
 You have two methods to get results: callback
 ```javascript
 Alt.string().validate(1, (error) => {
-    console.log('error');
+    // do something
 });
 
 Alt({
     login: Alt.string()
 }).body({ login: 'foobar' }).validate((error) => {
-    console.log('error');
+    // do something
 });
 ```
 
 or await (which is cleaner obviously)
 ```javascript
 const hasError = await Alt.string().validate(1);
-console.log(hasError);
 
 const hasError = await Alt({
     login: Alt.string()
 }).body({ login: 'foobar' }).validate();
-console.log(hasError);
 ```
 
-### Lang
-You can easily override language by creating a new instance with an object that will be merge with default and/or calling `lang()` to add a new entry on the fly.
-Entry are required to be a method that accept two parameters: 
+### Lang / i18n
+You can easily override languages string by creating a new instance with an object that will be merge with default and/or calling `lang()` to add a new entry on the fly.
+Entries are required to be a method that accept two parameters:
+
     - `name`: contain the name of the value 
     - `args`: the arguments passed to the validator (if any)
 
@@ -46,18 +45,12 @@ Entry are required to be a method that accept two parameters:
 const Instance = Alt.instance({ 
     'string.min': (name, args) => `This ${name} is not long enough`
 });
-/** OR **/
+```
+```javascript
 Instance.lang('string.min', (name, args) => `This ${name} is not long enough`});
-
-await Instance({ 
-    login: Instance.string().min(5) 
-}).body({ login: 'foo' }).validate((error) => {
-    console.log(error); // [{ message: 'This login is not long enough'... }]
-});
-
 ```
 
-### Template
+### Templates
 When you are manipulating a large api, you can feel you are writing the same validation hover and hover. Templates are a very easy way to reduce redundancy in your code and sync all your schemas, while being very light to use.
 
 For example, you can have a master file that import Altheia and declare all your basic input. Then import it everywhere you want.
@@ -75,38 +68,61 @@ module.exports alt;
 const alt = require('./myaltheia.js');
 alt({
     login: alt.is('login'),
-    password: alt.is('password').required() // keep chainability
+    password: alt.is('password').required() // keeps chainability
+})
+```
+
+### Customization
+One thing that all validators miss is ... the very custom validation you need for your project. You always want something very precise that will be usefull only for you and that does not belongs in the main library.
+
+We got you covered with `custom()` validation.
+
+```javascript
+Alt.string().custom('wait', (test) => {
+    return new Promise((resolve) => {
+        // simulate a very long database call, because we can
+        setTimeout(resolve, 1000);
+    });
 })
 ```
 
 
 # Methods
-## Instance
-## Validator
-You can use validation directly or with an object schema.
+## Main Api
+### validate()
+Run the validation of the schema.
 ```javascript
-Alt.string().min(1).validate('foobar');
-// or
-Alt({
+const hasError = await Alt({
     login: Alt.string().min(1)
 }).body({
     login: 'foobar'
-}).validate()
+}).validate();
+
+//=> :false if no error
+//=> :array if any error
 ```
 
-### Options
+### body()
+Set the body to be validated.
+```javascript
+const hasError = await Alt(...).body({
+    login: 'foobar'
+}).validate();
+```
+
+### options()
 By default, Altheia allow __unknow__ and  __unexisting__ key to be present in the schema. You can change theses values to be more strict.
 
 ```javascript
 Alt({
     login: Alt.string()
 }).options({
-    required: false, // pass it to true, to force all fields to be required
-    unknown: true   // pass it to false, to disallow unknown fields
+    required: false, // pass it to :true, to force all fields to be required
+    unknown: true   // pass it to :false, to disallow unknown fields
 });
 ```
 
-### Confirm
+### confirm()
 Because a single value validation do not share any context with one another, confirmation is being done in the global schema validation.
 
 ```javascript
@@ -117,7 +133,7 @@ Alt({
 ```
 
 
-## Validation
+## Types
 ### Global
 Theses methods are applying to all the types.
 
