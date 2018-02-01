@@ -24,10 +24,6 @@ describe('Object', () => {
       const hasError = await Alt.object().validate('{}');
       expect(hasError).toBeTruthy();
     });
-    test('should not pass: undefined', async () => {
-      const hasError = await Alt.object().validate(undefined);
-      expect(hasError).toBeTruthy();
-    });
   });
 
   describe('in()', () => {
@@ -57,6 +53,29 @@ describe('Object', () => {
     });
     test('should not pass', async () => {
       const hasError = await Alt.object().in('foo', 'bar').validate({ foo: 1, alice: 1 });
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('required()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.object().required().validate({});
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.object().required().validate();
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: null', async () => {
+      const hasError = await Alt.object().required().validate(null);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: empty string', async () => {
+      const hasError = await Alt.object().required().validate('');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.object().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
   });

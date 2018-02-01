@@ -1,7 +1,7 @@
 const Alt = require('./../src');
 const StringValidator = require('./../src/string');
 
-describe('Validator', () => {
+describe('Index', () => {
   describe('instance()', () => {
     test('clone should not alter themselves nor the original', () => {
       const alt1 = Alt.instance();
@@ -16,6 +16,24 @@ describe('Validator', () => {
 
       expect(Alt).not.toHaveProperty('bar');
       expect(Alt).not.toHaveProperty('foo');
+    });
+
+    test('should have basic lang', () => {
+      const alt1 = Alt.instance();
+      expect(alt1({})._lang).toBeInstanceOf(Object);
+      expect(alt1({})._lang['String.min']).toBeInstanceOf(Function);
+      expect(alt1({})._lang['String.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
+    });
+
+    test('should merge lang and keep original', () => {
+      const alt1 = Alt.instance({
+        'String.min': (name, args) => 'foobar'
+      });
+      expect(alt1({})._lang).toBeInstanceOf(Object);
+      expect(alt1({})._lang['String.min']).toBeInstanceOf(Function);
+      expect(alt1({})._lang['String.min']('value', { min: 1 })).toBe('foobar');
+
+      expect(Alt({})._lang['String.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
     });
   });
 
@@ -50,6 +68,13 @@ describe('Validator', () => {
       expect(back.tests.length).toBe(4);
 
       expect(alt1.is('login').tests.length).toBe(3);
+    });
+
+    test('should throw on bad template', () => {
+      const alt1 = Alt.instance();
+      expect(() => {
+        alt1.is('login');
+      }).toThrow();
     });
   });
 });

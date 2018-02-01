@@ -2,7 +2,7 @@ const cloneObj = require('lodash/clone');
 
 module.exports = class Base {
   constructor() {
-    this.required = false;
+    this._required = false;
     this.tests = [];
   }
 
@@ -12,23 +12,44 @@ module.exports = class Base {
     return clone;
   }
 
-  test(name, func) {
+  test(name, func, args = {}) {
     this.tests.push({
-      name,
+      name: `${this.constructor.name}.${name}`,
       func,
+      args,
       isValid: true
     });
   }
 
+  presence(toTest) {
+    if (toTest === null || typeof toTest === 'undefined' || toTest === undefined) {
+      return false;
+    }
+    if (typeof toTest === 'string' && toTest.length <= 0) {
+      return false;
+    }
+
+    return true;
+  }
+
   async validate(toTest, callback) {
+    const presence = this.presence(toTest);
+    if (presence === false) {
+      if (this._required === false) {
+        return false;
+      }
+      return { name: 'required', func: null, args: null, isValid: false };
+    }
+
     for (var i = 0; i < this.tests.length; i++) {
       const test = this.tests[i];
-      const isValid = await test.func(toTest);
-      if (isValid === false) {
+      test.isValid = await test.func(toTest);
+
+      if (test.isValid === false) {
         if (callback) {
-          callback({ type: test.name });
+          callback(test);
         }
-        return { type: test.name };
+        return test;
       }
     }
 
@@ -42,28 +63,19 @@ module.exports = class Base {
    * Custom validator, all type inherit this
    * @param  {Function} callback
    */
-  custom(name, callback) {
-    this.test(name, async (str) => {
+  custom(name, callback, message) {
+    this.test(`custom.${name}`, async (str) => {
       try {
         return await callback(str);
       } catch (e) {
         return false;
       }
-    });
+    }, {}, message);
     return this;
   }
 
   required() {
-    this.test('required', async (str) => {
-      return str !== null && str !== 'undefined';
-    });
-    return this;
-  }
-
-  equal(ref) {
-    this.test('equal', async (str) => {
-      return str === this._body[ref];
-    });
+    this._required = true;
     return this;
   }
 };

@@ -5,7 +5,7 @@ const isPlainObject = require('lodash/isPlainObject');
 const ObjectValidator = require('./object');
 
 module.exports = class Validator {
-  constructor(schema) {
+  constructor(schema, lang) {
     this._schema = {};
     this._body = {};
     this._errors = [];
@@ -13,6 +13,7 @@ module.exports = class Validator {
       required: false,
       unknown: true
     };
+    this._lang = lang;
 
     this.schema(schema);
   }
@@ -38,6 +39,22 @@ module.exports = class Validator {
     return this;
   }
 
+  getError(type, label, args) {
+    // Get messages from error
+    let msg;
+    if (typeof this._lang[type] !== 'undefined') {
+      msg = this._lang[type](label, args);
+    } else {
+      msg = 'invalid';
+    }
+
+    return {
+      name: label,
+      error: type,
+      message: msg
+    };
+  }
+
   async validate(callback) {
     if (this._options.unknown === false) {
       const only = await new ObjectValidator().in(Object.keys(this._schema)).validate(this._body);
@@ -51,17 +68,24 @@ module.exports = class Validator {
 
     const errors = [];
 
-    // Use old syntax to allow await in loop without manipulating promise
+    // Use old syntax to allow await in loop without using promise.all
     const keys = Object.keys(this._schema);
     for (var i = 0; i < keys.length; i++) {
       const key = keys[i];
       const item = this._schema[key];
       const value = getKeyOrDefault(this._body, key, null);
+
+      // If not required pass
+      if (value === null && this._options.required === true) {
+        item.required();
+      }
+
       const hasError = await item.validate(value);
       if (!hasError) {
         continue;
       }
-      errors.push({ name: key, error: hasError });
+
+      errors.push(this.getError(hasError.name, key, hasError.args));
     }
 
     if (errors.length > 0) {
@@ -69,6 +93,10 @@ module.exports = class Validator {
         callback(errors);
       }
       return errors;
+    }
+
+    if (callback) {
+      callback(false);
     }
     return false;
   }

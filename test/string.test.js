@@ -122,6 +122,29 @@ describe('String', () => {
     });
   });
 
+  describe('required()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.string().required().validate('foobar');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.string().required().validate();
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: null', async () => {
+      const hasError = await Alt.string().required().validate(null);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: empty string', async () => {
+      const hasError = await Alt.string().required().validate('');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.string().required().validate(undefined);
+      expect(hasError).toBeTruthy();
+    });
+  });
+
   describe('*', () => {
     test('longest possible sequence (with async custom)', async () => {
       const hasError = await Alt.string()

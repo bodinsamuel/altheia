@@ -48,4 +48,26 @@ describe('Date', () => {
       expect(hasError).toBeTruthy();
     });
   });
+  describe('required()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.date().required().validate('2017-05-15');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.date().required().validate();
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: null', async () => {
+      const hasError = await Alt.date().required().validate(null);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: empty string', async () => {
+      const hasError = await Alt.date().required().validate('');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.date().required().validate(undefined);
+      expect(hasError).toBeTruthy();
+    });
+  });
 });

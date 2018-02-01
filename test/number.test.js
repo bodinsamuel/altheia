@@ -103,4 +103,35 @@ describe('Number', () => {
       expect(hasError).toBeTruthy();
     });
   });
+
+  describe('required()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.number().required().validate(1);
+      expect(hasError).toBe(false);
+    });
+    test('should pass: 0', async () => {
+      const hasError = await Alt.number().required().validate(0);
+      expect(hasError).toBe(false);
+    });
+    test('should pass: -1', async () => {
+      const hasError = await Alt.number().required().validate(-1);
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.number().required().validate();
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: null', async () => {
+      const hasError = await Alt.number().required().validate(null);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: empty string', async () => {
+      const hasError = await Alt.number().required().validate('');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: undefined', async () => {
+      const hasError = await Alt.number().required().validate(undefined);
+      expect(hasError).toBeTruthy();
+    });
+  });
 });
