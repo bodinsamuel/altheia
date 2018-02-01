@@ -34,7 +34,8 @@ const hasError = await Alt({
 }).validate({
     login: 'leela',
     email: 'captain@planetexpress.earth',
-    eyes: 1
+    eyes: 1,
+    date: '2015-01-04T17:35:22Z'
 });
 
 console.log(hasError); // false
