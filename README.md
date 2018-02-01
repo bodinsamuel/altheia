@@ -41,4 +41,4 @@ console.log(hasError); // false
 
 
 # Documentation
-You can find the [documentation here](https://github.com/bodinsamuel/altheia/blob/master/Documentation.md)
+You can find the [documentation here](../blob/master/Documentation.md)

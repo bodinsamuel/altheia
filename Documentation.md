@@ -89,8 +89,9 @@ Alt.string().custom('wait', (test) => {
 
 # Methods
 ## Main Api
-### validate()
-Run the validation of the schema.
+### validate([:func])
+Run the validation of the schema. You can `await` or pass a callback.
+
 ```javascript
 const hasError = await Alt({
     login: Alt.string().min(1)
@@ -99,10 +100,10 @@ const hasError = await Alt({
 }).validate();
 
 //=> :false if no error
-//=> :array if any error
+//=> :array if any
 ```
 
-### body()
+### body(:object)
 Set the body to be validated.
 ```javascript
 const hasError = await Alt(...).body({
@@ -110,8 +111,8 @@ const hasError = await Alt(...).body({
 }).validate();
 ```
 
-### options()
-By default, Altheia allow __unknow__ and  __unexisting__ key to be present in the schema. You can change theses values to be more strict.
+### options(:object)
+By default, Altheia allow __unknow__ and  __unexisting__ key to be present in the schema. You can change these values to be more strict.
 
 ```javascript
 Alt({
@@ -122,8 +123,8 @@ Alt({
 });
 ```
 
-### confirm()
-Because a single value validation do not share any context with one another, confirmation is being done in the global schema validation.
+### confirm(:string, :string)
+Because a single value validation do not share any context with one another (because you know ...async), confirmation is being done in the global schema validation.
 
 ```javascript
 Alt({
@@ -135,10 +136,10 @@ Alt({
 
 ## Types
 ### Global
-Theses methods are applying to all the types.
+These methods are applying to all the types.
 
 #### required()
-Force an input to be defined
+Force an input to be present and defined
 ```javascript
 Alt.string().required()
 ```
@@ -146,8 +147,11 @@ Alt.string().required()
 #### custom(:string, :func)
 Execute whatever you want, can be asynchronous obviously.
 ```javascript
-Alt.lang('my_custom', (value) => `This ${value} does not pass my custom test`);
-Alt.string().custom('my_custom', (test) => {
+// Set an error message (not required, but nicer for user)
+Alt.lang('string.custom.my', (value) => `This ${value} does not pass my custom test`);
+
+// Create my custom rule
+Alt.string().custom('my', (test) => {
     return test === 'foobar';
 });
 ```
@@ -161,7 +165,7 @@ Alt.string().if({
     then: test => test.min(10).max(50),
     otherwise: test => test.email()
 });
-// which can be pseudcoded to 
+// which can be pseudo-coded to
 // If (test.isString)
 //    if (test.isUppercase)
 //      test.isMin(10) && test.IsMax(50)
@@ -170,6 +174,15 @@ Alt.string().if({
 // 
 ```
 
+#### validate(:mixed[, :func])
+If you want to, you can validate only one input without the whole schema.
+You can await or pass callback
+
+```javascript
+const hasError = await Api.string().validate(1);
+//=> :false if no error
+//=> :object if not
+```
 ### String
 #### min(:int)
 Force a string to be equal or more to the value passed.
