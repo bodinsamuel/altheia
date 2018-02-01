@@ -34,7 +34,7 @@ describe('Validator', () => {
   });
 
   test('Should validate with error', async () => {
-    const result = await Alt({ foo: Alt.string() }).body({ foo: 1 }).validate()
+    const result = await Alt({ foo: Alt.string() }).body({ foo: 1 }).validate();
     expect(result).toBeTruthy();
   });
 
