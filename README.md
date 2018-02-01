@@ -3,7 +3,9 @@
 
 A very simple async data validator.
 
-`await Alt.string().email().custom('notinbd', (val) => searchDB(val))`
+```javascript
+await Alt.string().email().custom('not_in_db', (val) => searchDB(val))
+```
 
 # Introduction
 After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aim at being very lightweight, simple to use and obvioulsy allow us to check anything from standard schema to very custom ones.
@@ -21,9 +23,10 @@ $ npm install altheia
 const Alt = require('Alt');
 
 const hasError = await Alt({
-    login: Alt.string().min(3).not('admin'),
-    email: Alt.string().email().custom('notindb', (val) => searchDB(val))
-    eyes: Alt.number().integer().positive().max(2)
+    login: Alt.string().min(3).not('admin').required(),
+    email: Alt.string().email().custom('not_in_db', (val) => searchDB(val)),
+    eyes: Alt.number().integer().positive().max(2),
+    date: Alt.date().iso()
 }).options({
     required: true,
     unknown: false
