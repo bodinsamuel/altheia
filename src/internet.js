@@ -7,7 +7,14 @@ const Luhn = require('./utils/luhn');
 const hostname = new RegExp(/^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?$/);
 const uuidv4 = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);
 
-module.exports.lang = {};
+module.exports.lang = {
+  'internet.typeof': name => `${name} must be a valid string`,
+  'internet.url': name => `${name} must be a valid url`,
+  'internet.hostname': name => `${name} must be a valid hostname`,
+  'internet.hex': name => `${name} must be a valid hex`,
+  'internet.creditCard': name => `${name} must be a valid Credit Card`,
+  'internet.uuidv4': name => `${name} must be a valid token`
+};
 
 module.exports.Class = class internet extends Base {
   constructor() {

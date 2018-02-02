@@ -4,11 +4,20 @@ const AltInternet = require('./../src/internet');
 const alt = Alt.instance();
 alt.use(AltInternet);
 
+
 describe('String', () => {
   describe('typeof()', () => {
     test('should pass', async () => {
       const hasError = await alt.internet().validate('hello');
       expect(hasError).toBe(false);
+    });
+    test('should fail', async () => {
+      const hasError = await alt.internet().validate(1);
+      expect(alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'internet.typeof',
+        message: 'value must be a valid string'
+      });
     });
   });
 
@@ -28,10 +37,10 @@ describe('String', () => {
     test('should not pass: relative', async () => {
       const hasError = await alt.internet().url().validate('//hello.com');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'internet.url',
-        message: 'Invalid value'
+        message: 'value must be a valid url'
       });
     });
     test('should not pass: string', async () => {
@@ -73,6 +82,11 @@ describe('String', () => {
     test('should not pass: url', async () => {
       const hasError = await alt.internet().hostname().validate('http://foo.hello.io');
       expect(hasError).toBeTruthy();
+      expect(alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'internet.hostname',
+        message: 'value must be a valid hostname'
+      });
     });
   });
 
@@ -88,6 +102,11 @@ describe('String', () => {
     test('should not pass', async () => {
       const hasError = await alt.internet().hex().validate('123afg');
       expect(hasError).toBeTruthy();
+      expect(alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'internet.hex',
+        message: 'value must be a valid hex'
+      });
     });
   });
 
@@ -136,6 +155,11 @@ describe('String', () => {
     test('should not pass: string', async () => {
       const hasError = await alt.internet().creditCard().validate('foobar');
       expect(hasError).toBeTruthy();
+      expect(alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'internet.creditCard',
+        message: 'value must be a valid Credit Card'
+      });
     });
   });
 
@@ -169,6 +193,11 @@ describe('String', () => {
       for (var i = 0; i < tests.length; i++) {
         const hasError = await alt.internet().uuidv4().validate(tests[i]);
         expect(hasError).toBeTruthy();
+        expect(alt.formatError(hasError)).toEqual({
+          label: 'value',
+          type: 'internet.uuidv4',
+          message: 'value must be a valid token'
+        });
       }
     });
   });
