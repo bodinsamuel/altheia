@@ -157,7 +157,7 @@ Alt.string().custom('my', (test) => {
 ```
 
 #### if({ test :func, then :func, otherwise :func })
-Alternatives are great to adapt the validation to some condition. All functions are requried be an instance of a validator.
+Alternatives are great to adapt the validation with some conditions. All functions are required to return an instance of a validator.
 
 ```javascript
 Alt.string().if({
