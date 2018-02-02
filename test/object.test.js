@@ -67,6 +67,38 @@ describe('Object', () => {
     });
   });
 
+  describe('not()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.object().not('foobar').validate({ barfoo: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should pass', async () => {
+      const hasError = await Alt.object().not('foo', 'bar').validate({ oof: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should pass', async () => {
+      const hasError = await Alt.object().not(['foo']).validate({ oof: 1, bar: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.object().not('foobar').validate({ foobar: 1 });
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.object().not('foobar').validate({ barfoo: 1, foobar: 1 });
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.object().not('foo', 'bar').validate({ foo: 1, alice: 1 });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.not',
+        message: 'value contains forbidden value'
+      });
+    });
+  });
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.object().required().validate({});

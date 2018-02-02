@@ -29,4 +29,18 @@ module.exports = class object extends Base {
     }, { in: only });
     return this;
   }
+
+  not(...array) {
+    let only = array;
+    // handle someone passing literal array instead of multiple args
+    if (array.length === 1 && Array.isArray(array[0])) {
+      only = array[0];
+    }
+
+    this.test('not', (str) => {
+      const diff = arrayDiff(only, Object.keys(str));
+      return diff.length === only.length;
+    }, { not: only });
+    return this;
+  }
 };

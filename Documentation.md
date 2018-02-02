@@ -239,6 +239,12 @@ Force an object to have only the keys passed in the set
 Alt.object().in('foo', 'bar');
 ```
 
+#### not(value [,value...])
+Force an object to not have the keys passed in the set
+```javascript
+Alt.object().not('foo', 'bar');
+```
+
 ### Date
 #### iso
 Force a date to be a valid ISO-8601.

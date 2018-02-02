@@ -17,9 +17,6 @@ string
   url()
   creditcard()
 
-object
-    not()
-
 array
     unique()
     items()

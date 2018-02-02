@@ -72,6 +72,10 @@ describe('String', () => {
       const hasError = await Alt.array().in(1, 2).validate([1, 2]);
       expect(hasError).toBe(false);
     });
+    test('should pass', async () => {
+      const hasError = await Alt.array().in([1, 2]).validate([1, 2]);
+      expect(hasError).toBe(false);
+    });
     test('should not pass', async () => {
       const hasError = await Alt.array().in(1, 2).validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
