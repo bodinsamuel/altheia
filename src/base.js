@@ -1,5 +1,3 @@
-const cloneObj = require('lodash/clone');
-
 module.exports = class Base {
   constructor() {
     this._required = false;
@@ -8,7 +6,10 @@ module.exports = class Base {
 
   clone() {
     const clone = Object.assign(Object.create(this), this);
-    clone.tests = cloneObj(this.tests);
+    // Quick deep clone
+    clone.tests = this.tests.map((item) => {
+      return Object.assign({}, item);
+    });
     return clone;
   }
 

@@ -1,5 +1,5 @@
 const Base = require('./base');
-const arrayDiff = require('lodash/difference');
+const arrayDiff = require('./utils/arraydiff');
 
 module.exports = class array extends Base {
   constructor() {

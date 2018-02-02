@@ -34,6 +34,24 @@ describe('Base', () => {
     expect(mark).toBe(true);
   });
 
+  describe('clone()', () => {
+    test('should clone correctly', async () => {
+      const original = Alt.string().required();
+      const clone = original.clone();
+
+      expect(original.tests.length).toBe(clone.tests.length);
+      expect(original.tests[0].isValid).toBe(true);
+      expect(clone.tests[0].isValid).toBe(true);
+
+      const hasError = await clone.max(4).validate(1);
+
+      expect(hasError).toBeTruthy();
+      expect(original.tests.length).toBe(clone.tests.length - 1);
+      expect(original.tests[0].isValid).toBe(true);
+      expect(clone.tests[0].isValid).toBe(false);
+    });
+  });
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.string().required().validate('foobar');

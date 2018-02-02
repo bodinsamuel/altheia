@@ -1,4 +1,4 @@
-const arrayDiff = require('lodash/difference');
+const arrayDiff = require('./utils/arraydiff');
 const isPlainObject = require('lodash/isPlainObject');
 
 const Base = require('./base');

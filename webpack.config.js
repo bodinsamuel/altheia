@@ -11,7 +11,7 @@ module.exports = {
     library: 'altheia',
     libraryTarget: 'window'
   },
-  plugins: [
-    new UglifyJSPlugin()
-  ]
+  // plugins: [
+  //   new UglifyJSPlugin()
+  // ]
 };
