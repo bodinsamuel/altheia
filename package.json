@@ -1,6 +1,6 @@
 {
   "name": "altheia",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A very simple async data validator",
   "main": "src/index.js",
   "keywords": [
