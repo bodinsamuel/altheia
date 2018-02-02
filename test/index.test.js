@@ -1,4 +1,5 @@
 const Alt = require('./../src');
+const AltInternet = require('./../src/internet');
 const StringValidator = require('./../src/string');
 
 describe('Index', () => {
@@ -34,6 +35,20 @@ describe('Index', () => {
       expect(alt1.langList['string.min']('value', { min: 1 })).toBe('foobar');
 
       expect(Alt.langList['string.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
+    });
+  });
+
+  describe('use()', () => {
+    test('should create a new instance with plugin', () => {
+      const alt1 = Alt.instance();
+      alt1.use(AltInternet);
+
+      expect(alt1).toHaveProperty('internet');
+      expect(Alt).not.toHaveProperty('internet');
+
+      // new instance should start clean
+      const alt2 = alt1.instance();
+      expect(alt2).not.toHaveProperty('internet');
     });
   });
 

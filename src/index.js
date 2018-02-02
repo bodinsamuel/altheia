@@ -11,29 +11,24 @@ const Instance = (lang) => {
     return new Validator(schema, inst);
   };
 
-  inst.string = () => {
-    return new StringValidator();
-  };
-
-  inst.number = () => {
-    return new NumberValidator();
-  };
-
-  inst.date = () => {
-    return new DateValidator();
-  };
-
-  inst.object = () => {
-    return new ObjectValidator();
-  };
-
-  inst.array = () => {
-    return new ArrayValidator();
-  };
-
   inst.instance = (lang) => {
     return Instance(lang);
   };
+
+  inst.use = (Plugin) => {
+    const test = new Plugin();
+    inst[test.constructor.name] = () => {
+      return new Plugin();
+    };
+    return inst;
+  };
+
+  // Declare basic plugins
+  inst.use(StringValidator);
+  inst.use(NumberValidator);
+  inst.use(DateValidator);
+  inst.use(ObjectValidator);
+  inst.use(ArrayValidator);
 
   inst.templates = {};
   inst.template = (name, schema) => {
