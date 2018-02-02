@@ -196,10 +196,6 @@ Alt.string().required()
 #### `custom(:string, :func)`
 Execute whatever you want, can be asynchronous obviously.
 ```javascript
-// Set an error message (not required, but nicer for user)
-Alt.lang('string.custom.my', (value) => `This ${value} does not pass my custom test`);
-
-// Create my custom rule
 Alt.string().custom('my', (test) => {
     return test === 'foobar';
 });
@@ -365,7 +361,7 @@ Alt.object().not('foo', 'bar');
 ```
 
 ### Internet
-Internet plugins is not load by default.
+Internet plugins is not loaded by default.
 ```javascript
 const InternetValidator = require('altheia/src/internet');
 Alt.use(InternetValidator);
