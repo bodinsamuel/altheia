@@ -22,10 +22,6 @@ object
 
 array
     unique()
-    min()
-    max()
-    in()
-    not()
     items()
 
 // probably need a plugin with momentjs/luxon integration
