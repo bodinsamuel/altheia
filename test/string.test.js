@@ -58,7 +58,7 @@ describe('String', () => {
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'string.max',
-        message: 'value must be less than or equal to 2 characters long'
+        message: 'value must be at most 2 characters long'
       });
     });
   });

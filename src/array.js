@@ -52,7 +52,6 @@ module.exports = class array extends Base {
     }
 
     this.test('not', (str) => {
-      console.log(arrayDiff(only, str));
       return arrayDiff(only, str).length === only.length;
     }, { not: only });
 
