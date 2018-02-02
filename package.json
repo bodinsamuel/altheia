@@ -3,26 +3,34 @@
   "version": "0.1.0",
   "description": "A very simple async data validator",
   "main": "src/index.js",
+  "keywords": [
+    "validator",
+    "validate",
+    "validation",
+    "async",
+    "schema"
+  ],
   "scripts": {
     "lint": "eslint app/ test/",
     "test": "jest test/",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
-  "author": "Samuel Bodin",
-  "license": "ISC",
+  "author": "Samuel Bodin <bodin.samuel@gmail.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bodinsamuel/altheia.git"
+  },
+  "bugs": {
+    "url": "http://github.com/bodinsamuel/altheia/issues"
   },
   "homepage": "https://github.com/bodinsamuel/altheia#readme",
   "engines": {
     "node": ">= 7.6"
   },
-  "lint-staged": {
-    "*.js": [
-      "eslint"
-    ]
-  },
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
     "lodash": "^4.17.4"
   },
