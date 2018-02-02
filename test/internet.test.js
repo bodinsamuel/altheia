@@ -138,4 +138,38 @@ describe('String', () => {
       expect(hasError).toBeTruthy();
     });
   });
+
+
+  describe('uuidv4', () => {
+    test('should pass', async () => {
+      const tests = [
+        'D1A5279D-B27D-4CD4-A05E-EFDD53D08E8D',
+        'B59511BD6A5F4DF09ECF562A108D8A2E',
+        '69593D62-71EA-4548-85E4-04FC71357423',
+        '677E2553DD4D43B09DA77414DB1EB8EA',
+        '5ba3bba3-729a-4717-88c1-b7c4b7ba80db',
+        '7e9081b59a6d4cc1a8c347f69fb4198d',
+        '0c74f13f-fa83-4c48-9b33-68921dd72463',
+        'b4b2fb69c6244e5eb0698e0c6ec66618'
+      ];
+      for (var i = 0; i < tests.length; i++) {
+        const hasError = await alt.internet().uuidv4().validate(tests[i]);
+        expect(hasError).toBe(false);
+      }
+    });
+    test('should fail', async () => {
+      const tests = [
+        'bd2e3ee3-8908-4665-1b59-682587236654',
+        '5a028adb-c082-8980-aab3-f3c16642281a',
+        '999999999999999999999999999999999999',
+        '{5ba3bba3-729a-4717-88c1-b7c4b7ba80db',
+        '5ba3bba3-729a-4717-88c1-b7c4b7ba80db}',
+        'dfksdjfldskjf'
+      ];
+      for (var i = 0; i < tests.length; i++) {
+        const hasError = await alt.internet().uuidv4().validate(tests[i]);
+        expect(hasError).toBeTruthy();
+      }
+    });
+  });
 });

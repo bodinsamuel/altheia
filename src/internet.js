@@ -4,7 +4,8 @@ const Base = require('./base');
 const Luhn = require('./utils/luhn');
 
 // eslint-disable-next-line
-const hostname = /^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?$/;
+const hostname = new RegExp(/^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?$/);
+const uuidv4 = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);
 
 module.exports = class internet extends Base {
   constructor() {
@@ -58,6 +59,16 @@ module.exports = class internet extends Base {
         return false;
       }
       return Luhn(str);
+    });
+    return this;
+  }
+
+  uuidv4() {
+    this.test('uuidv4', (str) => {
+      if (str.length < 32) {
+        return false;
+      }
+      return uuidv4.test(str);
     });
     return this;
   }
