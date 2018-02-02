@@ -31,12 +31,12 @@ const hasError = await Alt({
 }).options({
     required: true,
     unknown: false
-}).validate({
+}).body({
     login: 'leela',
     email: 'captain@planetexpress.earth',
     eyes: 1,
     date: '2015-01-04T17:35:22Z'
-});
+}).validate();
 
 console.log(hasError); // false
 ```
