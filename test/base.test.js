@@ -1,8 +1,8 @@
 const Alt = require('./../src');
 
 const timeoutSuccess = (mark) => {
-  return (value) => {
-    return new Promise((resolve, reject) => {
+  return () => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         mark.pass = true;
         resolve(true);
@@ -11,8 +11,8 @@ const timeoutSuccess = (mark) => {
   };
 };
 const timeoutError = (mark) => {
-  return (value) => {
-    return new Promise((resolve, reject) => {
+  return () => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         mark.pass = true;
         resolve(false);
@@ -23,9 +23,9 @@ const timeoutError = (mark) => {
 
 
 describe('Base', () => {
-  test('Should validate with callback', async () => {
+  test('Should use with callback', async () => {
     let mark = false;
-    const result = await Alt.string().validate('foobar', (error) => {
+    await Alt.string().validate('foobar', (error) => {
       expect(error).toBe(false);
       mark = true;
     });
@@ -62,7 +62,7 @@ describe('Base', () => {
       let mark = false;
       const hasError = await Alt.string().if({
         test: chain => chain.email(),
-        then: chain => chain.custom('my_if', (val) => {
+        then: chain => chain.custom('my_if', () => {
           mark = true;
           return true;
         }),
@@ -114,7 +114,7 @@ describe('Base', () => {
       const hasError = await Alt.string().if({
         test: chain => chain.uppercase(),
         then: chain => chain.min(2),
-        otherwise: chain => chain.custom('my_if', (val) => {
+        otherwise: chain => chain.custom('my_if', () => {
           mark = true;
           return true;
         })

@@ -1,5 +1,3 @@
-const clone = require('lodash/clone');
-
 const LangBase = require('./lang');
 const Validator = require('./validator');
 const StringValidator = require('./string');

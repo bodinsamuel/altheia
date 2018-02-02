@@ -83,6 +83,7 @@ module.exports = {
             'allowTaggedTemplates': false,
         }],
         'no-unused-labels': 'error',
+        'no-unused-vars': 'error',
         'no-useless-call': 'off',
         'no-useless-concat': 'error',
         'no-useless-escape': 'error',

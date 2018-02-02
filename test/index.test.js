@@ -27,7 +27,7 @@ describe('Index', () => {
 
     test('should merge lang and keep original', () => {
       const alt1 = Alt.instance({
-        'string.min': (name, args) => 'foobar'
+        'string.min': () => 'foobar'
       });
       expect(alt1.langList).toBeInstanceOf(Object);
       expect(alt1.langList['string.min']).toBeInstanceOf(Function);

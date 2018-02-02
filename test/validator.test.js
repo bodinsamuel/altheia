@@ -8,7 +8,7 @@ describe('Validator', () => {
 
   test('Should validate with callback', async () => {
     let mark = false;
-    const result = await Alt({ foo: Alt.number() }).body({ foo: 1 }).validate((error) => {
+    await Alt({ foo: Alt.number() }).body({ foo: 1 }).validate((error) => {
       expect(error).toBe(false);
       mark = true;
     });
@@ -19,7 +19,7 @@ describe('Validator', () => {
 
   test('Should validate with callback and error', async () => {
     let mark = false;
-    const result = await Alt({ foo: Alt.string() }).body({ foo: 1 }).validate((error) => {
+    await Alt({ foo: Alt.string() }).body({ foo: 1 }).validate((error) => {
       expect(error).toBeTruthy();
       mark = true;
     });
@@ -232,7 +232,7 @@ describe('Validator', () => {
     test('Should validate async', async () => {
       let mark = false;
       const hasError = await Alt({
-        login: Alt.string().custom('sync', (value) => {
+        login: Alt.string().custom('sync', () => {
           return new Promise((resolve) => {
             setTimeout(() => {
               mark = true;
@@ -249,7 +249,7 @@ describe('Validator', () => {
     test('Should not validate async', async () => {
       let mark = false;
       const hasError = await Alt({
-        login: Alt.string().custom('sync', (value) => {
+        login: Alt.string().custom('sync', () => {
           return new Promise((resolve, reject) => {
             setTimeout(() => {
               mark = true;
