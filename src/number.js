@@ -1,6 +1,16 @@
 const Base = require('./base');
 
-module.exports = class number extends Base {
+module.exports.lang = {
+  'number.typeof': name => `${name} must be a valid number`,
+  'number.min': (name, args) => `${name} must be at least ${args.min}`,
+  'number.max': (name, args) => `${name} must be less than or equal to ${args.max}`,
+  'number.integer': name => `${name} must be an integer`,
+  'number.unsigned': name => `${name} must be an unsigned number`,
+  'number.positive': name => `${name} must be a positive number`,
+  'number.negative': name => `${name} must be a negative number`
+};
+
+module.exports.Class = class number extends Base {
   constructor() {
     super();
     this.typeof();

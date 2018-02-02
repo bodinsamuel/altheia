@@ -1,6 +1,18 @@
 const Base = require('./base');
 
-module.exports = class string extends Base {
+module.exports.lang = {
+  'string.typeof': name => `${name} must be a valid string`,
+  'string.min': (name, args) => `${name} must be at least ${args.min} characters long`,
+  'string.max': (name, args) => `${name} must be at most ${args.max} characters long`,
+  'string.pattern': (name, args) => `${name} must match pattern "${args.regex}"`,
+  'string.in': (name, args) => `${name} must be one of [${args.obj}]`,
+  'string.not': name => `${name} contains forbidden value`,
+  'string.email': name => `${name} must be a valid email`,
+  'string.lowercase': name => `${name} must be lowercase only`,
+  'string.uppercase': name => `${name} must be uppercase only`
+};
+
+module.exports.Class = class string extends Base {
   constructor() {
     super();
     this.typeof();

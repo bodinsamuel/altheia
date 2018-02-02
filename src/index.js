@@ -1,3 +1,5 @@
+const isPlainObject = require('lodash/isPlainObject');
+
 const LangBase = require('./lang');
 const Validator = require('./validator');
 const StringValidator = require('./string');
@@ -10,27 +12,30 @@ const Instance = (lang) => {
   const inst = (schema) => {
     return new Validator(schema, inst);
   };
+  inst.langList = Object.assign({}, LangBase);
+  inst.templates = {};
 
-  inst.instance = (lang) => {
-    return Instance(lang);
+  inst.instance = (newLang = {}) => {
+    return Instance(Object.assign({}, inst.lang, newLang));
   };
 
   inst.use = (Plugin) => {
-    const test = new Plugin();
+    const test = new Plugin.Class();
     inst[test.constructor.name] = () => {
-      return new Plugin();
+      return new Plugin.Class();
     };
+    inst.lang(Plugin.lang);
     return inst;
   };
 
-  // Declare basic plugins
-  inst.use(StringValidator);
-  inst.use(NumberValidator);
-  inst.use(DateValidator);
-  inst.use(ObjectValidator);
-  inst.use(ArrayValidator);
+  inst.lang = (key, tpl) => {
+    if (isPlainObject(key)) {
+      inst.langList = Object.assign({}, inst.langList, key);
+    } else {
+      inst.langList[key] = tpl;
+    }
+  };
 
-  inst.templates = {};
   inst.template = (name, schema) => {
     inst.templates[name] = schema;
   };
@@ -43,10 +48,6 @@ const Instance = (lang) => {
     return inst.templates[name].clone();
   };
 
-  inst.langList = Object.assign({}, LangBase, lang);
-  inst.lang = (key, tpl) => {
-    inst.langList[key] = tpl;
-  };
   inst.formatError = ({ name, args }, label = 'value') => {
     // Get messages from error
     let msg;
@@ -62,6 +63,18 @@ const Instance = (lang) => {
       message: msg
     };
   };
+
+  // Declare basic plugins
+  inst.use(StringValidator);
+  inst.use(NumberValidator);
+  inst.use(DateValidator);
+  inst.use(ObjectValidator);
+  inst.use(ArrayValidator);
+
+  // Add passed lang object
+  if (lang && isPlainObject(lang)) {
+    inst.lang(lang);
+  }
 
   return inst;
 };

@@ -1,6 +1,6 @@
 const Alt = require('./../src');
 const AltInternet = require('./../src/internet');
-const StringValidator = require('./../src/string');
+const StringValidator = require('./../src/string').Class;
 
 describe('Index', () => {
   describe('instance()', () => {
@@ -32,7 +32,7 @@ describe('Index', () => {
       });
       expect(alt1.langList).toBeInstanceOf(Object);
       expect(alt1.langList['string.min']).toBeInstanceOf(Function);
-      expect(alt1.langList['string.min']('value', { min: 1 })).toBe('foobar');
+      expect(alt1.langList['string.min']()).toBe('foobar');
 
       expect(Alt.langList['string.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
     });

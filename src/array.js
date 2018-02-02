@@ -1,7 +1,15 @@
 const Base = require('./base');
 const arrayDiff = require('./utils/arraydiff');
 
-module.exports = class array extends Base {
+module.exports.lang = {
+  'array.typeof': name => `${name} must be a valid array`,
+  'array.min': (name, args) => `${name} must contains at least ${args.min} items`,
+  'array.max': (name, args) => `${name} must contains at most ${args.max} items`,
+  'array.in': (name, args) => `${name} must only contains these keys [${args.in}]`,
+  'array.not': name => `${name} contains forbidden value`
+};
+
+module.exports.Class = class array extends Base {
   constructor() {
     super();
     this.typeof();

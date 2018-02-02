@@ -7,7 +7,9 @@ const Luhn = require('./utils/luhn');
 const hostname = new RegExp(/^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?$/);
 const uuidv4 = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);
 
-module.exports = class internet extends Base {
+module.exports.lang = {};
+
+module.exports.Class = class internet extends Base {
   constructor() {
     super();
     this.typeof();

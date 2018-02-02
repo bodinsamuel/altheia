@@ -1,7 +1,7 @@
 const isPlainObject = require('lodash/isPlainObject');
 const isEqual = require('lodash/isEqual');
 
-const ObjectValidator = require('./object');
+const ObjectValidator = require('./object').Class;
 
 module.exports = class Validator {
   constructor(schema, inst) {

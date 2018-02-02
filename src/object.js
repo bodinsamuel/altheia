@@ -3,7 +3,13 @@ const isPlainObject = require('lodash/isPlainObject');
 
 const Base = require('./base');
 
-module.exports = class object extends Base {
+module.exports.lang = {
+  'object.typeof': name => `${name} must be a valid object`,
+  'object.in': (name, args) => `${name} must only contains these keys [${args.in}]`,
+  'object.not': name => `${name} contains forbidden value`
+};
+
+module.exports.Class = class object extends Base {
   constructor() {
     super();
     this.typeof();
