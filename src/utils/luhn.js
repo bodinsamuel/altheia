@@ -7,8 +7,10 @@ module.exports = (function (arr) {
     let val;
 
     while (len) {
-      val = parseInt(ccNum.charAt(--len), 10);
-      sum += (bit ^= 1) ? arr[val] : val;
+      len = len - 1;
+      val = parseInt(ccNum.charAt(len), 10);
+      bit = bit ^ 1;
+      sum = sum + ((bit) ? arr[val] : val);
     }
 
     return sum && sum % 10 === 0;
