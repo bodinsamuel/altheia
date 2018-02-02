@@ -3,7 +3,7 @@ module.exports = {
 
   'string.typeof': (name, args) => `${name} must be a valid string`,
   'string.min': (name, args) => `${name} must be at least ${args.min} characters long`,
-  'string.max': (name, args) => `${name} must be less than or equal to ${args.max} characters long`,
+  'string.max': (name, args) => `${name} must be at most ${args.max} characters long`,
   'string.pattern': (name, args) => `${name} must match pattern "${args.regex}"`,
   'string.in': (name, args) => `${name} must be one of [${args.obj}]`,
   'string.not': (name, args) => `${name} contains forbidden value`,
@@ -23,5 +23,12 @@ module.exports = {
   'number.negative': (name, args) => `${name} must be a negative number`,
 
   'object.typeof': (name, args) => `${name} must be a valid object`,
-  'object.in': (name, args) => `${name} must only contains these keys [${args.in}]`
+  'object.in': (name, args) => `${name} must only contains these keys [${args.in}]`,
+  'object.not': (name, args) => `${name} contains forbidden value`,
+
+  'array.typeof': (name, args) => `${name} must be a valid array`,
+  'array.min': (name, args) => `${name} must contains at least ${args.min} items`,
+  'array.max': (name, args) => `${name} must contains at most ${args.max} items`,
+  'array.in': (name, args) => `${name} must only contains these keys [${args.in}]`,
+  'array.not': (name, args) => `${name} contains forbidden value`
 };

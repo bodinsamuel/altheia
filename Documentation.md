@@ -282,3 +282,29 @@ Force a number to be lesser than 0.
 ```javascript
 Alt.number().negative();
 ```
+
+
+### Array
+#### min(:int)
+Force an array to contains at least a number of items equal to the value passed.
+```javascript
+Alt.array().min(5);
+```
+
+#### max(:int)
+Force an array to contains at most a number of items equal to the value passed.
+```javascript
+Alt.array().max(10);
+```
+
+#### in(value [,value...])
+Force an array to have only the keys passed in the set
+```javascript
+Alt.array().in('foo', 'bar');
+```
+
+#### not(value [,value...])
+Force an array not to have the keys passed in the set
+```javascript
+Alt.object().not('foo', 'bar');
+```

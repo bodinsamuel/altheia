@@ -26,7 +26,7 @@ module.exports = class object extends Base {
     this.test('in', (str) => {
       const diff = arrayDiff(Object.keys(str), only);
       return diff.length === 0;
-    }, { in: array });
+    }, { in: only });
     return this;
   }
 };

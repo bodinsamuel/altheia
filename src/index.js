@@ -6,6 +6,7 @@ const StringValidator = require('./string');
 const ObjectValidator = require('./object');
 const NumberValidator = require('./number');
 const DateValidator = require('./date');
+const ArrayValidator = require('./array');
 
 const Instance = (lang) => {
   const inst = (schema) => {
@@ -26,6 +27,10 @@ const Instance = (lang) => {
 
   inst.object = () => {
     return new ObjectValidator();
+  };
+
+  inst.array = () => {
+    return new ArrayValidator();
   };
 
   inst.instance = (lang) => {
