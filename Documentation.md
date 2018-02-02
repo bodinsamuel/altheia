@@ -124,7 +124,7 @@ Alt.string().custom('wait', (test) => {
 
 # Methods
 ## Main Api
-### validate([:func])
+### `validate([:func])`
 Run the validation of the schema. You can `await` or pass a callback.
 
 ```javascript
@@ -138,7 +138,7 @@ const hasError = await Alt({
 //=> :array if any
 ```
 
-### body(:object)
+### `body(:object)`
 Set the body to be validated.
 ```javascript
 const hasError = await Alt(...).body({
@@ -146,7 +146,7 @@ const hasError = await Alt(...).body({
 }).validate();
 ```
 
-### options(:object)
+### `options(:object)`
 By default, Altheia allow __unknow__ and  __unexisting__ key to be present in the schema. You can change these values to be more strict.
 
 ```javascript
@@ -158,7 +158,7 @@ Alt({
 });
 ```
 
-### confirm(:string, :string)
+### `confirm(:string, :string)`
 Because a single value validation do not share any context with one another (because you know ...async), confirmation is being done in the global schema validation.
 
 ```javascript
@@ -168,18 +168,32 @@ Alt({
 }).confirm('password', 'repeat').validate();
 ```
 
+### `lang(:string, :func)`
+Add or change a lang entry.
+```javascript
+Alt.lang('string.min', () => `not good`);
+```
+
+### `use(:string, :func)`
+Add a plugin to your Altheia instance
+```javascript
+Alt.use({
+    lang: { ...}
+    Class: class foobar extends Alt.Base {}
+});
+```
 
 ## Types
 ### Global
 These methods are applying to all the types.
 
-#### required()
+#### `required()`
 Force an input to be present and defined
 ```javascript
 Alt.string().required()
 ```
 
-#### custom(:string, :func)
+#### `custom(:string, :func)`
 Execute whatever you want, can be asynchronous obviously.
 ```javascript
 // Set an error message (not required, but nicer for user)
@@ -191,7 +205,7 @@ Alt.string().custom('my', (test) => {
 });
 ```
 
-#### if({ test :func, then :func, otherwise :func })
+#### `if({ test :func, then :func, otherwise :func })`
 Alternatives are great to adapt the validation with some conditions. All functions are required to return an instance of a validator.
 
 ```javascript
@@ -209,7 +223,7 @@ Alt.string().if({
 // 
 ```
 
-#### validate(:mixed[, :func])
+#### `validate(:mixed[, :func])`
 If you want to, you can validate only one input without the whole schema.
 You can await or pass callback
 
@@ -219,106 +233,106 @@ const hasError = await Api.string().validate(1);
 //=> :object if not
 ```
 ### String
-#### min(:int)
+#### `min(:int)`
 Force a string to be equal or more to the value passed.
 ```javascript
 Alt.string().min(1);
 ```
 
-#### max(:int)
+#### `max(:int)`
 Force a string to be equal or less to the value passed.
 ```javascript
 Alt.string().max(5);
 ```
 
-#### pattern(:regex)
+#### `pattern(:regex)`
 Force a string to match the regex passed.
 ```javascript
 Alt.string().pattern(/^[a-z]$/);
 ```
 
-#### in(value [,value...])
+#### `in(value [,value...])`
 Force a string to be equal to one of the value passed in the set.
 ```javascript
 Alt.string().in('foo', 'bar');
 ```
 
-#### not(value [,value...])
+#### `not(value [,value...])`
 Force a string to be different to all of the value passed in the set.
 ```javascript
 Alt.string().not('bar', 'foo');
 ```
 
-#### email()
+#### `email()`
 Force a string to be a valid email (contain an @).
 ```javascript
 Alt.string().email();
 ```
 
-#### lowercase()
+#### `lowercase()`
 Force a string to be fully in lowercase.
 ```javascript
 Alt.string().lowercase();
 ```
 
-#### uppercase()
+#### `uppercase()`
 Force a string to be fully in uppercase.
 ```javascript
 Alt.string().uppercase();
 ```
 
 ### Object
-#### in(value [,value...])
+#### `in(value [,value...])`
 Force an object to have only the keys passed in the set
 ```javascript
 Alt.object().in('foo', 'bar');
 ```
 
-#### not(value [,value...])
+#### `not(value [,value...])`
 Force an object to not have the keys passed in the set
 ```javascript
 Alt.object().not('foo', 'bar');
 ```
 
 ### Date
-#### iso
+#### `iso()`
 Force a date to be a valid ISO-8601.
 ```javascript
 Alt.date().iso();
 ```
 
 ### Number
-#### min(:int)
+#### `min(:int)`
 Force a number to be equal or more to the value passed.
 ```javascript
 Alt.number().min(5);
 ```
 
-#### max(:int)
+#### `max(:int)`
 Force a number to be equal or less to the value passed.
 ```javascript
 Alt.number().max(10);
 ```
 
-#### integer
+#### `integer()`
 Force a number to be an integer.
 ```javascript
 Alt.number().integer();
 ```
 
-#### unsigned
+#### `unsigned()`
 Force a number to be unsigned.
 ```javascript
 Alt.number().unsigned();
 ```
 
-#### positive
+#### `positive()`
 Force a number to be greater than 0.
 ```javascript
 Alt.number().positive();
 ```
 
-#### negative
+#### `negative()`
 Force a number to be lesser than 0.
 ```javascript
 Alt.number().negative();
@@ -326,25 +340,25 @@ Alt.number().negative();
 
 
 ### Array
-#### min(:int)
+#### `min(:int)`
 Force an array to contains at least a number of items equal to the value passed.
 ```javascript
 Alt.array().min(5);
 ```
 
-#### max(:int)
+#### `max(:int)`
 Force an array to contains at most a number of items equal to the value passed.
 ```javascript
 Alt.array().max(10);
 ```
 
-#### in(value [,value...])
+#### `in(value [,value...])`
 Force an array to have only the keys passed in the set
 ```javascript
 Alt.array().in('foo', 'bar');
 ```
 
-#### not(value [,value...])
+#### `not(value [,value...])`
 Force an array not to have the keys passed in the set
 ```javascript
 Alt.object().not('foo', 'bar');
@@ -357,31 +371,31 @@ const InternetValidator = require('altheia/src/internet');
 Alt.use(InternetValidator);
 ```
 
-#### url()
+#### `url()`
 Force a string to be a valid url (RFC)
 ```javascript
 Alt.internet().url();
 ```
 
-#### hostname()
+#### `hostname()`
 Force a string to be a valid hostname (RFC)
 ```javascript
 Alt.internet().hostname();
 ```
 
-#### hex()
+#### `hex()`
 Force a string to be a valid hex (a-f0-9)
 ```javascript
 Alt.internet().hex();
 ```
 
-#### creditCard()
+#### `creditCard()`
 Force a string to be a valid credit card (using Luhn's algorithm)
 ```javascript
 Alt.internet().creditCard();
 ```
 
-#### uuidv4()
+#### `uuidv4()`
 Force a string to be a valid uuid version 4
 ```javascript
 Alt.internet().uuidv4();
