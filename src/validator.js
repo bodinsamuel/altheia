@@ -1,5 +1,3 @@
-const eachObject = require('lodash/forEach');
-const getKeyOrDefault = require('lodash/get');
 const isPlainObject = require('lodash/isPlainObject');
 const isEqual = require('lodash/isEqual');
 
@@ -67,7 +65,7 @@ module.exports = class Validator {
     for (var i = 0; i < keys.length; i++) {
       const key = keys[i];
       const item = this._schema[key];
-      const value = getKeyOrDefault(this._body, key, null);
+      const value = typeof this._body[key] !== 'undefined' ? this._body[key] : null;
       this._body[key] = value;
 
       // If not required pass
