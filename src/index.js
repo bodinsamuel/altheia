@@ -2,6 +2,7 @@ const isPlainObject = require('lodash/isPlainObject');
 
 const LangBase = require('./lang');
 const Validator = require('./validator');
+const BaseValidator = require('./base');
 const StringValidator = require('./string');
 const ObjectValidator = require('./object');
 const NumberValidator = require('./number');
@@ -15,6 +16,7 @@ const Instance = (lang) => {
   inst.langList = Object.assign({}, LangBase);
   inst.templates = {};
 
+  inst.Base = BaseValidator;
   inst.instance = (newLang = {}) => {
     return Instance(Object.assign({}, inst.lang, newLang));
   };

@@ -1,5 +1,17 @@
 # Documentation
-## Global Concepts
+- [Core Concepts](#coreconcepts)
+- [Methods](#methods)
+    + [Main Api](#mainapi)
+    + [Types](#types)
+        * [Global](#global)
+        * [String](#string)
+        * [Object](#object)
+        * [Date](#date)
+        * [Number](#number)
+        * [Array](#array)
+        * [Internet](#internet)
+
+## Core Concepts
 ### Instance
 To keep Altheia simple and fast, the lib is not fully immutable but you can create an instance of altheia to avoid modifying the global object.
 
@@ -71,6 +83,29 @@ alt({
     password: alt.is('password').required() // keeps chainability
 })
 ```
+
+### Plugins
+In Altheia everything is a plugin. That means that even the basic validator are actually plugins. You can easily extends the core of Altheai this way.
+By default, it loads array, date, string, number, object, string.
+
+```javascript
+const alt = Alt.instance();
+alt.use({
+    lang: {
+        'mycustom.myrule': () => `not good`
+    },
+    Class: class mycustom extends Alt.Base {
+        myrule() {
+            this.test('myrule', (str) => {
+                return true;
+            });
+            return this;
+        }
+    }
+});
+```
+__Plugins available__: internet
+
 
 ### Customization
 One thing that all validators miss is ... the very custom validation you need for your project. You always want something very precise that will be usefull only for you and that does not belongs in the main library.
@@ -313,4 +348,41 @@ Alt.array().in('foo', 'bar');
 Force an array not to have the keys passed in the set
 ```javascript
 Alt.object().not('foo', 'bar');
+```
+
+### Internet
+Internet plugins is not load by default.
+```javascript
+const InternetValidator = require('altheia/src/internet');
+Alt.use(InternetValidator);
+```
+
+#### url()
+Force a string to be a valid url (RFC)
+```javascript
+Alt.internet().url();
+```
+
+#### hostname()
+Force a string to be a valid hostname (RFC)
+```javascript
+Alt.internet().hostname();
+```
+
+#### hex()
+Force a string to be a valid hex (a-f0-9)
+```javascript
+Alt.internet().hex();
+```
+
+#### creditCard()
+Force a string to be a valid credit card (using Luhn's algorithm)
+```javascript
+Alt.internet().creditCard();
+```
+
+#### uuidv4()
+Force a string to be a valid uuid version 4
+```javascript
+Alt.internet().uuidv4();
 ```

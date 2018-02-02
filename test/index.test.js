@@ -50,6 +50,30 @@ describe('Index', () => {
       const alt2 = alt1.instance();
       expect(alt2).not.toHaveProperty('internet');
     });
+
+    test('should create a new instance with custom plugin', () => {
+      const alt1 = Alt.instance();
+      alt1.use({
+        lang: {
+          'mycustom.myrule': () => 'not good'
+        },
+        Class: class mycustom extends Alt.Base {
+          myrule() {
+            this.test('myrule', () => {
+              return true;
+            });
+            return this;
+          }
+        }
+      });
+
+      expect(alt1).toHaveProperty('mycustom');
+      expect(Alt).not.toHaveProperty('mycustom');
+
+      // new instance should start clean
+      const alt2 = alt1.instance();
+      expect(alt2).not.toHaveProperty('mycustom');
+    });
   });
 
   describe('template()', () => {
