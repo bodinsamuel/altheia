@@ -90,7 +90,7 @@ module.exports = class Validator {
         if (isEqual(initial, comparison)) {
           return;
         }
-        this._errors.push(this.formatError({ name: 'confirm' }, item.comparison));
+        this._errors.push(this.formatError({ name: 'confirm', args: item }, item.comparison));
       });
     }
 

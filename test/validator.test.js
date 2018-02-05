@@ -38,6 +38,15 @@ describe('Validator', () => {
     expect(result).toBeTruthy();
   });
 
+  test('Should validate with error non i18n', async () => {
+    const hasError = await Alt({ foo: Alt.string().custom('my', () => false) }).body({ foo: '1' }).validate();
+    expect(hasError).toBeTruthy();
+    expect(hasError).toEqual([{
+      label: 'foo',
+      type: 'string.custom.my',
+      message: 'Invalid value'
+    }]);
+  });
   describe('schema()', () => {
     test('should pass', async () => {
       const instance = Alt({ foo: Alt.string() });
@@ -281,6 +290,11 @@ describe('Validator', () => {
         .confirm('login', 'relogin').validate();
 
       expect(hasError).toBeTruthy();
+      expect(hasError).toEqual([{
+        label: 'relogin',
+        type: 'confirm',
+        message: 'relogin must be the same as login'
+      }]);
     });
   });
 });
