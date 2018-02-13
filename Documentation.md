@@ -360,6 +360,13 @@ Force an array not to have the keys passed in the set
 Alt.object().not('foo', 'bar');
 ```
 
+#### `unique()`
+Force an array to only have each item once
+```javascript
+Alt.object().unique();
+```
+
+
 ### Internet
 Internet plugins is not loaded by default.
 ```javascript
@@ -395,4 +402,22 @@ Alt.internet().creditCard();
 Force a string to be a valid uuid version 4
 ```javascript
 Alt.internet().uuidv4();
+```
+
+#### `ip()`
+Force a string to be a valid ipv4 or ipv6
+```javascript
+Alt.internet().ip();
+```
+
+#### `ipv4()`
+Force a string to be a valid ipv4
+```javascript
+Alt.internet().ipv4();
+```
+
+#### `ipv6()`
+Force a string to be a valid ipv6
+```javascript
+Alt.internet().ipv6();
 ```
