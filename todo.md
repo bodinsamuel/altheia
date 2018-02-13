@@ -8,11 +8,7 @@ number
     min(:ref) // not possible for now
     max(:ref) // not possible for now
 
-string
-  ip()
-
 array
-    unique()
     items()
 
 // probably need a plugin with momentjs/luxon integration

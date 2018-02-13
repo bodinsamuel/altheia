@@ -201,4 +201,80 @@ describe('String', () => {
       }
     });
   });
+
+  describe('ipv4', () => {
+    test('should pass', async () => {
+      const hasError = await alt.internet().ipv4().validate('192.168.0.1');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: ipv6', async () => {
+      const hasError = await alt.internet().ipv4().validate('0000:0000:0000:0000:0000:0000:0000:0001');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: float', async () => {
+      const hasError = await alt.internet().ipv4().validate(192.168);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass', async () => {
+      const hasError = await alt.internet().ipv4().validate('foobar');
+      expect(hasError).toBeTruthy();
+      expect(alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'internet.ipv4',
+        message: 'value must be a valid IP v4'
+      });
+    });
+  });
+
+  describe('ipv6', () => {
+    test('should pass', async () => {
+      const hasError = await alt.internet().ipv6().validate('0000:0000:0000:0000:0000:0000:0000:0001');
+      expect(hasError).toBe(false);
+    });
+    test('should pass: non zero', async () => {
+      const hasError = await alt.internet().ipv6().validate('2001:db8:3:4::192.0.2.33');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: ipv4', async () => {
+      const hasError = await alt.internet().ipv6().validate('192.168.0.1');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: float', async () => {
+      const hasError = await alt.internet().ipv6().validate(192.168);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass', async () => {
+      const hasError = await alt.internet().ipv6().validate('foobar');
+      expect(hasError).toBeTruthy();
+      expect(alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'internet.ipv6',
+        message: 'value must be a valid IP v6'
+      });
+    });
+  });
+
+  describe('ip', () => {
+    test('should pass', async () => {
+      const hasError = await alt.internet().ip().validate('192.168.0.1');
+      expect(hasError).toBe(false);
+    });
+    test('should pass', async () => {
+      const hasError = await alt.internet().ip().validate('0000:0000:0000:0000:0000:0000:0000:0001');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: float', async () => {
+      const hasError = await alt.internet().ip().validate(192.168);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass', async () => {
+      const hasError = await alt.internet().ip().validate('foobar');
+      expect(hasError).toBeTruthy();
+      expect(alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'internet.ip',
+        message: 'value must be a valid IP'
+      });
+    });
+  });
 });
