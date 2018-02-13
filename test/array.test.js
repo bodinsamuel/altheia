@@ -124,4 +124,20 @@ describe('String', () => {
       });
     });
   });
+
+  describe('not()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.array().unique().validate([1, 2, 4]);
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.array().unique().validate([1, 2, 2]);
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'array.unique',
+        message: 'value can not contains duplicated value'
+      });
+    });
+  });
 });

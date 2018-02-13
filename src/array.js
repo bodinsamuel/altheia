@@ -6,7 +6,8 @@ module.exports.lang = {
   'array.min': (name, args) => `${name} must contains at least ${args.min} items`,
   'array.max': (name, args) => `${name} must contains at most ${args.max} items`,
   'array.in': (name, args) => `${name} must only contains these keys [${args.in}]`,
-  'array.not': name => `${name} contains forbidden value`
+  'array.not': name => `${name} contains forbidden value`,
+  'array.unique': name => `${name} can not contains duplicated value`
 };
 
 module.exports.Class = class array extends Base {
@@ -62,6 +63,15 @@ module.exports.Class = class array extends Base {
     this.test('not', (str) => {
       return arrayDiff(only, str).length === only.length;
     }, { not: only });
+
+    return this;
+  }
+
+  unique() {
+    this.test('unique', (str) => {
+      const a = new Set(str);
+      return a.size === str.length;
+    });
 
     return this;
   }

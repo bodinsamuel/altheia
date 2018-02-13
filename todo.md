@@ -10,12 +10,6 @@ number
 
 string
   ip()
-  uuid()
-  uri()
-  hostname()
-  uri()
-  url()
-  creditcard()
 
 array
     unique()
