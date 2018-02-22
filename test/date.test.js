@@ -59,6 +59,46 @@ describe('Date', () => {
     });
   });
 
+  describe('min()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.date().min(new Date('2016-05-15')).validate('2017-05-15');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.date().min(new Date('2018-05-15')).validate('2017-05-15');
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'date.min',
+        message: 'value must be at least 2018-05-15T00:00:00.000Z'
+      });
+    });
+    test('should not pass invalid date', async () => {
+      const hasError = await Alt.date().min('2016-05-15').validate('2017-05-15');
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('max()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.date().max(new Date('2018-05-15')).validate('2017-05-15');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.date().max(new Date('2016-05-15')).validate('2017-05-15');
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'date.max',
+        message: 'value must be less than or equal to 2016-05-15T00:00:00.000Z'
+      });
+    });
+    test('should not pass invalid date', async () => {
+      const hasError = await Alt.date().max('2018-05-15').validate('2017-05-15');
+      expect(hasError).toBeTruthy();
+    });
+  });
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.date().required().validate('2017-05-15');

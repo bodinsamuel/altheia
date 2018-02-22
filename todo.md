@@ -14,7 +14,5 @@ array
 // probably need a plugin with momentjs/luxon integration
 date
     format()
-    max()
-    min()
     timestamp()
 ```

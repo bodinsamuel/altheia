@@ -297,6 +297,18 @@ Force a date to be a valid ISO-8601.
 Alt.date().iso();
 ```
 
+#### `min()`
+Force a date to be a at least or bigger than value passed
+```javascript
+Alt.date().min(new Date('2017-08-01'));
+```
+
+#### `max()`
+Force a date to be less or equal than value passed
+```javascript
+Alt.date().max(new Date('2017-08-01'));
+```
+
 ### Number
 #### `min(:int)`
 Force a number to be equal or more to the value passed.

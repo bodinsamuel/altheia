@@ -5,7 +5,9 @@ const iso = new RegExp(/^(?:[-+]\d{2})?(?:\d{4}(?!\d{2}\b))(?:(-?)(?:(?:0[1-9]|1
 
 module.exports.lang = {
   'date.typeof': name => `${name} must be a valid date`,
-  'date.iso': name => `${name} must be an ISO-8601 date`
+  'date.iso': name => `${name} must be an ISO-8601 date`,
+  'date.min': (name, { min }) => `${name} must be at least ${min.toISOString()}`,
+  'date.max': (name, { max }) => `${name} must be less than or equal to ${max.toISOString()}`
 };
 
 module.exports.Class = class date extends Base {
@@ -25,6 +27,26 @@ module.exports.Class = class date extends Base {
     this.test('iso', (str) => {
       return str.match(iso) !== null;
     });
+    return this;
+  }
+
+  min(min) {
+    this.test('min', (str) => {
+      if (typeof min !== 'object' || min.constructor.name !== 'Date' || min.toString() === 'Invalid Date') {
+        return false;
+      }
+      return Date.parse(str) >= min;
+    }, { min });
+    return this;
+  }
+
+  max(max) {
+    this.test('max', (str) => {
+      if (typeof max !== 'object' || max.constructor.name !== 'Date' || max.toString() === 'Invalid Date') {
+        return false;
+      }
+      return Date.parse(str) <= max;
+    }, { max });
     return this;
   }
 };
