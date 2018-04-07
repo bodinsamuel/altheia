@@ -1,5 +1,3 @@
-const { URL } = require('url');
-
 const Base = require('./base');
 const Luhn = require('./utils/luhn');
 
@@ -49,6 +47,8 @@ module.exports.Class = class internet extends Base {
         if (str.search('javascript:') === 0) {
           return false;
         }
+
+        // eslint-disable-next-line
         return new URL(str);
       } catch (e) {
         return false;
