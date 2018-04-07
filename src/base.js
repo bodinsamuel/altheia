@@ -18,7 +18,7 @@ module.exports = class Base {
       name: `${this.constructor.name}.${name}`,
       func,
       args,
-      isValid: true
+      isValid: true,
     });
   }
 
@@ -36,7 +36,12 @@ module.exports = class Base {
       if (this._required === false) {
         return this.callback(callback, false);
       }
-      return this.callback(callback, { name: 'required', func: null, args: null, isValid: false });
+      return this.callback(callback, {
+        name: 'required',
+        func: null,
+        args: null,
+        isValid: false,
+      });
     }
 
     // Iterate all tests
@@ -72,13 +77,18 @@ module.exports = class Base {
    * @param  {Function} callback
    */
   custom(name, callback, message) {
-    this.test(`custom.${name}`, async (str) => {
-      try {
-        return await callback(str);
-      } catch (e) {
-        return false;
-      }
-    }, {}, message);
+    this.test(
+      `custom.${name}`,
+      async (str) => {
+        try {
+          return await callback(str);
+        } catch (e) {
+          return false;
+        }
+      },
+      {},
+      message
+    );
     return this;
   }
 
@@ -88,7 +98,11 @@ module.exports = class Base {
    * @return {boolean}
    */
   presence(toTest) {
-    if (toTest === null || typeof toTest === 'undefined' || toTest === undefined) {
+    if (
+      toTest === null ||
+      typeof toTest === 'undefined' ||
+      toTest === undefined
+    ) {
       return false;
     }
     if (typeof toTest === 'string' && toTest.length <= 0) {

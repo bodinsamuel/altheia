@@ -62,7 +62,7 @@ const Instance = (lang) => {
     return {
       label,
       type: name,
-      message: msg
+      message: msg,
     };
   };
 

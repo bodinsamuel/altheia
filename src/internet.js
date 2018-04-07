@@ -4,21 +4,29 @@ const Base = require('./base');
 const Luhn = require('./utils/luhn');
 
 // eslint-disable-next-line
-const hostname = new RegExp(/^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?$/);
-const uuidv4 = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);
-const ipv4 = new RegExp(/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/);
-const ipv6 = new RegExp(/^((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4}))*::((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4}))*|((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4})){7}$/);
+const hostname = new RegExp(
+  /^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?$/
+);
+const uuidv4 = new RegExp(
+  /^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$/i
+);
+const ipv4 = new RegExp(
+  /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/
+);
+const ipv6 = new RegExp(
+  /^((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4}))*::((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4}))*|((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4})){7}$/
+);
 
 module.exports.lang = {
-  'internet.typeof': name => `${name} must be a valid string`,
-  'internet.url': name => `${name} must be a valid url`,
-  'internet.hostname': name => `${name} must be a valid hostname`,
-  'internet.hex': name => `${name} must be a valid hex`,
-  'internet.creditCard': name => `${name} must be a valid Credit Card`,
-  'internet.uuidv4': name => `${name} must be a valid token`,
-  'internet.ip': name => `${name} must be a valid IP`,
-  'internet.ipv4': name => `${name} must be a valid IP v4`,
-  'internet.ipv6': name => `${name} must be a valid IP v6`
+  'internet.typeof': (name) => `${name} must be a valid string`,
+  'internet.url': (name) => `${name} must be a valid url`,
+  'internet.hostname': (name) => `${name} must be a valid hostname`,
+  'internet.hex': (name) => `${name} must be a valid hex`,
+  'internet.creditCard': (name) => `${name} must be a valid Credit Card`,
+  'internet.uuidv4': (name) => `${name} must be a valid token`,
+  'internet.ip': (name) => `${name} must be a valid IP`,
+  'internet.ipv4': (name) => `${name} must be a valid IP v4`,
+  'internet.ipv6': (name) => `${name} must be a valid IP v6`,
 };
 
 module.exports.Class = class internet extends Base {

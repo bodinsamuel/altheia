@@ -12,7 +12,7 @@ module.exports = class Validator {
     this._confirm = [];
     this._options = {
       required: false,
-      unknown: true
+      unknown: true,
     };
 
     this.schema(schema);
@@ -52,7 +52,9 @@ module.exports = class Validator {
 
   async validate(callback) {
     if (this._options.unknown === false) {
-      const only = await new ObjectValidator().in(Object.keys(this._schema)).validate(this._body);
+      const only = await new ObjectValidator()
+        .in(Object.keys(this._schema))
+        .validate(this._body);
       if (only) {
         return this.callback(callback, [this.formatError(only, 'schema')]);
       }
@@ -65,7 +67,8 @@ module.exports = class Validator {
     for (var i = 0; i < keys.length; i++) {
       const key = keys[i];
       const item = this._schema[key];
-      const value = typeof this._body[key] !== 'undefined' ? this._body[key] : null;
+      const value =
+        typeof this._body[key] !== 'undefined' ? this._body[key] : null;
       this._body[key] = value;
 
       // If not required pass
@@ -98,7 +101,9 @@ module.exports = class Validator {
         if (isEqual(initial, comparison)) {
           return;
         }
-        this._errors.push(this.formatError({ name: 'confirm', args: item }, item.comparison));
+        this._errors.push(
+          this.formatError({ name: 'confirm', args: item }, item.comparison)
+        );
       });
     }
 

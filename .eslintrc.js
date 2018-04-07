@@ -95,13 +95,6 @@ module.exports = {
         'yoda': 'error',
 
         /* error */
-        'comma-dangle': ['error', {
-            arrays: 'never',
-            objects: 'never',
-            imports: 'always-multiline',
-            exports: 'always-multiline',
-            functions: 'always-multiline',
-        }],
         'no-cond-assign': ['error', 'always'],
         'no-debugger': 'error',
         'no-dupe-args': 'error',
@@ -131,9 +124,6 @@ module.exports = {
         'valid-typeof': ['error', { requireStringLiterals: true }],
 
         /* es6 */
-        'arrow-parens': ['error', 'as-needed', {
-            requireForBlockBody: true,
-        }],
         'arrow-spacing': ['error', { before: true, after: true }],
         'constructor-super': 'error',
         'generator-star-spacing': ['error', { before: false, after: true }],

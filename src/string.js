@@ -1,15 +1,18 @@
 const Base = require('./base');
 
 module.exports.lang = {
-  'string.typeof': name => `${name} must be a valid string`,
-  'string.min': (name, args) => `${name} must be at least ${args.min} characters long`,
-  'string.max': (name, args) => `${name} must be at most ${args.max} characters long`,
-  'string.pattern': (name, args) => `${name} must match pattern "${args.regex}"`,
+  'string.typeof': (name) => `${name} must be a valid string`,
+  'string.min': (name, args) =>
+    `${name} must be at least ${args.min} characters long`,
+  'string.max': (name, args) =>
+    `${name} must be at most ${args.max} characters long`,
+  'string.pattern': (name, args) =>
+    `${name} must match pattern "${args.regex}"`,
   'string.in': (name, args) => `${name} must be one of [${args.obj}]`,
-  'string.not': name => `${name} contains forbidden value`,
-  'string.email': name => `${name} must be a valid email`,
-  'string.lowercase': name => `${name} must be lowercase only`,
-  'string.uppercase': name => `${name} must be uppercase only`
+  'string.not': (name) => `${name} contains forbidden value`,
+  'string.email': (name) => `${name} must be a valid email`,
+  'string.lowercase': (name) => `${name} must be lowercase only`,
+  'string.uppercase': (name) => `${name} must be uppercase only`,
 };
 
 module.exports.Class = class string extends Base {
@@ -26,41 +29,61 @@ module.exports.Class = class string extends Base {
   }
 
   min(min) {
-    this.test('min', (str) => {
-      return str.length >= min;
-    }, { min });
+    this.test(
+      'min',
+      (str) => {
+        return str.length >= min;
+      },
+      { min }
+    );
 
     return this;
   }
 
   max(max) {
-    this.test('max', (str) => {
-      return str.length <= max;
-    }, { max });
+    this.test(
+      'max',
+      (str) => {
+        return str.length <= max;
+      },
+      { max }
+    );
 
     return this;
   }
 
   pattern(regex) {
-    this.test('pattern', (str) => {
-      return str.match(regex) !== null;
-    }, { regex });
+    this.test(
+      'pattern',
+      (str) => {
+        return str.match(regex) !== null;
+      },
+      { regex }
+    );
 
     return this;
   }
 
   in(...obj) {
-    this.test('in', (str) => {
-      return obj.includes(str) === true;
-    }, { obj });
+    this.test(
+      'in',
+      (str) => {
+        return obj.includes(str) === true;
+      },
+      { obj }
+    );
 
     return this;
   }
 
   not(...obj) {
-    this.test('not', (str) => {
-      return obj.includes(str) === false;
-    }, { obj });
+    this.test(
+      'not',
+      (str) => {
+        return obj.includes(str) === false;
+      },
+      { obj }
+    );
 
     return this;
   }

@@ -16,7 +16,7 @@ describe('String', () => {
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.typeof',
-        message: 'value must be a valid array'
+        message: 'value must be a valid array',
       });
     });
     test('should not pass: boolean', async () => {
@@ -37,106 +37,134 @@ describe('String', () => {
 
   describe('min()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array().min(2).validate([1, 2, 3]);
+      const hasError = await Alt.array()
+        .min(2)
+        .validate([1, 2, 3]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array().min(2).validate([1]);
+      const hasError = await Alt.array()
+        .min(2)
+        .validate([1]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.min',
-        message: 'value must contains at least 2 items'
+        message: 'value must contains at least 2 items',
       });
     });
   });
 
   describe('max()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array().max(2).validate([1, 2]);
+      const hasError = await Alt.array()
+        .max(2)
+        .validate([1, 2]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array().max(2).validate([1, 2, 3, 4]);
+      const hasError = await Alt.array()
+        .max(2)
+        .validate([1, 2, 3, 4]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.max',
-        message: 'value must contains at most 2 items'
+        message: 'value must contains at most 2 items',
       });
     });
   });
 
   describe('in()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array().in(1, 2).validate([1, 2]);
+      const hasError = await Alt.array()
+        .in(1, 2)
+        .validate([1, 2]);
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.array().in([1, 2]).validate([1, 2]);
+      const hasError = await Alt.array()
+        .in([1, 2])
+        .validate([1, 2]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array().in(1, 2).validate([1, 2, 3]);
+      const hasError = await Alt.array()
+        .in(1, 2)
+        .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.in',
-        message: 'value must only contains these keys [1,2]'
+        message: 'value must only contains these keys [1,2]',
       });
     });
   });
 
   describe('not()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array().not(3).validate([1, 2, 4]);
+      const hasError = await Alt.array()
+        .not(3)
+        .validate([1, 2, 4]);
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.array().not(3, 5, 6).validate([1, 2, 4]);
+      const hasError = await Alt.array()
+        .not(3, 5, 6)
+        .validate([1, 2, 4]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array().not(3).validate([1, 2, 3]);
+      const hasError = await Alt.array()
+        .not(3)
+        .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.not',
-        message: 'value contains forbidden value'
+        message: 'value contains forbidden value',
       });
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array().not([1, 2, 3]).validate([1, 2, 3]);
+      const hasError = await Alt.array()
+        .not([1, 2, 3])
+        .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.not',
-        message: 'value contains forbidden value'
+        message: 'value contains forbidden value',
       });
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array().not(3, 4, 5).validate([1, 2, 3]);
+      const hasError = await Alt.array()
+        .not(3, 4, 5)
+        .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.not',
-        message: 'value contains forbidden value'
+        message: 'value contains forbidden value',
       });
     });
   });
 
   describe('not()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array().unique().validate([1, 2, 4]);
+      const hasError = await Alt.array()
+        .unique()
+        .validate([1, 2, 4]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array().unique().validate([1, 2, 2]);
+      const hasError = await Alt.array()
+        .unique()
+        .validate([1, 2, 2]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'array.unique',
-        message: 'value can not contains duplicated value'
+        message: 'value can not contains duplicated value',
       });
     });
   });

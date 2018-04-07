@@ -21,7 +21,6 @@ const timeoutError = (mark) => {
   };
 };
 
-
 describe('Base', () => {
   test('Should use with callback', async () => {
     let mark = false;
@@ -54,23 +53,33 @@ describe('Base', () => {
 
   describe('required()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string().required().validate('foobar');
+      const hasError = await Alt.string()
+        .required()
+        .validate('foobar');
       expect(hasError).toBe(false);
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.string().required().validate();
+      const hasError = await Alt.string()
+        .required()
+        .validate();
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {
-      const hasError = await Alt.string().required().validate(null);
+      const hasError = await Alt.string()
+        .required()
+        .validate(null);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: empty string', async () => {
-      const hasError = await Alt.string().required().validate('');
+      const hasError = await Alt.string()
+        .required()
+        .validate('');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.string().required().validate(undefined);
+      const hasError = await Alt.string()
+        .required()
+        .validate(undefined);
       expect(hasError).toBeTruthy();
     });
   });
@@ -78,14 +87,17 @@ describe('Base', () => {
   describe('if()', () => {
     test('should pass in then sync', async () => {
       let mark = false;
-      const hasError = await Alt.string().if({
-        test: chain => chain.email(),
-        then: chain => chain.custom('my_if', () => {
-          mark = true;
-          return true;
-        }),
-        otherwise: chain => chain.min(2)
-      }).validate('foo@bar');
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.email(),
+          then: (chain) =>
+            chain.custom('my_if', () => {
+              mark = true;
+              return true;
+            }),
+          otherwise: (chain) => chain.min(2),
+        })
+        .validate('foo@bar');
 
       expect(hasError).toBe(false);
       expect(mark).toBe(true);
@@ -93,22 +105,26 @@ describe('Base', () => {
 
     test('should pass in then async', async () => {
       const mark = { pass: false };
-      const hasError = await Alt.string().if({
-        test: chain => chain.email(),
-        then: chain => chain.custom('my_if', timeoutSuccess(mark)),
-        otherwise: chain => chain.min(2)
-      }).validate('foo@bar');
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.email(),
+          then: (chain) => chain.custom('my_if', timeoutSuccess(mark)),
+          otherwise: (chain) => chain.min(2),
+        })
+        .validate('foo@bar');
 
       expect(hasError).toBe(false);
       expect(mark.pass).toBe(true);
     });
 
     test('should fail in then sync', async () => {
-      const hasError = await Alt.string().if({
-        test: chain => chain.email(),
-        then: chain => chain.min(50),
-        otherwise: chain => chain.min(2)
-      }).validate('foo@bar');
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.email(),
+          then: (chain) => chain.min(50),
+          otherwise: (chain) => chain.min(2),
+        })
+        .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
       expect(hasError.name).toBe('string.min');
@@ -116,11 +132,13 @@ describe('Base', () => {
 
     test('should fail in then async', async () => {
       const mark = { pass: false };
-      const hasError = await Alt.string().if({
-        test: chain => chain.email(),
-        then: chain => chain.custom('my_if', timeoutError(mark)),
-        otherwise: chain => chain.min(2)
-      }).validate('foo@bar');
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.email(),
+          then: (chain) => chain.custom('my_if', timeoutError(mark)),
+          otherwise: (chain) => chain.min(2),
+        })
+        .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
       expect(hasError.name).toBe('string.custom.my_if');
@@ -129,36 +147,43 @@ describe('Base', () => {
 
     test('should pass in otherwise sync', async () => {
       let mark = false;
-      const hasError = await Alt.string().if({
-        test: chain => chain.uppercase(),
-        then: chain => chain.min(2),
-        otherwise: chain => chain.custom('my_if', () => {
-          mark = true;
-          return true;
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.uppercase(),
+          then: (chain) => chain.min(2),
+          otherwise: (chain) =>
+            chain.custom('my_if', () => {
+              mark = true;
+              return true;
+            }),
         })
-      }).validate('foo@bar');
+        .validate('foo@bar');
 
       expect(hasError).toBe(false);
       expect(mark).toBe(true);
     });
     test('should pass in otherwise async', async () => {
       const mark = { pass: false };
-      const hasError = await Alt.string().if({
-        test: chain => chain.uppercase(),
-        then: chain => chain.min(2),
-        otherwise: chain => chain.custom('my_if', timeoutSuccess(mark))
-      }).validate('foo@bar');
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.uppercase(),
+          then: (chain) => chain.min(2),
+          otherwise: (chain) => chain.custom('my_if', timeoutSuccess(mark)),
+        })
+        .validate('foo@bar');
 
       expect(hasError).toBe(false);
       expect(mark.pass).toBe(true);
     });
 
     test('should fail in otherwise sync', async () => {
-      const hasError = await Alt.string().if({
-        test: chain => chain.uppercase(),
-        then: chain => chain.min(2),
-        otherwise: chain => chain.max(3)
-      }).validate('foo@bar');
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.uppercase(),
+          then: (chain) => chain.min(2),
+          otherwise: (chain) => chain.max(3),
+        })
+        .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
       expect(hasError.name).toBe('string.max');
@@ -166,11 +191,13 @@ describe('Base', () => {
 
     test('should fail in otherwise async', async () => {
       const mark = { pass: false };
-      const hasError = await Alt.string().if({
-        test: chain => chain.uppercase(),
-        then: chain => chain.min(2),
-        otherwise: chain => chain.custom('my_if', timeoutError(mark))
-      }).validate('foo@bar');
+      const hasError = await Alt.string()
+        .if({
+          test: (chain) => chain.uppercase(),
+          then: (chain) => chain.min(2),
+          otherwise: (chain) => chain.custom('my_if', timeoutError(mark)),
+        })
+        .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
       expect(hasError.name).toBe('string.custom.my_if');

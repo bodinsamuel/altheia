@@ -23,18 +23,22 @@ describe('Index', () => {
       const alt1 = Alt.instance();
       expect(alt1.langList).toBeInstanceOf(Object);
       expect(alt1.langList['string.min']).toBeInstanceOf(Function);
-      expect(alt1.langList['string.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
+      expect(alt1.langList['string.min']('value', { min: 1 })).toBe(
+        'value must be at least 1 characters long'
+      );
     });
 
     test('should merge lang and keep original', () => {
       const alt1 = Alt.instance({
-        'string.min': () => 'foobar'
+        'string.min': () => 'foobar',
       });
       expect(alt1.langList).toBeInstanceOf(Object);
       expect(alt1.langList['string.min']).toBeInstanceOf(Function);
       expect(alt1.langList['string.min']()).toBe('foobar');
 
-      expect(Alt.langList['string.min']('value', { min: 1 })).toBe('value must be at least 1 characters long');
+      expect(Alt.langList['string.min']('value', { min: 1 })).toBe(
+        'value must be at least 1 characters long'
+      );
     });
   });
 
@@ -55,7 +59,7 @@ describe('Index', () => {
       const alt1 = Alt.instance();
       alt1.use({
         lang: {
-          'mycustom.myrule': () => 'not good'
+          'mycustom.myrule': () => 'not good',
         },
         Class: class mycustom extends Alt.Base {
           myrule() {
@@ -64,7 +68,7 @@ describe('Index', () => {
             });
             return this;
           }
-        }
+        },
       });
 
       expect(alt1).toHaveProperty('mycustom');
@@ -80,7 +84,12 @@ describe('Index', () => {
     test('should add a template in the instance', () => {
       const alt1 = Alt.instance();
       const alt2 = Alt.instance();
-      alt1.template('login', Alt.string().min(6).max(10));
+      alt1.template(
+        'login',
+        Alt.string()
+          .min(6)
+          .max(10)
+      );
 
       expect(alt1).toHaveProperty('templates');
       expect(alt1.templates).toHaveProperty('login');
@@ -91,7 +100,12 @@ describe('Index', () => {
 
     test('should get template back', () => {
       const alt1 = Alt.instance();
-      alt1.template('login', Alt.string().min(6).max(10));
+      alt1.template(
+        'login',
+        Alt.string()
+          .min(6)
+          .max(10)
+      );
 
       const back = alt1.is('login');
 
@@ -100,7 +114,12 @@ describe('Index', () => {
 
     test('should get template back and not modify template', () => {
       const alt1 = Alt.instance();
-      alt1.template('login', Alt.string().min(6).max(10));
+      alt1.template(
+        'login',
+        Alt.string()
+          .min(6)
+          .max(10)
+      );
 
       const back = alt1.is('login').lowercase();
       expect(back).toBeInstanceOf(StringValidator);

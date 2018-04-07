@@ -14,7 +14,19 @@
     "lint": "eslint src/ test/",
     "test": "jest test/",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build": "webpack"
+    "build": "webpack",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint"
+    ]
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "arrowParens": "always"
   },
   "author": "Samuel Bodin <bodin.samuel@gmail.com>",
   "license": "MIT",
@@ -39,7 +51,10 @@
     "coveralls": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-plugin-jest": "^21.15.0",
+    "husky": "0.14.3",
     "jest": "^22.4.3",
+    "lint-staged": "7.0.4",
+    "prettier": "1.11.1",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^3.11.0"
   }

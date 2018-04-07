@@ -2,12 +2,15 @@ const Base = require('./base');
 const arrayDiff = require('./utils/arraydiff');
 
 module.exports.lang = {
-  'array.typeof': name => `${name} must be a valid array`,
-  'array.min': (name, args) => `${name} must contains at least ${args.min} items`,
-  'array.max': (name, args) => `${name} must contains at most ${args.max} items`,
-  'array.in': (name, args) => `${name} must only contains these keys [${args.in}]`,
-  'array.not': name => `${name} contains forbidden value`,
-  'array.unique': name => `${name} can not contains duplicated value`
+  'array.typeof': (name) => `${name} must be a valid array`,
+  'array.min': (name, args) =>
+    `${name} must contains at least ${args.min} items`,
+  'array.max': (name, args) =>
+    `${name} must contains at most ${args.max} items`,
+  'array.in': (name, args) =>
+    `${name} must only contains these keys [${args.in}]`,
+  'array.not': (name) => `${name} contains forbidden value`,
+  'array.unique': (name) => `${name} can not contains duplicated value`,
 };
 
 module.exports.Class = class array extends Base {
@@ -24,17 +27,25 @@ module.exports.Class = class array extends Base {
   }
 
   min(min) {
-    this.test('min', (str) => {
-      return str.length >= min;
-    }, { min });
+    this.test(
+      'min',
+      (str) => {
+        return str.length >= min;
+      },
+      { min }
+    );
 
     return this;
   }
 
   max(max) {
-    this.test('max', (str) => {
-      return str.length <= max;
-    }, { max });
+    this.test(
+      'max',
+      (str) => {
+        return str.length <= max;
+      },
+      { max }
+    );
 
     return this;
   }
@@ -46,9 +57,13 @@ module.exports.Class = class array extends Base {
       only = array[0];
     }
 
-    this.test('in', (str) => {
-      return arrayDiff(str, only).length === 0;
-    }, { in: only });
+    this.test(
+      'in',
+      (str) => {
+        return arrayDiff(str, only).length === 0;
+      },
+      { in: only }
+    );
 
     return this;
   }
@@ -60,9 +75,13 @@ module.exports.Class = class array extends Base {
       only = array[0];
     }
 
-    this.test('not', (str) => {
-      return arrayDiff(only, str).length === only.length;
-    }, { not: only });
+    this.test(
+      'not',
+      (str) => {
+        return arrayDiff(only, str).length === only.length;
+      },
+      { not: only }
+    );
 
     return this;
   }
