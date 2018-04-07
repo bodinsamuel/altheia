@@ -21,9 +21,10 @@ $ npm install altheia
 
 # Example
 ```javascript
-const Alt = require('Alt');
+const Alt = require('altheia');
+// or: import Alt from 'altheia'
 
-Instance.lang('string.min', (name, args) => `This ${name} quiet short my friend`});
+Alt.lang('string.min', (name, args) => `This ${name} is too short I think`});
 
 const hasError = await Alt({
     login: Alt.string().min(3).not('admin').required(),
