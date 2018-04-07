@@ -33,14 +33,14 @@
     "lint"
   ],
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.5"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
-    "eslint": "^4.16.0",
-    "eslint-plugin-jest": "^21.7.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-jest": "^21.15.0",
     "jest": "^22.4.3",
-    "uglifyjs-webpack-plugin": "^1.1.8",
-    "webpack": "^3.10.0"
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^3.11.0"
   }
 }
