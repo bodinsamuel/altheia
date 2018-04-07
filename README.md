@@ -15,14 +15,14 @@ It aim to be used in models Validation (i.e: for API)
 
 # Install
 ```bash
-$ npm install altheia
+$ npm install altheia-async-data-validator
 ```
 
 
 # Example
 ```javascript
-const Alt = require('altheia');
-// or: import Alt from 'altheia'
+const Alt = require('altheia-async-data-validator');
+// or: import Alt from 'altheia-async-data-validator'
 
 Alt.lang('string.min', (name, args) => `This ${name} is too short I think`});
 

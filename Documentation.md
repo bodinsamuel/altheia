@@ -69,7 +69,7 @@ For example, you can have a master file that import Altheia and declare all your
 
 ```javascript
 /*** --- myaltheia.js **/
-const Alt = require('altheia');
+const Alt = require('altheia-async-data-validator');
 const alt = Alt.instance();
 
 alt.template('login', Alt.string().lowercase());
@@ -395,7 +395,7 @@ Alt.object().unique();
 ### Internet
 Internet plugins is not loaded by default.
 ```javascript
-const InternetValidator = require('altheia/src/internet');
+const InternetValidator = require('altheia-async-data-validator/src/internet');
 Alt.use(InternetValidator);
 ```
 
