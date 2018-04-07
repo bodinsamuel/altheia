@@ -1,6 +1,6 @@
 {
   "name": "altheia-async-data-validator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A very simple, fast and customizable async data validator",
   "main": "src/index.js",
   "keywords": [
