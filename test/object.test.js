@@ -99,6 +99,56 @@ describe('Object', () => {
     });
   });
 
+  describe('schema', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.object()
+        .schema({
+          schema: Alt({
+              foo: Alt.string(),
+            }).options({ required: true })
+        }).validate({ foo: 'bar' });
+      expect(hasError).toBe(false);
+    });
+    test('should fail', async () => {
+      const hasError = await Alt.object()
+        .schema({
+          schema: Alt({
+              foo: Alt.number(),
+            }).options({ required: true })
+        }).validate({ foo: 'bar' });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.schema',
+        message: 'value has not a valid schema'
+      });
+    });
+    test('should fail deep', async () => {
+      const hasError = await Alt({
+        data: Alt.object()
+          .schema({
+            schema: Alt({
+              foo: Alt.number(),
+            }).options({ required: true }),
+            returnErrors: true,
+          })
+      }).body({ data: { foo: 'bar' } }).validate();
+      expect(hasError).toBeTruthy();
+      expect(hasError).toEqual([{
+        label: 'data',
+        type: 'object.schema',
+        message: 'data has not a valid schema',
+        errors: [
+          {
+            label: 'foo',
+            message: 'foo must be a valid number',
+            type: 'number.typeof',
+          },
+        ]
+      }]);
+    });
+  })
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.object().required().validate({});

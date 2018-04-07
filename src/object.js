@@ -6,7 +6,8 @@ const Base = require('./base');
 module.exports.lang = {
   'object.typeof': name => `${name} must be a valid object`,
   'object.in': (name, args) => `${name} must only contains these keys [${args.in}]`,
-  'object.not': name => `${name} contains forbidden value`
+  'object.not': name => `${name} contains forbidden value`,
+  'object.schema': name => `${name} has not a valid schema`,
 };
 
 module.exports.Class = class object extends Base {
@@ -47,6 +48,18 @@ module.exports.Class = class object extends Base {
       const diff = arrayDiff(only, Object.keys(str));
       return diff.length === only.length;
     }, { not: only });
+    return this;
+  }
+
+  schema({ schema, returnErrors = false }) {
+    if (schema.constructor.name !== 'Validator') {
+      throw new Error(`argument should be an instance if altheia validator "Alt({ ... })"`);
+    }
+
+    this.test('schema', async (obj) => {
+      const hasError = await schema.body(obj).validate();
+      return hasError === false;
+    }, { schema, returnErrors });
     return this;
   }
 };

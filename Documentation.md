@@ -290,6 +290,19 @@ Force an object to not have the keys passed in the set
 Alt.object().not('foo', 'bar');
 ```
 
+#### `schema({ schema :Validator, returnErrors :bool })`
+Check an object with the passed schema. It will help you check nested object without effort. Because schema need to be instance Altheia, you can do whatever you want without restriction. `returnErrors` to `true` will return errors with the main payload if any.
+```javascript
+Alt.object().schema({
+    schema: Alt({
+            foo: Alt.string(),
+            bar: Alt.number(),
+        }).options({ required: true }),
+    returnErrors: true,
+});
+```
+
+
 ### Date
 #### `iso()`
 Force a date to be a valid ISO-8601.

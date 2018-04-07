@@ -73,12 +73,20 @@ module.exports = class Validator {
         item.required();
       }
 
+      // validate the item
       const hasError = await item.validate(value);
       if (!hasError) {
         continue;
       }
 
-      errors.push(this.formatError(hasError, key));
+      const formatted = this.formatError(hasError, key);
+      // If a test has a Validator instance attached
+      // we return it's errors nested with the main error
+      if (hasError.args && hasError.args.schema && hasError.args.returnErrors) {
+        formatted.errors = hasError.args.schema._errors;
+      }
+
+      errors.push(formatted);
     }
     this._errors = errors;
 

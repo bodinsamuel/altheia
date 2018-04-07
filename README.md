@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/bodinsamuel/altheia.svg?branch=master)](https://travis-ci.org/bodinsamuel/altheia) [![Coverage Status](https://coveralls.io/repos/github/bodinsamuel/altheia/badge.svg?branch=master)](https://coveralls.io/github/bodinsamuel/altheia?branch=master)
 
 
-A very simple async data validator.
+A very simple async data validator, very fast and customizable, inspired by Joi .
 
 ```javascript
 await Alt.string().email().custom('not_in_db', (val) => searchDB(val))
@@ -22,6 +22,8 @@ $ npm install altheia
 # Example
 ```javascript
 const Alt = require('Alt');
+
+Instance.lang('string.min', (name, args) => `This ${name} quiet short my friend`});
 
 const hasError = await Alt({
     login: Alt.string().min(3).not('admin').required(),
@@ -44,3 +46,7 @@ console.log(hasError); // false
 
 # Documentation
 You can find the [documentation here](../master/Documentation.md)
+
+
+# Contributing
+Every contribution or request will be gladly accepted in this issues section.
