@@ -18,6 +18,7 @@ module.exports.lang = {
 module.exports.Class = class date extends Base {
   constructor() {
     super();
+    this.name = 'date';
     this.typeof();
   }
 

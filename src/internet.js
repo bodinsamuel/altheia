@@ -30,6 +30,7 @@ module.exports.lang = {
 module.exports.Class = class internet extends Base {
   constructor() {
     super();
+    this.name = 'internet';
     this.typeof();
   }
 

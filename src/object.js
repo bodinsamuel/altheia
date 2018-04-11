@@ -14,6 +14,7 @@ module.exports.lang = {
 module.exports.Class = class object extends Base {
   constructor() {
     super();
+    this.name = 'object';
     this.typeof();
   }
 

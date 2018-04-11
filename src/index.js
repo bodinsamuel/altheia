@@ -23,7 +23,7 @@ const Instance = (lang) => {
 
   inst.use = (Plugin) => {
     const test = new Plugin.Class();
-    inst[test.constructor.name] = () => {
+    inst[test.name || test.constructor.name] = () => {
       return new Plugin.Class();
     };
     inst.lang(Plugin.lang);
