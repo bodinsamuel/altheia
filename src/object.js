@@ -62,9 +62,9 @@ module.exports.Class = class object extends Base {
   }
 
   schema({ schema, returnErrors = false }) {
-    if (schema.constructor.name !== 'Validator') {
+    if (typeof schema.isValidator === 'undefined') {
       throw new Error(
-        'argument should be an instance if altheia validator "Alt({ ... })"'
+        'argument should be an instance of altheia validator "Alt({ ... })"'
       );
     }
 

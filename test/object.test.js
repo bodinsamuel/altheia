@@ -151,6 +151,13 @@ describe('Object', () => {
         message: 'value has not a valid schema',
       });
     });
+    test('should fail not valid schema', async () => {
+      expect(() => {
+        Alt.object().schema({
+          schema: {},
+        });
+      }).toThrow();
+    });
     test('should fail deep', async () => {
       const hasError = await Alt({
         data: Alt.object().schema({

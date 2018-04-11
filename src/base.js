@@ -15,7 +15,7 @@ module.exports = class Base {
 
   test(name, func, args = {}) {
     this.tests.push({
-      name: `${this.constructor.name}.${name}`,
+      name: `${this.name}.${name}`,
       func,
       args,
       isValid: true,

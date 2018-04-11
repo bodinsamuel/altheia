@@ -6,6 +6,7 @@ const ObjectValidator = require('./object').Class;
 module.exports = class Validator {
   constructor(schema, inst) {
     this.inst = inst;
+    this.isValidator = 1;
     this._schema = {};
     this._body = {};
     this._errors = [];
