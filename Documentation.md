@@ -49,12 +49,12 @@ const hasError = await Alt({
 You can easily override languages string by creating a new instance with an object that will be merge with default and/or calling `lang()` to add a new entry on the fly.
 Entries are required to be a method that accept two parameters:
 
-    - `name`: contain the name of the value 
+    - `name`: contain the name of the value
     - `args`: the arguments passed to the validator (if any)
 
 
 ```javascript
-const Instance = Alt.instance({ 
+const Instance = Alt.instance({
     'string.min': (name, args) => `This ${name} is not long enough`
 });
 ```
@@ -215,8 +215,8 @@ Alt.string().if({
 //    if (test.isUppercase)
 //      test.isMin(10) && test.IsMax(50)
 //    else
-//      test.isEmail 
-// 
+//      test.isEmail
+//
 ```
 
 #### `validate(:mixed[, :func])`
