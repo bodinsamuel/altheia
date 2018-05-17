@@ -73,7 +73,7 @@ module.exports = class Validator {
       this._body[key] = value;
 
       // If not required pass
-      if (value === null && this._options.required === true) {
+      if (this._options.required === true) {
         item.required();
       }
 

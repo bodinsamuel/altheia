@@ -122,12 +122,46 @@ describe('Validator', () => {
         expect(hasError).toBe(false);
       });
 
-      test('should fail with empty', async () => {
+      test('should fail with empty object', async () => {
         const hasError = await Alt({
           name: Alt.string(),
           login: Alt.string(),
         })
           .body({})
+          .options({
+            required: true,
+          })
+          .validate();
+
+        expect(hasError).toBeTruthy();
+      });
+
+      test('should fail with empty string', async () => {
+        const hasError = await Alt({
+          name: Alt.string(),
+          login: Alt.string(),
+        })
+          .body({
+            name: '',
+            login: '',
+          })
+          .options({
+            required: true,
+          })
+          .validate();
+
+        expect(hasError).toBeTruthy();
+      });
+
+      test('should fail with empty primitive', async () => {
+        const hasError = await Alt({
+          name: Alt.string(),
+          login: Alt.string(),
+        })
+          .body({
+            name: null,
+            login: false,
+          })
           .options({
             required: true,
           })
