@@ -33,6 +33,35 @@ describe('Number', () => {
       const hasError = await Alt.number().validate({});
       expect(hasError).toBeTruthy();
     });
+    test('should not pass: NaN', async () => {
+      const hasError = await Alt.number().validate(NaN);
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: infinity', async () => {
+      const hasError = await Alt.number().validate(Infinity);
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('cast()', () => {
+    test('should pass: string', async () => {
+      const hasError = await Alt.number()
+        .cast()
+        .validate('1');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: string', async () => {
+      const hasError = await Alt.number()
+        .cast()
+        .validate('foobar');
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: obj', async () => {
+      const hasError = await Alt.number()
+        .cast()
+        .validate({});
+      expect(hasError).toBeTruthy();
+    });
   });
 
   describe('min()', () => {

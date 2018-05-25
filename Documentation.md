@@ -327,6 +327,12 @@ Alt.date().max(new Date('2017-08-01'));
 ```
 
 ### Number
+#### `cast()`
+> Try to cast value to a number
+```javascript
+Alt.number().cast().validate('1');
+```
+
 #### `min(:int)`
 > Force a number to be equal or more to the value passed.
 ```javascript

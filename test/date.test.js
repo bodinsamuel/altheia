@@ -7,6 +7,10 @@ describe('Date', () => {
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
+      const hasError = await Alt.date().validate(new Date('2017-05-15'));
+      expect(hasError).toBe(false);
+    });
+    test('should pass', async () => {
       const hasError = await Alt.date().validate('2017-05-15T08:30:00');
       expect(hasError).toBe(false);
     });

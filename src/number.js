@@ -20,9 +20,16 @@ module.exports.Class = class number extends Base {
     this.typeof();
   }
 
+  _cast(value) {
+    if (typeof value === 'string') {
+      return parseFloat(value);
+    }
+    return value;
+  }
+
   typeof() {
     this.test('typeof', (str) => {
-      return typeof str === 'number';
+      return typeof str === 'number' && !isNaN(str) && isFinite(str);
     });
     return this;
   }

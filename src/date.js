@@ -22,6 +22,10 @@ module.exports.Class = class date extends Base {
     this.typeof();
   }
 
+  _cast(value) {
+    return Date.parse(value);
+  }
+
   typeof() {
     this.test('typeof', (str) => {
       return !isNaN(Date.parse(str));

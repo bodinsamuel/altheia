@@ -1,6 +1,7 @@
 module.exports = class Base {
   constructor() {
     this._required = false;
+    this._need_cast = false;
     this.tests = [];
   }
 
@@ -36,12 +37,17 @@ module.exports = class Base {
       if (this._required === false) {
         return this.callback(callback, false);
       }
+
       return this.callback(callback, {
         name: 'required',
         func: null,
         args: null,
         isValid: false,
       });
+    }
+
+    if (this._need_cast) {
+      toTest = await this._cast(toTest);
     }
 
     // Iterate all tests
@@ -65,10 +71,18 @@ module.exports = class Base {
   }
 
   /**
-   * Pass this object to required
+   * Force the value to be non-null
    */
   required() {
     this._required = true;
+    return this;
+  }
+
+  /**
+   * Force the value to be casted before any check
+   */
+  cast() {
+    this._need_cast = true;
     return this;
   }
 
