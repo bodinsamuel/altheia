@@ -44,6 +44,15 @@ describe('Validator', () => {
     expect(result).toBeTruthy();
   });
 
+  test('Should validate with cast and not modify primitive', async () => {
+    const data = { foo: '1' };
+    const result = await Alt({ foo: Alt.number().cast() })
+      .body(data)
+      .validate();
+    expect(result).toBe(false);
+    expect(data).toEqual({ foo: '1' });
+  });
+
   test('Should validate with error non i18n', async () => {
     const hasError = await Alt({ foo: Alt.string().custom('my', () => false) })
       .body({ foo: '1' })
