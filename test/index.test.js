@@ -1,5 +1,4 @@
 const Alt = require('./../src');
-const AltInternet = require('./../src/internet');
 const StringValidator = require('./../src/string').Class;
 
 describe('Index', () => {
@@ -43,18 +42,6 @@ describe('Index', () => {
   });
 
   describe('use()', () => {
-    test('should create a new instance with plugin', () => {
-      const alt1 = Alt.instance();
-      alt1.use(AltInternet);
-
-      expect(alt1).toHaveProperty('internet');
-      expect(Alt).not.toHaveProperty('internet');
-
-      // new instance should start clean
-      const alt2 = alt1.instance();
-      expect(alt2).not.toHaveProperty('internet');
-    });
-
     test('should create a new instance with custom plugin', () => {
       const alt1 = Alt.instance();
       alt1.use({

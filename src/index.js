@@ -3,11 +3,13 @@ const isPlainObject = require('lodash/isPlainObject');
 const LangBase = require('./lang');
 const Validator = require('./validator');
 const BaseValidator = require('./base');
+
 const StringValidator = require('./string');
 const ObjectValidator = require('./object');
 const NumberValidator = require('./number');
 const DateValidator = require('./date');
 const ArrayValidator = require('./array');
+const InternetValidator = require('./internet');
 
 const Instance = (lang) => {
   const inst = (schema) => {
@@ -72,6 +74,7 @@ const Instance = (lang) => {
   inst.use(DateValidator);
   inst.use(ObjectValidator);
   inst.use(ArrayValidator);
+  inst.use(InternetValidator);
 
   // Add passed lang object
   if (lang && isPlainObject(lang)) {
