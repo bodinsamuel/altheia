@@ -5,7 +5,7 @@
 A very simple, fast and customizable async data validator, inspired by Joi .
 
 ```javascript
-await Alt.string().email().custom('not_in_db', (val) => searchDB(val))
+await Alt.string().email().custom('not_in_db', async (val) => await searchDB(val))
 ```
 
 # Introduction
@@ -36,7 +36,7 @@ Alt.template('login', Alt.string().min(3).not('admin'));
 
 const hasError = await Alt({
     login: Alt.is('login').required(),
-    email: Alt.string().email().custom('not_in_db', (val) => searchDB(val)),
+    email: Alt.string().email().custom('not_in_db', async (val) => await searchDB(val)),
     eyes: Alt.number().integer().positive().max(2),
     date: Alt.date().iso(),
     gender: Alt.string().if({
@@ -59,8 +59,8 @@ console.log(hasError); // false
 ```
 
 
-# Documentation
-You can find the [documentation here](../master/Documentation.md)
+# Documentation + Api
+You can find the full [documentation here](../master/Documentation.md)
 
 
 # Contributing

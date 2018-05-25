@@ -114,11 +114,15 @@ We got you covered with `custom()` validation.
 
 ```javascript
 Alt.string().custom('wait', (test) => {
-    return new Promise((resolve) => {
-        // simulate a very long database call, because we can
-        setTimeout(resolve, 1000);
-    });
-})
+  return new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  });
+});
+
+// **** with async await
+// Alt.string().custom('wait', async (test) => {
+//   return await longTask();
+// })
 ```
 
 
