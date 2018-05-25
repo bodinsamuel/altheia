@@ -359,6 +359,17 @@ Alt.number().positive();
 Alt.number().negative();
 ```
 
+#### `in(value [,value...])`
+> Force a number to be equal to one of the value passed in the set.
+```javascript
+Alt.number().in(1, 35);
+```
+
+#### `not(value [,value...])`
+> Force a number to be different to all of the value passed in the set.
+```javascript
+Alt.number().not(42, 157);
+```
 
 ### Array
 #### `min(:int)`

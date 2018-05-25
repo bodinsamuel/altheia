@@ -9,6 +9,8 @@ module.exports.lang = {
   'number.unsigned': (name) => `${name} must be an unsigned number`,
   'number.positive': (name) => `${name} must be a positive number`,
   'number.negative': (name) => `${name} must be a negative number`,
+  'number.in': (name, args) => `${name} must be one of [${args.obj}]`,
+  'number.not': (name) => `${name} contains forbidden value`,
 };
 
 module.exports.Class = class number extends Base {
@@ -72,6 +74,30 @@ module.exports.Class = class number extends Base {
     this.test('negative', (str) => {
       return str < 0;
     });
+    return this;
+  }
+
+  in(...obj) {
+    this.test(
+      'in',
+      (str) => {
+        return obj.includes(str) === true;
+      },
+      { obj }
+    );
+
+    return this;
+  }
+
+  not(...obj) {
+    this.test(
+      'not',
+      (str) => {
+        return obj.includes(str) === false;
+      },
+      { obj }
+    );
+
     return this;
   }
 };

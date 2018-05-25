@@ -167,6 +167,46 @@ describe('Number', () => {
     });
   });
 
+  describe('in()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.number()
+        .in(1)
+        .validate(1);
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.number()
+        .in(1, 2)
+        .validate(3);
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.in',
+        message: 'value must be one of [1,2]',
+      });
+    });
+  });
+
+  describe('not()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.number()
+        .not(1)
+        .validate(2);
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.number()
+        .not(1)
+        .validate(1);
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'number.not',
+        message: 'value contains forbidden value',
+      });
+    });
+  });
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.number()
