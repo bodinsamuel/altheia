@@ -414,11 +414,7 @@ Alt.object().unique();
 
 
 ### Internet
-> Internet plugins is not loaded by default.
-```javascript
-const InternetValidator = require('altheia-async-data-validator/src/internet');
-Alt.use(InternetValidator);
-```
+> Internet plugins is loaded by default since v2.0.0
 
 #### `url()`
 > Force a string to be a valid url (RFC)
