@@ -29,6 +29,21 @@ describe('String', () => {
       const hasError = await Alt.string().validate({});
       expect(hasError).toBeTruthy();
     });
+    test('should pass: empty string', async () => {
+      const hasError = await Alt.string().validate('');
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: empty string with flag', async () => {
+      const hasError = await Alt.string()
+        .noEmpty()
+        .validate('');
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'string.empty',
+        message: 'value can not be empty',
+      });
+    });
   });
 
   describe('min()', () => {

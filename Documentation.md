@@ -192,7 +192,7 @@ Alt.use({
 These methods are applying to all the types.
 
 #### `required()`
-> Force an input to be present and defined
+> Force an input to be not `null` / `undefined`
 ```javascript
 Alt.string().required()
 ```
@@ -233,6 +233,14 @@ const hasError = await Api.string().validate(1);
 //=> :object if not
 ```
 ### String
+#### `noEmpty()`
+> Force a string to be not empty, wether required or not
+> Altheia does make a difference between null/undefined and empty string
+> could be achieved with `.min(1)` but trigger a more comprehensive message
+```javascript
+Alt.string().noEmpty();
+```
+
 #### `min(:int)`
 > Force a string to be equal or more to the value passed.
 ```javascript

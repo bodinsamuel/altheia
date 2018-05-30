@@ -2,6 +2,7 @@ const Base = require('./base');
 
 module.exports.lang = {
   'string.typeof': (name) => `${name} must be a valid string`,
+  'string.empty': (name) => `${name} can not be empty`,
   'string.min': (name, args) =>
     `${name} must be at least ${args.min} characters long`,
   'string.max': (name, args) =>
@@ -19,12 +20,21 @@ module.exports.Class = class string extends Base {
   constructor() {
     super();
     this.name = 'string';
+    this._no_empty = false;
     this.typeof();
   }
 
   typeof() {
     this.test('typeof', (str) => {
       return typeof str === 'string';
+    });
+    return this;
+  }
+
+  noEmpty() {
+    this._no_empty = true;
+    this.test('empty', (str) => {
+      return str.length > 0;
     });
     return this;
   }

@@ -162,6 +162,23 @@ describe('Validator', () => {
         expect(hasError).toBeTruthy();
       });
 
+      test('should fail with empty string with flag but not required', async () => {
+        const hasError = await Alt({
+          name: Alt.string().noEmpty(),
+          login: Alt.string().noEmpty(),
+        })
+          .body({
+            name: '',
+            login: '',
+          })
+          .options({
+            required: false,
+          })
+          .validate();
+
+        expect(hasError).toBeTruthy();
+      });
+
       test('should fail with empty primitive', async () => {
         const hasError = await Alt({
           name: Alt.string(),

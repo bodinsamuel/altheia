@@ -119,7 +119,15 @@ module.exports = class Base {
     ) {
       return false;
     }
+
     if (typeof toTest === 'string' && toTest.length <= 0) {
+      // If the flag is passed to true
+      // we consider the string valid and can be deeply tested,
+      // this will trigger the noEmpty() test
+      if (this._no_empty) {
+        return true;
+      }
+
       return false;
     }
 
