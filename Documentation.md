@@ -98,7 +98,6 @@ alt.use({
     }
 });
 ```
-__Plugins available__: internet
 
 
 ### Customization
@@ -119,6 +118,7 @@ Alt.string().custom('wait', (test) => {
 // })
 ```
 
+----
 
 # Methods
 ## Main Api
@@ -181,6 +181,8 @@ Alt.use({
 });
 ```
 
+----
+
 ## Types
 ### Global
 These methods are applying to all the types.
@@ -226,6 +228,9 @@ const hasError = await Api.string().validate(1);
 //=> :false if no error
 //=> :object if not
 ```
+
+----
+
 ### String
 #### `noEmpty()`
 > Force a string to be not empty, wether required or not
@@ -283,6 +288,8 @@ Alt.string().lowercase();
 Alt.string().uppercase();
 ```
 
+----
+
 ### Object
 #### `in(value [,value...])`
 > Force an object to have only the keys passed in the set
@@ -308,6 +315,7 @@ Alt.object().schema({
 });
 ```
 
+----
 
 ### Date
 #### `iso()`
@@ -327,6 +335,8 @@ Alt.date().min(new Date('2017-08-01'));
 ```javascript
 Alt.date().max(new Date('2017-08-01'));
 ```
+
+----
 
 ### Number
 #### `cast()`
@@ -383,6 +393,8 @@ Alt.number().in(1, 35);
 Alt.number().not(42, 157);
 ```
 
+----
+
 ### Array
 #### `min(:int)`
 > Force an array to contains at least a number of items equal to the value passed.
@@ -414,6 +426,8 @@ Alt.object().not('foo', 'bar');
 Alt.object().unique();
 ```
 
+----
+
 ### Boolean
 > Boolean plugins is here since v2.0.0
 
@@ -438,6 +452,7 @@ Alt.boolean().true();
 Alt.boolean().false();
 ```
 
+----
 
 ### Internet
 > Internet plugins is loaded by default since v2.0.0
