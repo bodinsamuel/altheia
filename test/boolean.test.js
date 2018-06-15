@@ -93,6 +93,11 @@ describe('Boolean', () => {
         .false()
         .validate(true);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'boolean.false',
+        message: 'value must be false',
+      });
     });
   });
 
@@ -108,6 +113,11 @@ describe('Boolean', () => {
         .true()
         .validate(false);
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'boolean.true',
+        message: 'value must be true',
+      });
     });
   });
 });
