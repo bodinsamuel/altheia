@@ -1,15 +1,9 @@
 # Documentation
 - [Core Concepts](#coreconcepts)
 - [Methods](#methods)
-    + [Main Api](#mainapi)
-    + [Types](#types)
-        * [Global](#global)
-        * [String](#string)
-        * [Object](#object)
-        * [Date](#date)
-        * [Number](#number)
-        * [Array](#array)
-        * [Internet](#internet)
+- [Main Api](#mainapi)
+- [Types](#types)
+    + [Global](#global), [String](#string) , [Object](#object), [Date](#date), [Number](#number), [Array](#array), [Boolean](#boolean), [Internet](#internet)
 
 ## Core Concepts
 ### Instance
@@ -418,6 +412,30 @@ Alt.object().not('foo', 'bar');
 > Force an array to only have each item once
 ```javascript
 Alt.object().unique();
+```
+
+### Boolean
+> Boolean plugins is here since v2.0.0
+
+#### `cast()`
+> Try to cast value to a boolean
+```javascript
+Alt.boolean().cast().validate('true');
+Alt.boolean().cast().validate('True');
+Alt.boolean().cast().validate('false');
+Alt.boolean().cast().validate('False');
+```
+
+#### `true()`
+> Force a boolean to equal `true`
+```javascript
+Alt.boolean().true();
+```
+
+#### `false()`
+> Force a boolean to equal `false`
+```javascript
+Alt.boolean().false();
 ```
 
 

@@ -9,6 +9,7 @@ const ObjectValidator = require('./object');
 const NumberValidator = require('./number');
 const DateValidator = require('./date');
 const ArrayValidator = require('./array');
+const BooleanValidator = require('./boolean');
 const InternetValidator = require('./internet');
 
 const Instance = (lang) => {
@@ -74,6 +75,7 @@ const Instance = (lang) => {
   inst.use(DateValidator);
   inst.use(ObjectValidator);
   inst.use(ArrayValidator);
+  inst.use(BooleanValidator);
   inst.use(InternetValidator);
 
   // Add passed lang object
