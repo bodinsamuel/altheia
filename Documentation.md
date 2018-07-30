@@ -504,3 +504,15 @@ Alt.internet().ipv4();
 ```javascript
 Alt.internet().ipv6();
 ```
+
+
+----
+
+### Function
+> Internet plugins is loaded by default since v3.0.0
+
+There is no method right now, it will only check the type.
+
+```javascript
+Alt.function();
+```

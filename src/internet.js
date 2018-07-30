@@ -1,5 +1,6 @@
 const Base = require('./base');
 const Luhn = require('./utils/luhn');
+const { URL } = require('url');
 
 // eslint-disable-next-line
 const hostname = new RegExp(
