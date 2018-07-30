@@ -135,9 +135,6 @@ module.exports.Class = class object extends Base {
         }
 
         return true;
-        // return (!obj[keyA] && !obj[keyB] && oneIsRequired === false)
-        //   || typeof obj[keyA] !== 'undefined' && !obj[keyB]
-        //   || !obj[keyA] && typeof obj[keyB] !== 'undefined';
       },
       { oneIsRequired, keys }
     );

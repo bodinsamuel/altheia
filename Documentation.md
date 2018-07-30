@@ -316,6 +316,19 @@ Alt.object().schema(
 );
 ```
 
+#### `oneOf(isOneRequired :boolean, ...keys :string)`
+> Force any keys, to be the only one present in the object (exclusive relationships)
+`oneIsRequired` is false by default
+```javascript
+// 'a', 'b', 'c', 'd'
+// - none of them are required
+Alt.object().oneOf('a', 'b', 'c', 'd')
+
+// 'a', 'b'
+// - one of them is required
+Alt.object().oneOf(true, 'a', 'b')
+```
+
 ----
 
 ### Date
