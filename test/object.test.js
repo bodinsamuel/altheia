@@ -231,6 +231,50 @@ describe('Object', () => {
     });
   });
 
+  describe('oneOf()', () => {
+    test('should pass: a', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({ a: 1 });
+      expect(hasError).toBe(false);
+    });
+
+    test('should pass: b', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({ b: 1 });
+      expect(hasError).toBe(false);
+    });
+
+    test('should pass: a b d e f j...', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b', 'c', 'd', 'e', 'f')
+        .validate({ d: 1 });
+      expect(hasError).toBe(false);
+    });
+
+    test('should not pass: both presents', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({ a: 1, b: 1 });
+      expect(hasError).toBeTruthy();
+    });
+
+    test('should pass: none presents, without flag', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({});
+      expect(hasError).toBe(false);
+    });
+
+    test('should not pass: none presents, with flag', async () => {
+      const hasError = await Alt.object()
+        .oneOf(true, 'a', 'b')
+        .validate({});
+      expect(hasError).toBeTruthy();
+    });
+  });
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.object()

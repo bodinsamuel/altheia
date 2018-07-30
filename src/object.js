@@ -82,7 +82,6 @@ module.exports.Class = class object extends Base {
       }
 
       const Alt = require('./index');
-      console.log('schema', schema);
       schema = Alt(schema);
     }
 
@@ -96,4 +95,69 @@ module.exports.Class = class object extends Base {
     );
     return this;
   }
+
+  oneOf(...params) {
+    if (params.length <= 1) {
+      throw new Error('oneOf expect at least 2 params');
+    }
+
+    let oneIsRequired = false;
+    let keys = [];
+    if (typeof params[0] === 'boolean') {
+      oneIsRequired = params[0];
+      keys = params.splice(1);
+    } else {
+      keys = params;
+    }
+
+    this.test(
+      'oneOf',
+      async (obj) => {
+        const presence = { a: null, b: null };
+
+        try {
+          Object.keys(obj).forEach((key) => {
+            if (keys.includes(key)) {
+              if (!presence.a) {
+                presence.a = key;
+              } else if (!presence.b) {
+                presence.b = key;
+                throw new Error('a and b can not be present at the same time');
+              }
+            }
+          });
+        } catch (e) {
+          return false;
+        }
+
+        if (oneIsRequired && !presence.a && !presence.b) {
+          return false;
+        }
+
+        return true;
+        // return (!obj[keyA] && !obj[keyB] && oneIsRequired === false)
+        //   || typeof obj[keyA] !== 'undefined' && !obj[keyB]
+        //   || !obj[keyA] && typeof obj[keyB] !== 'undefined';
+      },
+      { oneIsRequired, keys }
+    );
+    return this;
+  }
+
+  // group(keyA, ...keyB) {
+  //   this.test(
+  //     'schema',
+  //     async (obj) => {
+  //       return !obj[keyA] ||
+  //         !obj[keyA] && Object.keys(obj).reduce((acc, k) => {
+  //           if (keyB.indexOf(k)) {
+  //             acc += 1;
+  //           }
+  //           return acc;
+  //         }, 0) === keyB.length;
+  //     },
+  //     { keyA, keyB }
+  //   );
+  //   return this;
+  // }
 };
