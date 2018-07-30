@@ -61,11 +61,29 @@ module.exports.Class = class object extends Base {
     return this;
   }
 
-  schema({ schema, returnErrors = false }) {
+  schema(schema, { returnErrors = false } = {}) {
+    // old api
+    if (isPlainObject(schema) && schema.schema) {
+      if (typeof schema.returnErrors !== 'undefined') {
+        returnErrors = schema.returnErrors;
+      }
+      schema = schema.schema;
+    }
+
     if (typeof schema.isValidator === 'undefined') {
-      throw new Error(
-        'argument should be an instance of altheia validator "Alt({ ... })"'
-      );
+      if (!isPlainObject(schema)) {
+        throw new Error(
+          'schema should be an instance of altheia validator "Alt({ ... })" or a plain object'
+        );
+      }
+
+      if (Object.keys(schema).length <= 0) {
+        throw new Error('schema should have one key at least');
+      }
+
+      const Alt = require('./index');
+      console.log('schema', schema);
+      schema = Alt(schema);
     }
 
     this.test(
