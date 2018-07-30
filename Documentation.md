@@ -3,7 +3,7 @@
 - [Methods](#methods)
 - [Main Api](#mainapi)
 - [Types](#types)
-    + [Global](#global), [String](#string) , [Object](#object), [Date](#date), [Number](#number), [Array](#array), [Boolean](#boolean), [Internet](#internet)
+    + [Global](#global), [Any](#any),  [String](#string) , [Object](#object), [Date](#date), [Number](#number), [Array](#array), [Boolean](#boolean), [Internet](#internet), [Function](#function)
 
 ## Core Concepts
 ### Instance
@@ -227,6 +227,19 @@ Alt.string().if({
 const hasError = await Api.string().validate(1);
 //=> :false if no error
 //=> :object if not
+```
+
+
+----
+
+### Any
+> Any plugins is loaded by default since v3.0.0
+
+Any inherit global methods and that's it. It allow chaining without knowing the type
+
+```javascript
+# example
+Alt.any().required().custom();
 ```
 
 ----
