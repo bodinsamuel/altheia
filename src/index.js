@@ -4,6 +4,7 @@ const LangBase = require('./lang');
 const Validator = require('./validator');
 const BaseValidator = require('./base');
 
+const AnyValidator = require('./any');
 const StringValidator = require('./string');
 const ObjectValidator = require('./object');
 const NumberValidator = require('./number');
@@ -71,6 +72,7 @@ const Instance = (lang) => {
   };
 
   // Declare basic plugins
+  inst.use(AnyValidator);
   inst.use(StringValidator);
   inst.use(NumberValidator);
   inst.use(DateValidator);
