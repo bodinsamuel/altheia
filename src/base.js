@@ -1,3 +1,5 @@
+const isPlainObject = require('lodash/isPlainObject');
+
 module.exports = class Base {
   constructor() {
     this._required = false;
@@ -58,7 +60,21 @@ module.exports = class Base {
       if (test.name.indexOf('.if') >= 0) {
         test = await test.func(toTest);
       } else {
-        test.isValid = await test.func(toTest);
+        const result = await test.func(toTest);
+        const resultIsObject = isPlainObject(result);
+        if (resultIsObject) {
+          if (
+            typeof result.isValid === 'undefined' ||
+            typeof result.error === 'undefined'
+          ) {
+            throw new Error(
+              'test() should return a boolean or an object { isValid:boolean, error:string }'
+            );
+          }
+        }
+
+        test.isValid = resultIsObject ? result.isValid : result;
+        test.args._result = resultIsObject ? result : {};
       }
 
       // Do not go deeper in test

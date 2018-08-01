@@ -258,6 +258,11 @@ describe('Object', () => {
         .oneOf('a', 'b')
         .validate({ a: 1, b: 1 });
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.oneOf',
+        message: 'value can not contain these two keys [a,b] at the same time',
+      });
     });
 
     test('should pass: none presents, without flag', async () => {
@@ -272,6 +277,11 @@ describe('Object', () => {
         .oneOf(true, 'a', 'b')
         .validate({});
       expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.oneOf',
+        message: 'value should contain one of these keys [a,b]',
+      });
     });
   });
 

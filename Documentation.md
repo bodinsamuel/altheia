@@ -322,11 +322,11 @@ Alt.object().schema(
 ```javascript
 // 'a', 'b', 'c', 'd'
 // - none of them are required
-Alt.object().oneOf('a', 'b', 'c', 'd')
+Alt.object().oneOf('a', 'b', 'c', 'd');
 
 // 'a', 'b'
 // - one of them is required
-Alt.object().oneOf(true, 'a', 'b')
+Alt.object().oneOf(true, 'a', 'b');
 ```
 
 ----

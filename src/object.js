@@ -9,6 +9,17 @@ module.exports.lang = {
     `${name} must only contains these keys [${args.in}]`,
   'object.not': (name) => `${name} contains forbidden value`,
   'object.schema': (name) => `${name} has not a valid schema`,
+  'object.oneOf': (name, args) => {
+    if (args._result.error === 'oneIsRequired') {
+      return `${name} should contain one of these keys [${args.keys}]`;
+    }
+    if (args._result.keys) {
+      return `${name} can not contain these two keys [${
+        args._result.keys
+      }] at the same time`;
+    }
+    return 'unknown error';
+  },
 };
 
 module.exports.Class = class object extends Base {
@@ -127,11 +138,15 @@ module.exports.Class = class object extends Base {
             }
           });
         } catch (e) {
-          return false;
+          return {
+            isValid: false,
+            error: 'exclusion',
+            keys: Object.values(presence),
+          };
         }
 
         if (oneIsRequired && !presence.a && !presence.b) {
-          return false;
+          return { isValid: false, error: 'oneIsRequired' };
         }
 
         return true;
