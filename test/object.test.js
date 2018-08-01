@@ -280,7 +280,33 @@ describe('Object', () => {
       expect(Alt.formatError(hasError)).toEqual({
         label: 'value',
         type: 'object.oneOf',
-        message: 'value should contain one of these keys [a,b]',
+        message: 'value must contain one of these keys [a,b]',
+      });
+    });
+  });
+
+  describe('allOf()', () => {
+    test('should pass: a, b, c', async () => {
+      const hasError = await Alt.object()
+        .allOf('a', 'b', 'c')
+        .validate({ a: 1, b: 2, c: 3 });
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: a,  c', async () => {
+      const hasError = await Alt.object()
+        .allOf('a', 'b', 'c')
+        .validate({ a: 1, c: 3 });
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: none', async () => {
+      const hasError = await Alt.object()
+        .allOf('a', 'b', 'c')
+        .validate({ z: 1 });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.allOf',
+        message: 'value must contain either none or all of these keys [a,b,c]',
       });
     });
   });

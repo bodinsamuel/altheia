@@ -11,7 +11,7 @@ module.exports.lang = {
   'object.schema': (name) => `${name} has not a valid schema`,
   'object.oneOf': (name, args) => {
     if (args._result.error === 'oneIsRequired') {
-      return `${name} should contain one of these keys [${args.keys}]`;
+      return `${name} must contain one of these keys [${args.keys}]`;
     }
     if (args._result.keys) {
       return `${name} can not contain these two keys [${
@@ -20,6 +20,8 @@ module.exports.lang = {
     }
     return 'unknown error';
   },
+  'object.allOf': (name, args) =>
+    `${name} must contain either none or all of these keys [${args.keys}]`,
 };
 
 module.exports.Class = class object extends Base {
@@ -156,20 +158,21 @@ module.exports.Class = class object extends Base {
     return this;
   }
 
-  // group(keyA, ...keyB) {
-  //   this.test(
-  //     'schema',
-  //     async (obj) => {
-  //       return !obj[keyA] ||
-  //         !obj[keyA] && Object.keys(obj).reduce((acc, k) => {
-  //           if (keyB.indexOf(k)) {
-  //             acc += 1;
-  //           }
-  //           return acc;
-  //         }, 0) === keyB.length;
-  //     },
-  //     { keyA, keyB }
-  //   );
-  //   return this;
-  // }
+  allOf(...keys) {
+    this.test(
+      'allOf',
+      async (obj) => {
+        return (
+          Object.keys(obj).reduce((acc, k) => {
+            if (keys.includes(k)) {
+              acc += 1;
+            }
+            return acc;
+          }, 0) === keys.length
+        );
+      },
+      { keys }
+    );
+    return this;
+  }
 };
