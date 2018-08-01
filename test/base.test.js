@@ -33,6 +33,54 @@ describe('Base', () => {
     expect(mark).toBe(true);
   });
 
+  describe('test()', () => {
+    test('should understand object response', async () => {
+      const hasError = await Alt.string()
+        .custom('mytest', () => {
+          return { isValid: false, error: 'not_okay' };
+        })
+        .validate('foobar');
+
+      // to avoid false positive we check the callback real use
+      expect(hasError).toBeTruthy();
+      expect(hasError.result.error).toEqual('not_okay');
+    });
+    test('should fail if result is string', async () => {
+      let error;
+      try {
+        await Alt.string()
+          .custom('dfd', () => {
+            return 'nope';
+          })
+          .validate('foobar');
+      } catch (e) {
+        error = e;
+      }
+      expect(error).toEqual(
+        new Error(
+          'test() should return a boolean or an object { isValid:boolean, error:string }'
+        )
+      );
+    });
+    test('should fail if not a valid object', async () => {
+      let error;
+      try {
+        await Alt.string()
+          .custom('dfd', () => {
+            return { foo: 'bar' };
+          })
+          .validate('foobar');
+      } catch (e) {
+        error = e;
+      }
+      expect(error).toEqual(
+        new Error(
+          'test() should return a boolean or an object { isValid:boolean, error:string }'
+        )
+      );
+    });
+  });
+
   describe('clone()', () => {
     test('should clone correctly', async () => {
       const original = Alt.string().required();

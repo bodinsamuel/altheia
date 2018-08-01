@@ -358,7 +358,7 @@ describe('Validator', () => {
           return new Promise((resolve) => {
             setTimeout(() => {
               mark = true;
-              resolve();
+              resolve(true);
             }, 500);
           });
         }),

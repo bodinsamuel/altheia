@@ -195,14 +195,14 @@ describe('String', () => {
       const hasError = await alt
         .internet()
         .creditCard()
-        .validate('2221 0012 3412 3456');
+        .validate('4111 1111 1111 1111');
       expect(hasError).toBe(false);
     });
     test('should pass: formatted union', async () => {
       const hasError = await alt
         .internet()
         .creditCard()
-        .validate('2221-0012-3412-3456');
+        .validate('4111-1111-1111-1111');
       expect(hasError).toBe(false);
     });
     test('should not pass: string int', async () => {

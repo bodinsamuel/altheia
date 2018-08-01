@@ -219,7 +219,7 @@ Alt.string().if({
 //
 ```
 
-#### `validate(:mixed[, :func])`
+#### `validate(:mixed [, :func])`
 > If you want to, you can validate only one input without the whole schema.
 > You can await or pass callback
 
@@ -271,13 +271,13 @@ Alt.string().max(5);
 Alt.string().pattern(/^[a-z]$/);
 ```
 
-#### `in(value [,value...])`
+#### `in(...value)`
 > Force a string to be equal to one of the value passed in the set.
 ```javascript
 Alt.string().in('foo', 'bar');
 ```
 
-#### `not(value [,value...])`
+#### `not(...value)`
 > Force a string to be different to all of the value passed in the set.
 ```javascript
 Alt.string().not('bar', 'foo');
@@ -304,28 +304,49 @@ Alt.string().uppercase();
 ----
 
 ### Object
-#### `in(value [,value...])`
+#### `in(...value)`
 > Force an object to have only the keys passed in the set
 ```javascript
 Alt.object().in('foo', 'bar');
 ```
 
-#### `not(value [,value...])`
+#### `not(...value)`
 > Force an object to not have the keys passed in the set
 ```javascript
 Alt.object().not('foo', 'bar');
 ```
 
-#### `schema({ schema :Validator, returnErrors :bool })`
-> Check an object with the passed schema. It will help you check nested object without effort. Because schema need to be instance of Altheia, you can do whatever you want without restriction. `returnErrors` to `true` will return errors with the main payload if any.
+#### `schema(schema :Validator, { returnErrors :bool })`
+> Check an object with the passed schema. It will help you check nested object without effort. Because schema need to be instance of Altheia, you can do whatever you want without restriction.
+Second params is optionnal:
+`returnErrors` to `true` will return errors with the main payload if any.
 ```javascript
-Alt.object().schema({
-    schema: Alt({
-            foo: Alt.string(),
-            bar: Alt.number(),
-        }).options({ required: true }),
-    returnErrors: true,
-});
+Alt.object().schema(
+    Alt({
+        foo: Alt.string(),
+        bar: Alt.number(),
+    }).options({ required: true })
+);
+```
+
+#### `oneOf(isOneRequired :boolean, ...keys :string)`
+> Force any keys, to be the only one present in the object (exclusive relationships)
+`oneIsRequired` is false by default
+```javascript
+// 'a', 'b', 'c', 'd'
+// - none of them are required
+Alt.object().oneOf('a', 'b', 'c', 'd');
+
+// 'a', 'b'
+// - one of them is required
+Alt.object().oneOf(true, 'a', 'b');
+```
+
+#### `allOf(...keys :string)`
+> Force all keys to be mutually required. If one is presents, all are required. Pass if none are present.
+
+```javascript
+Alt.object().allOf('a', 'b', 'c');
 ```
 
 ----
@@ -394,13 +415,13 @@ Alt.number().positive();
 Alt.number().negative();
 ```
 
-#### `in(value [,value...])`
+#### `in(...value)`
 > Force a number to be equal to one of the value passed in the set.
 ```javascript
 Alt.number().in(1, 35);
 ```
 
-#### `not(value [,value...])`
+#### `not(...value)`
 > Force a number to be different to all of the value passed in the set.
 ```javascript
 Alt.number().not(42, 157);
@@ -421,13 +442,13 @@ Alt.array().min(5);
 Alt.array().max(10);
 ```
 
-#### `in(value [,value...])`
+#### `in(...value)`
 > Force an array to have only the keys passed in the set
 ```javascript
 Alt.array().in('foo', 'bar');
 ```
 
-#### `not(value [,value...])`
+#### `not(...value)`
 > Force an array not to have the keys passed in the set
 ```javascript
 Alt.object().not('foo', 'bar');

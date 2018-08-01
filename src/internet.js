@@ -51,7 +51,8 @@ module.exports.Class = class internet extends Base {
         }
 
         // eslint-disable-next-line
-        return new URL(str);
+        new URL(str);
+        return true;
       } catch (e) {
         return false;
       }
@@ -78,11 +79,11 @@ module.exports.Class = class internet extends Base {
       if (/[^0-9-\s]+/.test(str)) {
         return false;
       }
-      str = str.replace(/\D/, '');
+      str = str.replace(/\D/g, '');
       if (str.length < 13) {
         return false;
       }
-      return Luhn(str);
+      return Luhn(str) === true;
     });
     return this;
   }

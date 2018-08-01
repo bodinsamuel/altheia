@@ -136,6 +136,18 @@ describe('Object', () => {
         .validate({ foo: 'bar' });
       expect(hasError).toBe(false);
     });
+
+    test('should pass (new api)', async () => {
+      const hasError = await Alt.object()
+        .schema(
+          Alt({
+            foo: Alt.string(),
+          }).options({ required: true })
+        )
+        .validate({ foo: 'bar' });
+      expect(hasError).toBe(false);
+    });
+
     test('should fail', async () => {
       const hasError = await Alt.object()
         .schema({
@@ -151,6 +163,7 @@ describe('Object', () => {
         message: 'value has not a valid schema',
       });
     });
+
     test('should fail not valid schema', async () => {
       expect(() => {
         Alt.object().schema({
@@ -158,6 +171,7 @@ describe('Object', () => {
         });
       }).toThrow();
     });
+
     test('should fail deep', async () => {
       const hasError = await Alt({
         data: Alt.object().schema({
@@ -184,6 +198,135 @@ describe('Object', () => {
           ],
         },
       ]);
+    });
+
+    test('should fail deep (new api)', async () => {
+      const hasError = await Alt({
+        data: Alt.object().schema(
+          Alt({
+            foo: Alt.number(),
+          }).options({ required: true }),
+          {
+            returnErrors: true,
+          }
+        ),
+      })
+        .body({ data: { foo: 'bar' } })
+        .validate();
+      expect(hasError).toBeTruthy();
+      expect(hasError).toEqual([
+        {
+          label: 'data',
+          type: 'object.schema',
+          message: 'data has not a valid schema',
+          errors: [
+            {
+              label: 'foo',
+              message: 'foo must be a valid number',
+              type: 'number.typeof',
+            },
+          ],
+        },
+      ]);
+    });
+
+    test('should fail bad parameter schema', async () => {
+      expect(() => {
+        Alt.object().schema(new Error());
+      }).toThrow(
+        'schema should be an instance of altheia validator "Alt({ ... })" or a plain object'
+      );
+    });
+
+    test('should pass, plain object', async () => {
+      const hasError = await Alt({
+        data: Alt.object().schema({
+          foo: Alt.number(),
+        }),
+      })
+        .body({ data: { foo: 1 } })
+        .validate();
+      expect(hasError).toBe(false);
+    });
+  });
+
+  describe('oneOf()', () => {
+    test('should pass: a', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({ a: 1 });
+      expect(hasError).toBe(false);
+    });
+
+    test('should pass: b', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({ b: 1 });
+      expect(hasError).toBe(false);
+    });
+
+    test('should pass: a b d e f j...', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b', 'c', 'd', 'e', 'f')
+        .validate({ d: 1 });
+      expect(hasError).toBe(false);
+    });
+
+    test('should not pass: both presents', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({ a: 1, b: 1 });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.oneOf',
+        message: 'value can not contain these two keys [a,b] at the same time',
+      });
+    });
+
+    test('should pass: none presents, without flag', async () => {
+      const hasError = await Alt.object()
+        .oneOf('a', 'b')
+        .validate({});
+      expect(hasError).toBe(false);
+    });
+
+    test('should not pass: none presents, with flag', async () => {
+      const hasError = await Alt.object()
+        .oneOf(true, 'a', 'b')
+        .validate({});
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.oneOf',
+        message: 'value must contain one of these keys [a,b]',
+      });
+    });
+  });
+
+  describe('allOf()', () => {
+    test('should pass: a, b, c', async () => {
+      const hasError = await Alt.object()
+        .allOf('a', 'b', 'c')
+        .validate({ a: 1, b: 2, c: 3 });
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: a,  c', async () => {
+      const hasError = await Alt.object()
+        .allOf('a', 'b', 'c')
+        .validate({ a: 1, c: 3 });
+      expect(hasError).toBeTruthy();
+    });
+    test('should not pass: none', async () => {
+      const hasError = await Alt.object()
+        .allOf('a', 'b', 'c')
+        .validate({ z: 1 });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.allOf',
+        message: 'value must contain either none or all of these keys [a,b,c]',
+      });
     });
   });
 
