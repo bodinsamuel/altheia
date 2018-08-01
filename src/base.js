@@ -22,6 +22,7 @@ module.exports = class Base {
       func,
       args,
       isValid: true,
+      result: {},
     });
   }
 
@@ -62,19 +63,28 @@ module.exports = class Base {
       } else {
         const result = await test.func(toTest);
         const resultIsObject = isPlainObject(result);
+
+        // Check result format
+        let isResultOkay = true;
         if (resultIsObject) {
           if (
             typeof result.isValid === 'undefined' ||
             typeof result.error === 'undefined'
           ) {
-            throw new Error(
-              'test() should return a boolean or an object { isValid:boolean, error:string }'
-            );
+            isResultOkay = false;
           }
+        } else if (typeof result !== 'boolean') {
+          isResultOkay = false;
+        }
+
+        if (!isResultOkay) {
+          throw new Error(
+            'test() should return a boolean or an object { isValid:boolean, error:string }'
+          );
         }
 
         test.isValid = resultIsObject ? result.isValid : result;
-        test.args._result = resultIsObject ? result : {};
+        test.result = resultIsObject ? result : {};
       }
 
       // Do not go deeper in test
@@ -107,6 +117,12 @@ module.exports = class Base {
    * @param  {Function} callback
    */
   custom(name, callback, message) {
+    if (typeof name !== 'string') {
+      throw new Error(
+        'first param of custom() must the unique name of this test'
+      );
+    }
+
     this.test(
       `custom.${name}`,
       async (str) => {

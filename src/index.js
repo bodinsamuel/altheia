@@ -54,11 +54,11 @@ const Instance = (lang) => {
     return inst.templates[name].clone();
   };
 
-  inst.formatError = ({ name, args }, label = 'value') => {
+  inst.formatError = ({ name, args, result }, label = 'value') => {
     // Get messages from error
     let msg;
     if (typeof inst.langList[name] !== 'undefined') {
-      msg = inst.langList[name](label, args);
+      msg = inst.langList[name](label, args, result);
     } else {
       msg = 'Invalid value';
     }
