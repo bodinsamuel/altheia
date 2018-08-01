@@ -59,8 +59,9 @@ console.log(hasError); // false
 ```
 
 
-# Documentation + Api
-You can find the full [documentation here](../master/Documentation.md)
+# Documentation
+You can find the full [documentation here](../master/Documentation.md) and the [CHANGELOG](../master/Documentation.md).
+
 
 
 # Contributing
