@@ -229,6 +229,25 @@ describe('Object', () => {
         },
       ]);
     });
+
+    test('should fail bad parameter schema', async () => {
+      expect(() => {
+        Alt.object().schema(new Error());
+      }).toThrow(
+        'schema should be an instance of altheia validator "Alt({ ... })" or a plain object'
+      );
+    });
+
+    test('should pass, plain object', async () => {
+      const hasError = await Alt({
+        data: Alt.object().schema({
+          foo: Alt.number(),
+        }),
+      })
+        .body({ data: { foo: 1 } })
+        .validate();
+      expect(hasError).toBe(false);
+    });
   });
 
   describe('oneOf()', () => {
