@@ -45,12 +45,29 @@ describe('Base', () => {
       expect(hasError).toBeTruthy();
       expect(hasError.result.error).toEqual('not_okay');
     });
-    test('should fail if not a boolean or a valid object', async () => {
+    test('should fail if result is string', async () => {
       let error;
       try {
         await Alt.string()
           .custom('dfd', () => {
             return 'nope';
+          })
+          .validate('foobar');
+      } catch (e) {
+        error = e;
+      }
+      expect(error).toEqual(
+        new Error(
+          'test() should return a boolean or an object { isValid:boolean, error:string }'
+        )
+      );
+    });
+    test('should fail if not a valid object', async () => {
+      let error;
+      try {
+        await Alt.string()
+          .custom('dfd', () => {
+            return { foo: 'bar' };
           })
           .validate('foobar');
       } catch (e) {
