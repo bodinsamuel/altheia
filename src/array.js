@@ -11,6 +11,8 @@ module.exports.lang = {
     `${name} must only contains these keys [${args.in}]`,
   'array.not': (name) => `${name} contains forbidden value`,
   'array.unique': (name) => `${name} can not contains duplicated value`,
+  'array.oneOf': (name) => `${name} contains forbidden items`,
+  'array.itemInvalid': (name) => `${name} does not match any of the allowed types`,
 };
 
 module.exports.Class = class array extends Base {
@@ -92,6 +94,44 @@ module.exports.Class = class array extends Base {
       const a = new Set(str);
       return a.size === str.length;
     });
+
+    return this;
+  }
+
+  oneOf(...templates) {
+    this.test(
+      'oneOf',
+      async (array) => {
+        const errors = [];
+        await Promise.all(array.map(async (value) => {
+          let error = false;
+
+          for (var i = 0; i < templates.length; i++) {
+            const test = await templates[i].validate(value);
+            if (test) {
+              error = { label: value, test };
+            } else {
+              // early break if one template matched (returned no error)
+              return;
+            }
+          }
+
+          // if multiples templates, return a generic message
+          if (templates.length > 1) {
+            errors.push({ label: value, test: { name: 'array.itemInvalid' } });
+          } else {
+            errors.push(error);
+          }
+        }));
+
+        return {
+          isValid: errors.length <= 0,
+          error: 'not_matching',
+          errors,
+        };
+      },
+      { templates }
+    );
 
     return this;
   }

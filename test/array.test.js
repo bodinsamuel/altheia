@@ -168,4 +168,56 @@ describe('String', () => {
       });
     });
   });
+
+  describe('oneOf()', () => {
+    test('should pass', async () => {
+      const hasError = await Alt.array()
+        .oneOf(Alt.number())
+        .validate([1, 2, 4]);
+      expect(hasError).toBe(false);
+    });
+    test('should not pass', async () => {
+      const hasError = await Alt.array()
+        .oneOf(Alt.string())
+        .validate(['foo', 2, 'bar']);
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'array.oneOf',
+        message: 'value contains forbidden items',
+        errors: [
+          {
+            label: 2,
+            message: '2 must be a valid string',
+            type: 'string.typeof',
+          },
+        ]
+      });
+    });
+
+    test('should pass with multiple templates', async () => {
+      const hasError = await Alt.array()
+        .oneOf(Alt.number(), Alt.string())
+        .validate([1, 2, 'foobar']);
+      expect(hasError).toBe(false);
+    });
+    test('should not pass with multiple templates', async () => {
+      const hasError = await Alt.array()
+        .oneOf(Alt.number(), Alt.object())
+        .validate([1, 2, 'foobar']);
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'array.oneOf',
+        message: 'value contains forbidden items',
+        errors: [
+          {
+            label: 'foobar',
+            message: 'foobar does not match any of the allowed types',
+            type: 'array.itemInvalid',
+          },
+        ]
+      });
+    });
+  });
 });

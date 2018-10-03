@@ -102,9 +102,13 @@ module.exports.Class = class object extends Base {
       'schema',
       async (obj) => {
         const hasError = await schema.body(obj).validate();
-        return hasError === false;
+        return {
+          isValid: hasError === false,
+          error: 'schema',
+          errors: hasError && returnErrors ? schema._errorsRaw : undefined,
+        };
       },
-      { schema, returnErrors }
+      { schema }
     );
     return this;
   }

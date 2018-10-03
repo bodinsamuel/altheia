@@ -451,13 +451,19 @@ Alt.array().in('foo', 'bar');
 #### `not(...value)`
 > Force an array not to have the keys passed in the set
 ```javascript
-Alt.object().not('foo', 'bar');
+Alt.array().not('foo', 'bar');
 ```
 
 #### `unique()`
 > Force an array to only have each item once
 ```javascript
-Alt.object().unique();
+Alt.array().unique();
+```
+
+#### `oneOf(...templates)`
+> Force all array's items to match one of the template
+```javascript
+Alt.array().oneOf(Alt.string(), Alt.number());
 ```
 
 ----

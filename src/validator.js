@@ -10,6 +10,7 @@ module.exports = class Validator {
     this._schema = {};
     this._body = {};
     this._errors = [];
+    this._errorsRaw = [];
     this._confirm = [];
     this._options = {
       required: false,
@@ -83,13 +84,8 @@ module.exports = class Validator {
         continue;
       }
 
+      this._errorsRaw.push({ test: hasError, label: key });
       const formatted = this.formatError(hasError, key);
-      // If a test has a Validator instance attached
-      // we return it's errors nested with the main error
-      if (hasError.args && hasError.args.schema && hasError.args.returnErrors) {
-        formatted.errors = hasError.args.schema._errors;
-      }
-
       errors.push(formatted);
     }
     this._errors = errors;
