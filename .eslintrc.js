@@ -132,7 +132,10 @@ module.exports = {
     'no-unreachable': 'error',
     'no-unsafe-negation': 'error',
     'use-isnan': 'error',
-    'valid-jsdoc': 'off',
+    'valid-jsdoc': ['error', {
+      requireParamDescription: false,
+      requireReturnDescription: false,
+    }],
     'valid-typeof': ['error', { requireStringLiterals: true }],
 
     /* es6 */
@@ -257,7 +260,15 @@ module.exports = {
       { keywords: false, unnecessary: true, numbers: false },
     ],
     quotes: ['error', 'single', { avoidEscape: true }],
-    'require-jsdoc': 'off',
+    'require-jsdoc': ['error', {
+      'require': {
+        'FunctionDeclaration': true,
+        'MethodDefinition': true,
+        'ClassDeclaration': true,
+        'ArrowFunctionExpression': false,
+        'FunctionExpression': true
+      }
+    }],
     semi: ['error', 'always'],
 
     strict: ['error', 'never'],

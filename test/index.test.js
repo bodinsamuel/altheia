@@ -49,6 +49,7 @@ describe('Index', () => {
           'mycustom.myrule': () => 'not good',
         },
         Class: class mycustom extends Alt.Base {
+          // eslint-disable-next-line
           myrule() {
             this.test('myrule', () => {
               return true;

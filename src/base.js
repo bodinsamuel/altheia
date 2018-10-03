@@ -1,13 +1,27 @@
 const isPlainObject = require('lodash/isPlainObject');
 
-module.exports = class Base {
-  constructor(inst) {
+/**
+ * All type inherit this Class
+ */
+class Base {
+  /**
+   * Constructor
+   *
+   * @param  {Altheia} inst
+   * @return {Base}
+   */
+  constructor(inst = null) {
     this.inst = inst || require('./index');
     this._required = false;
     this._need_cast = false;
     this.tests = [];
   }
 
+  /**
+   * Clone this class
+   *
+   * @return {Base}
+   */
   clone() {
     const clone = Object.assign(Object.create(this), this);
     // Quick deep clone
@@ -17,6 +31,14 @@ module.exports = class Base {
     return clone;
   }
 
+  /**
+   * Add a test
+   *
+   * @param  {string} name
+   * @param  {function} func
+   * @param  {Object} args
+   * @return {undefiend}
+   */
   test(name, func, args = {}) {
     this.tests.push({
       name: `${this.name}.${name}`,
@@ -27,22 +49,29 @@ module.exports = class Base {
     });
   }
 
-  callback(callback, result) {
-    if (callback) {
-      callback(result);
-    }
-    return result;
-  }
+  /**
+   * Validate a value based on all tests added
+   * @param  {mixed}   toTest
+   * @param  {Function} callback
+   * @return {object}
+   */
+  async validate(toTest, callback = null) {
+    // Return an object and call a callback if needed
+    const returnOrCallback = (callback, result) => {
+      if (callback) {
+        callback(result);
+      }
+      return result;
+    };
 
-  async validate(toTest, callback) {
     // Test presence early to fail/pass early
     const presence = this.presence(toTest);
     if (presence === false) {
       if (this._required === false) {
-        return this.callback(callback, false);
+        return returnOrCallback(callback, false);
       }
 
-      return this.callback(callback, {
+      return returnOrCallback(callback, {
         name: 'required',
         func: null,
         args: null,
@@ -90,15 +119,17 @@ module.exports = class Base {
 
       // Do not go deeper in test
       if (test.isValid === false) {
-        return this.callback(callback, test);
+        return returnOrCallback(callback, test);
       }
     }
 
-    return this.callback(callback, false);
+    return returnOrCallback(callback, false);
   }
 
   /**
    * Force the value to be non-null
+   *
+   * @return {Base}
    */
   required() {
     this._required = true;
@@ -107,6 +138,8 @@ module.exports = class Base {
 
   /**
    * Force the value to be casted before any check
+   *
+   * @return {Base}
    */
   cast() {
     this._need_cast = true;
@@ -114,8 +147,12 @@ module.exports = class Base {
   }
 
   /**
-   * Custom validator, all type inherit this
+   * Custom validator
+   *
+   * @param  {string}   name
    * @param  {Function} callback
+   * @param  {Function}   message
+   * @return {Base}
    */
   custom(name, callback, message) {
     if (typeof name !== 'string') {
@@ -141,6 +178,7 @@ module.exports = class Base {
 
   /**
    * Presence validation
+   *
    * @param  {mixed} toTest
    * @return {boolean}
    */
@@ -168,10 +206,12 @@ module.exports = class Base {
   }
 
   /**
-   * If branch validator
-   * @param  {function} args.test
-   * @param  {function} args.then
-   * @param  {function} args.otherwise
+   * If validation
+   *
+   * @param  {function} options.test
+   * @param  {function} options.then
+   * @param  {function} options.otherwise
+   * @return {Base}
    */
   if({ test, then, otherwise }) {
     this.test('if', async (str) => {
@@ -189,4 +229,6 @@ module.exports = class Base {
     });
     return this;
   }
-};
+}
+
+module.exports = Base;

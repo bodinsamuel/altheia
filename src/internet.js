@@ -28,13 +28,25 @@ module.exports.lang = {
   'internet.ipv6': (name) => `${name} must be a valid IP v6`,
 };
 
-module.exports.Class = class internet extends Base {
+/**
+ * Internet class
+ */
+class internet extends Base {
+  /**
+   * Constructor
+   * @return {Base}
+   */
   constructor() {
     super();
     this.name = 'internet';
     this.typeof();
   }
 
+  /**
+   * Test to validate the type of the value
+   *
+   * @return {Base}
+   */
   typeof() {
     this.test('typeof', (str) => {
       return typeof str === 'string';
@@ -42,6 +54,11 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid url (RFC)
+   *
+   * @return {Base}
+   */
   url() {
     this.test('url', (str) => {
       try {
@@ -60,6 +77,11 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid hostname (RFC)
+   *
+   * @return {Base}
+   */
   hostname() {
     this.test('hostname', (str) => {
       return str.match(hostname) !== null;
@@ -67,6 +89,11 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid hex (a-f0-9)
+   *
+   * @return {Base}
+   */
   hex() {
     this.test('hex', (str) => {
       return str.match(/^[a-f0-9]+$/i) !== null;
@@ -74,6 +101,11 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid credit card (using Luhn's algorithm)
+   *
+   * @return {Base}
+   */
   creditCard() {
     this.test('creditCard', (str) => {
       if (/[^0-9-\s]+/.test(str)) {
@@ -88,6 +120,11 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid uuid version 4
+   *
+   * @return {Base}
+   */
   uuidv4() {
     this.test('uuidv4', (str) => {
       if (str.length < 32) {
@@ -98,6 +135,11 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid ipv4 or ipv6
+   *
+   * @return {Base}
+   */
   ip() {
     this.test('ip', (str) => {
       return ipv4.test(str) || ipv6.test(str);
@@ -105,6 +147,11 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid ipv4
+   *
+   * @return {Base}
+   */
   ipv4() {
     this.test('ipv4', (str) => {
       return ipv4.test(str);
@@ -112,10 +159,17 @@ module.exports.Class = class internet extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid ipv6
+   *
+   * @return {Base}
+   */
   ipv6() {
     this.test('ipv6', (str) => {
       return ipv6.test(str);
     });
     return this;
   }
-};
+}
+
+module.exports.Class = internet;

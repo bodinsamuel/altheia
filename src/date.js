@@ -15,17 +15,36 @@ module.exports.lang = {
     `${name} must be less than or equal to ${max.toISOString()}`,
 };
 
-module.exports.Class = class date extends Base {
+/**
+ * Date class
+ */
+class date extends Base {
+  /**
+   * Constructor
+   *
+   * @return {Base}
+   */
   constructor() {
     super();
     this.name = 'date';
     this.typeof();
   }
 
+  /**
+   * Try to cast value
+   *
+   * @param {mixed} value
+   * @return {Date|mixed}
+   */
   _cast(value) {
     return Date.parse(value);
   }
 
+  /**
+   * Test to validate the type of the value
+   *
+   * @return {Base}
+   */
   typeof() {
     this.test('typeof', (str) => {
       return !isNaN(Date.parse(str));
@@ -33,6 +52,11 @@ module.exports.Class = class date extends Base {
     return this;
   }
 
+  /**
+   * Force a date to be a valid ISO-8601.
+   *
+   * @return {Base}
+   */
   iso() {
     this.test('iso', (str) => {
       return str.match(iso) !== null;
@@ -40,6 +64,12 @@ module.exports.Class = class date extends Base {
     return this;
   }
 
+  /**
+   * Force a date to be a at least or bigger than value passed
+   *
+   * @param  {Date} min
+   * @return {Base}
+   */
   min(min) {
     this.test(
       'min',
@@ -58,6 +88,12 @@ module.exports.Class = class date extends Base {
     return this;
   }
 
+  /**
+   * Force a date to be less or equal than value passed
+   *
+   * @param  {Date} max
+   * @return {Base}
+   */
   max(max) {
     this.test(
       'max',
@@ -75,4 +111,6 @@ module.exports.Class = class date extends Base {
     );
     return this;
   }
-};
+}
+
+module.exports.Class = date;
