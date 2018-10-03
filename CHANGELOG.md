@@ -1,3 +1,14 @@
+# [3.1.0](https://github.com/bodinsamuel/altheia/compare/v3.1.0...master) (2018-10-03)
+### Features
+- Array.oneOf(): [documentation](https://github.com/bodinsamuel/altheia/blob/master/Documentation.md#oneoftemplates)
+
+### Updates
+- Update dependencies
+- Add comments everywhere and enforce jsdoc with eslint
+- All tests can now return an array of errors { isValid, error, **errors** }.
+  This allow returning nested error.
+
+
 # [3.0.0](https://github.com/bodinsamuel/altheia/compare/v3.0.0...master) (2018-08-01)
 
 
