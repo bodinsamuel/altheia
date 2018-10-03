@@ -1,7 +1,8 @@
 const isPlainObject = require('lodash/isPlainObject');
 
 module.exports = class Base {
-  constructor() {
+  constructor(inst) {
+    this.inst = inst || require('./index');
     this._required = false;
     this._need_cast = false;
     this.tests = [];

@@ -164,6 +164,28 @@ describe('Object', () => {
       });
     });
 
+    test('should fail with all messages', async () => {
+      const hasError = await Alt.object()
+        .schema(Alt({
+          foo: Alt.number(),
+        }).options({ required: true }),
+        { returnErrors: true })
+        .validate({ foo: 'bar' });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.schema',
+        message: 'value has not a valid schema',
+        errors: [
+          {
+            label: 'foo',
+            message: 'foo must be a valid number',
+            type: 'number.typeof',
+          },
+        ],
+      });
+    });
+
     test('should fail not valid schema', async () => {
       expect(() => {
         Alt.object().schema({

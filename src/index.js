@@ -29,7 +29,7 @@ const Instance = (lang) => {
   inst.use = (Plugin) => {
     const test = new Plugin.Class();
     inst[test.name || test.constructor.name] = () => {
-      return new Plugin.Class();
+      return new Plugin.Class(inst);
     };
     inst.lang(Plugin.lang);
     return inst;
@@ -64,11 +64,17 @@ const Instance = (lang) => {
       msg = 'Invalid value';
     }
 
-    return {
+    const formatted = {
       label,
       type: name,
       message: msg,
     };
+
+    // nested errors
+    if (result && result.errors) {
+      formatted.errors = result.errors.map((error) => inst.formatError(error.test, error.label));
+    }
+    return formatted;
   };
 
   // Declare basic plugins
