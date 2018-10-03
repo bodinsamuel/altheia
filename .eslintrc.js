@@ -15,6 +15,9 @@ module.exports = {
     Promise: true,
   },
   plugins: ['jest'],
+  "extends": [
+    "prettier"
+  ],
   // add your custom rules here
   rules: {
     // allow debugger during development
