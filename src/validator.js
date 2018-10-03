@@ -3,7 +3,17 @@ const isEqual = require('lodash/isEqual');
 
 const ObjectValidator = require('./object').Class;
 
-module.exports = class Validator {
+/**
+ * Validator class
+ * new Validator({ foo: 'bar' });
+ */
+class Validator {
+  /**
+   * Constructor
+   * @param  {object} schema
+   * @param  {object} inst   An Altheia instance
+   * @return {Validator}
+   */
   constructor(schema, inst) {
     this.inst = inst;
     this.isValidator = 1;
@@ -20,11 +30,23 @@ module.exports = class Validator {
     this.schema(schema);
   }
 
+  /**
+   * Assign the body to validate
+   *
+   * @param  {object} body
+   * @return {Validator}
+   */
   body(body) {
     this._body = Object.assign({}, body);
     return this;
   }
 
+  /**
+   * Declare the schema that describe the body()
+   *
+   * @param  {object} schema
+   * @return {Validator}
+   */
   schema(schema) {
     if (!isPlainObject(schema)) {
       throw new Error('schema should be object');
@@ -33,6 +55,12 @@ module.exports = class Validator {
     return this;
   }
 
+  /**
+   * Declare options to change the defaults behaviour of the Validator
+   *
+   * @param  {object} options
+   * @return {Validator}
+   */
   options(options) {
     if (!isPlainObject(options)) {
       throw new Error('schema should be object');
@@ -41,24 +69,38 @@ module.exports = class Validator {
     return this;
   }
 
+  /**
+   * Format any Error Array returned by a test
+   * @param  {object} error
+   * @param  {string} label
+   * @return {object}
+   */
   formatError(error, label) {
     return this.inst.formatError(error, label);
   }
 
-  callback(callback, result) {
-    if (callback) {
-      callback(result);
-    }
-    return result;
-  }
+  /**
+   * Validate the body against the schema
+   *
+   * @param  {Function} callback
+   * @return {object}
+   */
+  async validate(callback = null) {
+    // Return an object and call a callback if needed
+    const returnOrCallback = (callback, result) => {
+      if (callback) {
+        callback(result);
+      }
+      return result;
+    };
 
-  async validate(callback) {
+    // Early return if unknown keys
     if (this._options.unknown === false) {
       const only = await new ObjectValidator()
         .in(Object.keys(this._schema))
         .validate(this._body);
       if (only) {
-        return this.callback(callback, [this.formatError(only, 'schema')]);
+        return returnOrCallback(callback, [this.formatError(only, 'schema')]);
       }
     }
 
@@ -105,14 +147,23 @@ module.exports = class Validator {
     }
 
     if (errors.length > 0) {
-      return this.callback(callback, errors);
+      return returnOrCallback(callback, errors);
     }
 
-    return this.callback(callback, false);
+    return returnOrCallback(callback, false);
   }
 
+  /**
+   * Force the confirmation of one field by an other one
+   *
+   * @param  {string} initial    The first key
+   * @param  {string} comparison The second key
+   * @return {Validator}
+   */
   confirm(initial, comparison) {
     this._confirm.push({ initial, comparison });
     return this;
   }
-};
+}
+
+module.exports = Validator;
