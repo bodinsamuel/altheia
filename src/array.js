@@ -15,13 +15,25 @@ module.exports.lang = {
   'array.itemInvalid': (name) => `${name} does not match any of the allowed types`,
 };
 
-module.exports.Class = class array extends Base {
+/**
+ * Array class
+ */
+class array extends Base {
+  /**
+   * Constructor
+   * @return {Base}
+   */
   constructor() {
     super();
     this.name = 'array';
     this.typeof();
   }
 
+  /**
+   * Test to validate the type of the value
+   *
+   * @return {Base}
+   */
   typeof() {
     this.test('typeof', (str) => {
       return Array.isArray(str);
@@ -29,6 +41,12 @@ module.exports.Class = class array extends Base {
     return this;
   }
 
+  /**
+   * Force an array to contains at least a number of items equal to the value passed.
+   *
+   * @param  {number} min
+   * @return {Base}
+   */
   min(min) {
     this.test(
       'min',
@@ -41,6 +59,12 @@ module.exports.Class = class array extends Base {
     return this;
   }
 
+  /**
+   * Force an array to contains at most a number of items equal to the value passed.
+   *
+   * @param  {number} max
+   * @return {Base}
+   */
   max(max) {
     this.test(
       'max',
@@ -53,6 +77,12 @@ module.exports.Class = class array extends Base {
     return this;
   }
 
+  /**
+   * Force an array to have only the keys passed in the set
+   *
+   * @param  {...string} array
+   * @return {Base}
+   */
   in(...array) {
     let only = array;
     // handle someone passing literal array instead of multiple args
@@ -71,6 +101,12 @@ module.exports.Class = class array extends Base {
     return this;
   }
 
+  /**
+   * Force an array not to have the keys passed in the set
+   *
+   * @param  {...string} array
+   * @return {Base}
+   */
   not(...array) {
     let only = array;
     // handle someone passing literal array instead of multiple args
@@ -89,6 +125,11 @@ module.exports.Class = class array extends Base {
     return this;
   }
 
+  /**
+   * Force an array to only have each item once
+   *
+   * @return {Base}
+   */
   unique() {
     this.test('unique', (str) => {
       const a = new Set(str);
@@ -98,6 +139,12 @@ module.exports.Class = class array extends Base {
     return this;
   }
 
+  /**
+   * Force all array's items to match one of the template
+   *
+   * @param  {...Validator} templates
+   * @return {Base}
+   */
   oneOf(...templates) {
     this.test(
       'oneOf',
@@ -135,4 +182,6 @@ module.exports.Class = class array extends Base {
 
     return this;
   }
-};
+}
+
+module.exports.Class = array;

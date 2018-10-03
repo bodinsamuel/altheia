@@ -13,13 +13,26 @@ module.exports.lang = {
   'number.not': (name) => `${name} contains forbidden value`,
 };
 
-module.exports.Class = class number extends Base {
+/**
+ * Number class
+ */
+class number extends Base {
+  /**
+   * Constructor
+   * @return {Base}
+   */
   constructor() {
     super();
     this.name = 'number';
     this.typeof();
   }
 
+  /**
+   * Try to cast value
+   *
+   * @param {mixed} value
+   * @return {Number|mixed}
+   */
   _cast(value) {
     if (typeof value === 'string') {
       return parseFloat(value);
@@ -27,6 +40,11 @@ module.exports.Class = class number extends Base {
     return value;
   }
 
+  /**
+   * Test to validate the type of the value
+   *
+   * @return {Base}
+   */
   typeof() {
     this.test('typeof', (str) => {
       return typeof str === 'number' && !isNaN(str) && isFinite(str);
@@ -34,6 +52,12 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be equal or more to the value passed.
+   *
+   * @param  {number} min
+   * @return {Base}
+   */
   min(min) {
     this.test(
       'min',
@@ -45,6 +69,12 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be equal or less to the value passed.
+   *
+   * @param  {number} max
+   * @return {Base}
+   */
   max(max) {
     this.test(
       'max',
@@ -56,6 +86,11 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be an integer.
+   *
+   * @return {Base}
+   */
   integer() {
     this.test('integer', (str) => {
       return Number.isSafeInteger(str) === true;
@@ -63,6 +98,11 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be unsigned.
+   *
+   * @return {Base}
+   */
   unsigned() {
     this.test('unsigned', (str) => {
       return str >= 0;
@@ -70,6 +110,11 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be greater than 0.
+   *
+   * @return {Base}
+   */
   positive() {
     this.test('positive', (str) => {
       return str > 0;
@@ -77,6 +122,11 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be lesser than 0.
+   *
+   * @return {Base}
+   */
   negative() {
     this.test('negative', (str) => {
       return str < 0;
@@ -84,6 +134,12 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be equal to one of the value passed in the set.
+   *
+   * @param  {...number} obj
+   * @return {Base}
+   */
   in(...obj) {
     this.test(
       'in',
@@ -96,6 +152,12 @@ module.exports.Class = class number extends Base {
     return this;
   }
 
+  /**
+   * Force a number to be different to all of the value passed in the set.
+   *
+   * @param  {...number} obj
+   * @return {Base}
+   */
   not(...obj) {
     this.test(
       'not',
@@ -107,4 +169,6 @@ module.exports.Class = class number extends Base {
 
     return this;
   }
-};
+}
+
+module.exports.Class = number;

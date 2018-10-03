@@ -24,13 +24,26 @@ module.exports.lang = {
     `${name} must contain either none or all of these keys [${args.keys}]`,
 };
 
-module.exports.Class = class object extends Base {
+/**
+ * Object class
+ */
+class object extends Base {
+  /**
+   * Constructor
+   *
+   * @return {Base}
+   */
   constructor() {
     super();
     this.name = 'object';
     this.typeof();
   }
 
+  /**
+   * Test to validate the type of the value
+   *
+   * @return {Base}
+   */
   typeof() {
     this.test('typeof', (str) => {
       return isPlainObject(str);
@@ -38,6 +51,12 @@ module.exports.Class = class object extends Base {
     return this;
   }
 
+  /**
+   * Force an object to have only the keys passed in the set
+   *
+   * @param  {...string} array
+   * @return {Base}
+   */
   in(...array) {
     let only = array;
     // handle someone passing literal array instead of multiple args
@@ -56,6 +75,12 @@ module.exports.Class = class object extends Base {
     return this;
   }
 
+  /**
+   * Force an object to not have the keys passed in the set
+   *
+   * @param  {...string} array
+   * @return {Base}
+   */
   not(...array) {
     let only = array;
     // handle someone passing literal array instead of multiple args
@@ -74,6 +99,13 @@ module.exports.Class = class object extends Base {
     return this;
   }
 
+  /**
+   * Validate an object with a fully qualified schema
+   *
+   * @param  {Altheia} schema
+   * @param  {boolean} options.returnErrors If true, deep errors while be returned too
+   * @return {Base}
+   */
   schema(schema, { returnErrors = false } = {}) {
     // old api
     if (isPlainObject(schema) && schema.schema) {
@@ -113,6 +145,14 @@ module.exports.Class = class object extends Base {
     return this;
   }
 
+  /**
+   * Force any keys, to be the only one present in the object
+   *  (exclusive relationships)
+   *  oneIsRequired is false by default
+   *
+   * @param  {mixed} params
+   * @return {Base}
+   */
   oneOf(...params) {
     if (params.length <= 1) {
       throw new Error('oneOf expect at least 2 params');
@@ -162,6 +202,12 @@ module.exports.Class = class object extends Base {
     return this;
   }
 
+  /**
+   * Force all keys to be mutually required. If one is presents, all are required. Pass if none are present.
+   *
+   * @param  {...string} keys
+   * @return {Base}
+   */
   allOf(...keys) {
     this.test(
       'allOf',
@@ -179,4 +225,6 @@ module.exports.Class = class object extends Base {
     );
     return this;
   }
-};
+}
+
+module.exports.Class = object;

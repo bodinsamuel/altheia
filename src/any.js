@@ -2,9 +2,18 @@ const Base = require('./base');
 
 module.exports.lang = {};
 
-module.exports.Class = class any extends Base {
+/**
+ * Any is just a empty class to allow chaining
+ */
+class any extends Base {
+  /**
+   * Constructor
+   * @return {Base}
+   */
   constructor() {
     super();
     this.name = 'any';
   }
-};
+}
+
+module.exports.Class = any;

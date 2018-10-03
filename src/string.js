@@ -16,7 +16,14 @@ module.exports.lang = {
   'string.uppercase': (name) => `${name} must be uppercase only`,
 };
 
-module.exports.Class = class string extends Base {
+/**
+ * String class
+ */
+class string extends Base {
+  /**
+   * Constructor
+   * @return {Base}
+   */
   constructor() {
     super();
     this.name = 'string';
@@ -24,6 +31,11 @@ module.exports.Class = class string extends Base {
     this.typeof();
   }
 
+  /**
+   * Test to validate the type of the value
+   *
+   * @return {Base}
+   */
   typeof() {
     this.test('typeof', (str) => {
       return typeof str === 'string';
@@ -31,6 +43,11 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be not empty
+   *
+   * @return {Base}
+   */
   noEmpty() {
     this._no_empty = true;
     this.test('empty', (str) => {
@@ -39,6 +56,12 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be equal or more to the value passed.
+   *
+   * @param  {number} min
+   * @return {Base}
+   */
   min(min) {
     this.test(
       'min',
@@ -51,6 +74,12 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be equal or less to the value passed.
+   *
+   * @param  {number} max
+   * @return {Base}
+   */
   max(max) {
     this.test(
       'max',
@@ -63,6 +92,12 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to match the regex passed.
+   *
+   * @param  {Regex} regex
+   * @return {Base}
+   */
   pattern(regex) {
     this.test(
       'pattern',
@@ -75,6 +110,12 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be equal to one of the value passed in the set.
+   *
+   * @param  {...string} obj
+   * @return {Base}
+   */
   in(...obj) {
     this.test(
       'in',
@@ -87,6 +128,12 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be different to all of the value passed in the set.
+   *
+   * @param  {...string} obj
+   * @return {Base}
+   */
   not(...obj) {
     this.test(
       'not',
@@ -99,6 +146,11 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be a valid email (contain an @).
+   *
+   * @return {Base}
+   */
   email() {
     this.test('email', (str) => {
       return str.search('@') >= 0;
@@ -107,6 +159,11 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be fully in lowercase.
+   *
+   * @return {Base}
+   */
   lowercase() {
     this.test('lowercase', (str) => {
       return str.toLocaleLowerCase() === str;
@@ -115,6 +172,11 @@ module.exports.Class = class string extends Base {
     return this;
   }
 
+  /**
+   * Force a string to be fully in uppercase.
+   *
+   * @return {Base}
+   */
   uppercase() {
     this.test('uppercase', (str) => {
       return str.toLocaleUpperCase() === str;
@@ -122,4 +184,6 @@ module.exports.Class = class string extends Base {
 
     return this;
   }
-};
+}
+
+module.exports.Class = string;
