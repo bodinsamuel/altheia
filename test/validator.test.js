@@ -215,9 +215,39 @@ describe('Validator', () => {
         expect(hasError).toBeTruthy();
         expect(hasError).toEqual([
           {
-            label: 'schema',
-            message: 'schema must only contains these keys [name,login]',
-            type: 'object.in',
+            label: 'foo',
+            message: 'foo is not allowed',
+            type: 'forbidden',
+          },
+        ]);
+      });
+
+      test('should fail with different errors', async () => {
+        const hasError = await Alt({
+          name: Alt.string(),
+          login: Alt.string(),
+        })
+          .body({
+            name: 'top',
+            login: 1,
+            foo: 'bar',
+          })
+          .options({
+            unknown: false,
+          })
+          .validate();
+
+        expect(hasError).toBeTruthy();
+        expect(hasError).toEqual([
+          {
+            label: 'foo',
+            message: 'foo is not allowed',
+            type: 'forbidden',
+          },
+          {
+            label: 'login',
+            message: 'login must be a valid string',
+            type: 'string.typeof',
           },
         ]);
       });

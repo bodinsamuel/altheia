@@ -304,10 +304,14 @@ Alt.string().uppercase();
 ----
 
 ### Object
-#### `in(...value)`
+#### `in(...value [, options: object])`
 > Force an object to have only the keys passed in the set
 ```javascript
+// will return a single error even if multiple not matching
 Alt.object().in('foo', 'bar');
+
+// will return one error per key not matching
+Alt.object().in(['foo', 'bar'], { oneErrorPerKey: true });
 ```
 
 #### `not(...value)`

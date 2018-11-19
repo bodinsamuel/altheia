@@ -79,6 +79,25 @@ describe('Object', () => {
         message: 'value must only contains these keys [foo,bar]',
       });
     });
+
+    test('should not pass, with multiple errors', async () => {
+      const hasError = await Alt.object()
+        .in(['foo', 'bar'], { oneErrorPerKey: true })
+        .validate({ foo: 1, alice: 1 });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'object.in',
+        message: 'value must only contains these keys [foo,bar]',
+        errors: [
+          {
+            label: 'alice',
+            message: 'alice is not allowed',
+            type: 'forbidden',
+          },
+        ],
+      });
+    });
   });
 
   describe('not()', () => {

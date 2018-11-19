@@ -59,15 +59,29 @@ class object extends Base {
    */
   in(...array) {
     let only = array;
+    let oneErrorPerKey = false;
+
     // handle someone passing literal array instead of multiple args
-    if (array.length === 1 && Array.isArray(array[0])) {
+    if (array.length > 0 && Array.isArray(array[0])) {
       only = array[0];
+      if (isPlainObject(array[1])) {
+        oneErrorPerKey = !!array[1].oneErrorPerKey;
+      }
     }
 
     this.test(
       'in',
       (str) => {
         const diff = arrayDiff(Object.keys(str), only);
+        if (oneErrorPerKey && diff.length > 0) {
+          return {
+            isValid: false,
+            error: 'in',
+            errors: diff.map(label => {
+              return { test: this.createTest({ isValid: false, name: 'forbidden' }), label };
+            }),
+          };
+        }
         return diff.length === 0;
       },
       { in: only }

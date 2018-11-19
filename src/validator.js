@@ -94,17 +94,17 @@ class Validator {
       return result;
     };
 
+
+    const errors = [];
     // Early return if unknown keys
     if (this._options.unknown === false) {
       const only = await new ObjectValidator()
-        .in(Object.keys(this._schema))
+        .in(Object.keys(this._schema), { oneErrorPerKey: true })
         .validate(this._body);
       if (only) {
-        return returnOrCallback(callback, [this.formatError(only, 'schema')]);
+        only.result.errors.map(error => errors.push(this.formatError(error.test, error.label)));
       }
     }
-
-    const errors = [];
 
     // Use old syntax to allow await in loop without using promise.all
     const keys = Object.keys(this._schema);
