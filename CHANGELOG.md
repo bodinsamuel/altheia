@@ -1,3 +1,7 @@
+# [3.2.0](https://github.com/bodinsamuel/altheia/compare/v3.2.0...master) (2018-11-19)
+### Features
+- Object.in(): signature change (retro-compatible) with new option `oneErrorPerKey` [documentation](https://github.com/bodinsamuel/altheia/blob/master/Documentation.md#invalue--options-object)
+
 # [3.1.1](https://github.com/bodinsamuel/altheia/compare/v3.1.0...master) (2018-11-06)
 - Update dependencies
 
