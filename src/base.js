@@ -50,6 +50,25 @@ class Base {
   }
 
   /**
+   * Return a test default ibject
+   * @param  {string}  options.name      The name of the test
+   * @param  {Boolean} options.isValid   Has the test passed ?
+   * @param  {function}  options.func    The function to call
+   * @param  {object}  options.args      The arguments to pass to the function
+   * @param  {Object}  options.result    The result of the function
+   * @return {object}                    The final test object
+   */
+  createTest({ name, isValid = true, func = null, args = null, result = {} }) {
+    return {
+      name,
+      func,
+      args,
+      isValid,
+      result,
+    };
+  }
+
+  /**
    * Validate a value based on all tests added
    * @param  {mixed}   toTest
    * @param  {Function} callback
@@ -71,12 +90,10 @@ class Base {
         return returnOrCallback(callback, false);
       }
 
-      return returnOrCallback(callback, {
+      return returnOrCallback(callback, this.createTest({
         name: 'required',
-        func: null,
-        args: null,
         isValid: false,
-      });
+      }));
     }
 
     if (this._need_cast) {
