@@ -144,6 +144,22 @@ const hasError = await Alt(...).body({
 }).validate();
 ```
 
+### `clone()`
+> Because a Validator is mutable it can not be revalidated, you can clone it to validate an other body
+```javascript
+const schema = Alt({
+    login: Alt.string(),
+});
+
+const clone1 = schema.clone();
+await clone1.body({ login: 'foo' }).validate();
+console.log(clone1._errors);
+
+const clone2 = schema.clone();
+await clone2.body({ login: 1 }).validate();
+console.log(clone2._errors);
+```
+
 ### `options(:object)`
 > By default, Altheia allow __unknow__ and  __unexisting__ key to be present in the schema. You can change these values to be more strict.
 

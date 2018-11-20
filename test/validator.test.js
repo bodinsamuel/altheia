@@ -453,7 +453,7 @@ describe('Validator', () => {
 });
 
 describe('Reuse', () => {
-  test('should clean constructor', async () => {
+  test('should not be reusable', async (done) => {
     const schema = Alt({
       foo: Alt.string(),
     });
@@ -463,8 +463,11 @@ describe('Reuse', () => {
     expect(schema._errorsRaw).toHaveLength(1);
 
 
-    await schema.body({ foo: 'bar' }).validate();
-    expect(schema._errors).toHaveLength(0);
-    expect(schema._errorsRaw).toHaveLength(0);
+    try {
+      await schema.body({ foo: 'bar' }).validate();
+    } catch (e) {
+      expect(e.message).toBe('Already validated, please use .clone() to validate a different body');
+      done();
+    }
   });
 });

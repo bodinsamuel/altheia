@@ -192,7 +192,7 @@ describe('String', () => {
             position: 1,
             type: 'string.typeof',
           },
-        ]
+        ],
       });
     });
 
@@ -218,20 +218,29 @@ describe('String', () => {
             position: 2,
             type: 'array.itemInvalid',
           },
-        ]
+        ],
       });
     });
     test('should not pass with multiple templates and complex date', async () => {
       const hasError = await Alt.array()
-        .oneOf(Alt.number(), Alt.object().schema(Alt({
-          foo: Alt.object().schema(Alt({
-            bar: Alt.string(),
-          }))
-        })))
+        .oneOf(
+          Alt.number(),
+          Alt.object().schema(
+            Alt({
+              foo: Alt.object().schema(
+                Alt({
+                  bar: Alt.string(),
+                })
+              ),
+            })
+          )
+        )
         .validate([
           1,
           'foobar',
-          { foo: { bar: 1 } }
+          { foo: { bar: '1' } },
+          { foo: { bar: 1 } },
+          { foo: { bar: '1' } }
         ]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({
@@ -248,10 +257,10 @@ describe('String', () => {
           {
             label: 'item',
             message: 'item does not match any of the allowed types',
-            position: 2,
+            position: 3,
             type: 'array.itemInvalid',
           },
-        ]
+        ],
       });
     });
   });

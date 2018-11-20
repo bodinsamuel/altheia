@@ -252,4 +252,19 @@ describe('Base', () => {
       expect(mark.pass).toBe(true);
     });
   });
+
+  describe('test()', () => {
+    test('should be reusable', async (done) => {
+      const schema = Alt.string().in('hello');
+
+      const hasError1 = await schema.validate('good morning');
+      expect(hasError1.isValid).toBe(false);
+
+      const hasError2 = await schema.validate('hello');
+      expect(hasError2).toBe(false);
+      expect(hasError1.isValid).toBe(false);
+
+      done();
+    });
+  });
 });
