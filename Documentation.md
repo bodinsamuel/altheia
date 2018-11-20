@@ -323,13 +323,14 @@ Alt.object().not('foo', 'bar');
 #### `schema(schema :Validator, { returnErrors :bool })`
 > Check an object with the passed schema. It will help you check nested object without effort. Because schema need to be instance of Altheia, you can do whatever you want without restriction.
 Second params is optionnal:
-`returnErrors` to `true` will return errors with the main payload if any.
+`returnErrors` to `false` will not display nested errors.
 ```javascript
 Alt.object().schema(
     Alt({
         foo: Alt.string(),
         bar: Alt.number(),
-    }).options({ required: true })
+    }).options({ required: true }),
+    { returnErrors: false }
 );
 ```
 
