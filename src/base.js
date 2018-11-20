@@ -25,9 +25,7 @@ class Base {
   clone() {
     const clone = Object.assign(Object.create(this), this);
     // Quick deep clone
-    clone.tests = this.tests.map((item) => {
-      return Object.assign({}, item);
-    });
+    clone.tests = this.tests.slice(0);
     return clone;
   }
 
