@@ -70,7 +70,7 @@ const Instance = (lang) => {
       message: msg,
     };
 
-    if (position) {
+    if (typeof position === 'number') {
       formatted.position = position;
     }
 
