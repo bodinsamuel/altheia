@@ -120,7 +120,7 @@ class object extends Base {
    * @param  {boolean} options.returnErrors If true, deep errors while be returned too
    * @return {Base}
    */
-  schema(schema, { returnErrors = false } = {}) {
+  schema(schema, { returnErrors = true } = {}) {
     // old api
     if (isPlainObject(schema) && schema.schema) {
       if (typeof schema.returnErrors !== 'undefined') {
