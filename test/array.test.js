@@ -225,7 +225,7 @@ describe('String', () => {
       const hasError = await Alt.array()
         .oneOf(Alt.number(), Alt.object().schema(Alt({
           foo: Alt.object().schema(Alt({
-            bar: Alt.number(),
+            bar: Alt.string(),
           }))
         })))
         .validate([
