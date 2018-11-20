@@ -173,6 +173,7 @@ describe('Object', () => {
           schema: Alt({
             foo: Alt.number(),
           }).options({ required: true }),
+          returnErrors: false
         })
         .validate({ foo: 'bar' });
       expect(hasError).toBeTruthy();
