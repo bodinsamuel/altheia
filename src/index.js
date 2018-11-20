@@ -55,7 +55,7 @@ const Instance = (lang) => {
     return inst.templates[name].clone();
   };
 
-  inst.formatError = ({ name, args, result }, label = 'value') => {
+  inst.formatError = ({ name, args, result }, label = 'value', position = null) => {
     // Get messages from error
     let msg;
     if (typeof inst.langList[name] !== 'undefined') {
@@ -70,9 +70,13 @@ const Instance = (lang) => {
       message: msg,
     };
 
+    if (position) {
+      formatted.position = position;
+    }
+
     // nested errors
     if (result && result.errors) {
-      formatted.errors = result.errors.map((error) => inst.formatError(error.test, error.label));
+      formatted.errors = result.errors.map((error) => inst.formatError(error.test, error.label, error.position));
     }
     return formatted;
   };

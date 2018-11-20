@@ -150,13 +150,14 @@ class array extends Base {
       'oneOf',
       async (array) => {
         const errors = [];
-        await Promise.all(array.map(async (value) => {
+        await Promise.all(array.map(async (value, index) => {
           let error = false;
 
+          const label = 'item';
           for (var i = 0; i < templates.length; i++) {
             const test = await templates[i].validate(value);
             if (test) {
-              error = { label: value, test };
+              error = { label, test, position: index };
             } else {
               // early break if one template matched (returned no error)
               return;
@@ -165,7 +166,7 @@ class array extends Base {
 
           // if multiples templates, return a generic message
           if (templates.length > 1) {
-            errors.push({ label: value, test: { name: 'array.itemInvalid' } });
+            errors.push({ label, test: this.createTest({ isValid: false, name: 'array.itemInvalid' }), position: index });
           } else {
             errors.push(error);
           }
