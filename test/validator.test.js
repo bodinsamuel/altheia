@@ -451,3 +451,20 @@ describe('Validator', () => {
     });
   });
 });
+
+describe('Reuse', () => {
+  test('should clean constructor', async () => {
+    const schema = Alt({
+      foo: Alt.string(),
+    });
+
+    await schema.body({ foo: 1 }).validate();
+    expect(schema._errors).toHaveLength(1);
+    expect(schema._errorsRaw).toHaveLength(1);
+
+
+    await schema.body({ foo: 'bar' }).validate();
+    expect(schema._errors).toHaveLength(0);
+    expect(schema._errorsRaw).toHaveLength(0);
+  });
+});

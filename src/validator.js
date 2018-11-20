@@ -86,6 +86,9 @@ class Validator {
    * @return {object}
    */
   async validate(callback = null) {
+    this._errors = [];
+    this._errorsRaw = [];
+
     // Return an object and call a callback if needed
     const returnOrCallback = (callback, result) => {
       if (callback) {
