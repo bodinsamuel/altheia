@@ -77,7 +77,7 @@ class object extends Base {
           return {
             isValid: false,
             error: 'in',
-            errors: diff.map(label => {
+            errors: diff.map((label) => {
               return { test: this.createTest({ isValid: false, name: 'forbidden' }), label };
             }),
           };

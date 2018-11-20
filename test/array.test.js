@@ -187,8 +187,9 @@ describe('String', () => {
         message: 'value contains forbidden items',
         errors: [
           {
-            label: 2,
-            message: '2 must be a valid string',
+            label: 'item',
+            message: 'item must be a valid string',
+            position: 1,
             type: 'string.typeof',
           },
         ]
@@ -212,8 +213,42 @@ describe('String', () => {
         message: 'value contains forbidden items',
         errors: [
           {
-            label: 'foobar',
-            message: 'foobar does not match any of the allowed types',
+            label: 'item',
+            message: 'item does not match any of the allowed types',
+            position: 2,
+            type: 'array.itemInvalid',
+          },
+        ]
+      });
+    });
+    test('should not pass with multiple templates and complex date', async () => {
+      const hasError = await Alt.array()
+        .oneOf(Alt.number(), Alt.object().schema(Alt({
+          foo: Alt.object().schema(Alt({
+            bar: Alt.string(),
+          }))
+        })))
+        .validate([
+          1,
+          'foobar',
+          { foo: { bar: 1 } }
+        ]);
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError)).toEqual({
+        label: 'value',
+        type: 'array.oneOf',
+        message: 'value contains forbidden items',
+        errors: [
+          {
+            label: 'item',
+            message: 'item does not match any of the allowed types',
+            position: 1,
+            type: 'array.itemInvalid',
+          },
+          {
+            label: 'item',
+            message: 'item does not match any of the allowed types',
+            position: 2,
             type: 'array.itemInvalid',
           },
         ]
