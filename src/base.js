@@ -25,9 +25,7 @@ class Base {
   clone() {
     const clone = Object.assign(Object.create(this), this);
     // Quick deep clone
-    clone.tests = this.tests.map((item) => {
-      return Object.assign({}, item);
-    });
+    clone.tests = this.tests.slice(0);
     return clone;
   }
 
@@ -40,13 +38,13 @@ class Base {
    * @return {undefiend}
    */
   test(name, func, args = {}) {
-    this.tests.push({
+    this.tests.push(() => ({
       name: `${this.name}.${name}`,
       func,
       args,
       isValid: true,
       result: {},
-    });
+    }));
   }
 
   /**
@@ -102,7 +100,7 @@ class Base {
 
     // Iterate all tests
     for (var i = 0; i < this.tests.length; i++) {
-      let test = this.tests[i];
+      let test = this.tests[i]();
 
       // Special condition for IF() we need to display error of deep validation
       if (test.name.indexOf('.if') >= 0) {

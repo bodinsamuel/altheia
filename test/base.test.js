@@ -83,19 +83,17 @@ describe('Base', () => {
 
   describe('clone()', () => {
     test('should clone correctly', async () => {
-      const original = Alt.string().required();
-      const clone = original.clone();
+      const original = Alt.number().required();
+      const clone = original.clone().max(4);
 
-      expect(original.tests.length).toBe(clone.tests.length);
-      expect(original.tests[0].isValid).toBe(true);
-      expect(clone.tests[0].isValid).toBe(true);
+      expect(original.tests.length).toBe(1);
+      expect(clone.tests.length).toBe(2);
 
-      const hasError = await clone.max(4).validate(1);
+      const hasError1 = await clone.validate(1);
+      const hasError2 = await clone.max(4).validate(10);
 
-      expect(hasError).toBeTruthy();
-      expect(original.tests.length).toBe(clone.tests.length - 1);
-      expect(original.tests[0].isValid).toBe(true);
-      expect(clone.tests[0].isValid).toBe(false);
+      expect(hasError1).toBe(false);
+      expect(hasError2).toBeTruthy();
     });
   });
 
@@ -250,6 +248,21 @@ describe('Base', () => {
       expect(hasError).toBeTruthy();
       expect(hasError.name).toBe('string.custom.my_if');
       expect(mark.pass).toBe(true);
+    });
+  });
+
+  describe('test()', () => {
+    test('should be reusable', async (done) => {
+      const schema = Alt.string().in('hello');
+
+      const hasError1 = await schema.validate('good morning');
+      expect(hasError1.isValid).toBe(false);
+
+      const hasError2 = await schema.validate('hello');
+      expect(hasError2).toBe(false);
+      expect(hasError1.isValid).toBe(false);
+
+      done();
     });
   });
 });

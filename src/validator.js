@@ -17,6 +17,7 @@ class Validator {
   constructor(schema, inst) {
     this.inst = inst;
     this.isValidator = 1;
+    this.validated = false;
     this._schema = {};
     this._body = {};
     this._errors = [];
@@ -28,6 +29,17 @@ class Validator {
     };
 
     this.schema(schema);
+  }
+
+  /**
+   * Clone a validator
+   * @return {Validator}
+   */
+  clone() {
+    const clone = new Validator(this._schema, this.inst);
+    clone.options(this._options);
+    clone._confirm = [...this._confirm];
+    return clone;
   }
 
   /**
@@ -86,9 +98,10 @@ class Validator {
    * @return {object}
    */
   async validate(callback = null) {
-    this._errors = [];
-    this._errorsRaw = [];
-
+    if (this.validated) {
+      throw new Error('Already validated, please use .clone() to validate a different body');
+    }
+    this.validated = true;
     // Return an object and call a callback if needed
     const returnOrCallback = (callback, result) => {
       if (callback) {

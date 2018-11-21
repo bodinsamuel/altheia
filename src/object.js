@@ -147,11 +147,12 @@ class object extends Base {
     this.test(
       'schema',
       async (obj) => {
-        const hasError = await schema.body(obj).validate();
+        const clone = schema.clone();
+        const hasError = await clone.body(obj).validate();
         return {
           isValid: hasError === false,
           error: 'schema',
-          errors: hasError && returnErrors ? schema._errorsRaw : undefined,
+          errors: hasError && returnErrors ? clone._errorsRaw : undefined,
         };
       },
       { schema }
