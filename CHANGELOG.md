@@ -1,3 +1,7 @@
+# [4.0.0](https://github.com/bodinsamuel/altheia/compare/v4.0.0...master) (2018-11-20)
+### Breaking
+- Alt(...).validate() can not be called twice, you need to `clone()`  [documentation](https://github.com/bodinsamuel/altheia/blob/master/Documentation.md#clone)
+
 # [3.3.0](https://github.com/bodinsamuel/altheia/compare/v3.2.0...master) (2018-11-19)
 ### Features
 - Object.schema(): now `returnErrors=true` by default
