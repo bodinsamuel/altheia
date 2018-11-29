@@ -155,7 +155,7 @@ class array extends Base {
 
           const label = 'item';
           for (var i = 0; i < templates.length; i++) {
-            const test = await templates[i].validate(value);
+            const test = await templates[i].required().validate(value);
             if (test) {
               error = { label, test, position: index };
             } else {
