@@ -60,7 +60,8 @@
     "lint-staged": "^8.1.7",
     "prettier": "1.14.0",
     "uglifyjs-webpack-plugin": "^2.1.3",
-    "webpack": "^4.25.1"
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.3.2"
   },
   "jest": {
     "testEnvironment": "node"
