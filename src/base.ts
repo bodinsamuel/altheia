@@ -1,20 +1,52 @@
-const isPlainObject = require('lodash/isPlainObject');
+import isPlainObject = require('lodash/isPlainObject');
+import { AltheiaInstance } from '.';
+
+type TestFunction = (
+  params: any
+) => Promise<boolean | ValidatorTest> | boolean | ValidatorTest;
+type ChainFunction = (validator: TypeBase) => TypeBase;
+
+export interface ValidatorTest {
+  name?: string;
+  isValid: boolean;
+  func?: TestFunction | null;
+  args?: any;
+  result?: any;
+}
+
+export interface ValidatorError {
+  label: string;
+  type?: string;
+  message?: string;
+  position?: number;
+  errors?: ValidatorError[];
+  test?: ValidatorTest;
+}
 
 /**
  * All type inherit this Class
  */
-class Base {
+class TypeBase {
+  inst: any;
+  tests: any[];
+  name?: string;
+
+  _required: boolean;
+  _need_cast: boolean;
+  _no_empty?: boolean;
+
   /**
    * Constructor
    *
    * @param  {Altheia} inst
    * @return {Base}
    */
-  constructor(inst = null) {
+  constructor(inst = undefined) {
     this.inst = inst || require('./index');
+    this.tests = [];
+
     this._required = false;
     this._need_cast = false;
-    this.tests = [];
   }
 
   /**
@@ -22,7 +54,7 @@ class Base {
    *
    * @return {Base}
    */
-  clone() {
+  clone(): TypeBase {
     const clone = Object.assign(Object.create(this), this);
     // Quick deep clone
     clone.tests = this.tests.slice(0);
@@ -35,9 +67,9 @@ class Base {
    * @param  {string} name
    * @param  {function} func
    * @param  {Object} args
-   * @return {undefiend}
+   * @return {undefined}
    */
-  test(name, func, args = {}) {
+  test(name: string, func: TestFunction, args = {}): void {
     this.tests.push(() => ({
       name: `${this.name}.${name}`,
       func,
@@ -56,7 +88,13 @@ class Base {
    * @param  {Object}  options.result    The result of the function
    * @return {object}                    The final test object
    */
-  createTest({ name, isValid = true, func = null, args = null, result = {} }) {
+  createTest({
+    name,
+    isValid = true,
+    func = null,
+    args = null,
+    result = {},
+  }: ValidatorTest): ValidatorTest {
     return {
       name,
       func,
@@ -72,9 +110,9 @@ class Base {
    * @param  {Function} callback
    * @return {object}
    */
-  async validate(toTest, callback = null) {
+  async validate(toTest: any, callback?: (value: any) => void): Promise<any> {
     // Return an object and call a callback if needed
-    const returnOrCallback = (callback, result) => {
+    const returnOrCallback = (result: any, callback?: (value: any) => void) => {
       if (callback) {
         callback(result);
       }
@@ -85,13 +123,16 @@ class Base {
     const presence = this.presence(toTest);
     if (presence === false) {
       if (this._required === false) {
-        return returnOrCallback(callback, false);
+        return returnOrCallback(false, callback);
       }
 
-      return returnOrCallback(callback, this.createTest({
-        name: 'required',
-        isValid: false,
-      }));
+      return returnOrCallback(
+        this.createTest({
+          name: 'required',
+          isValid: false,
+        }),
+        callback
+      );
     }
 
     if (this._need_cast) {
@@ -138,7 +179,7 @@ class Base {
       }
     }
 
-    return returnOrCallback(callback, false);
+    return returnOrCallback(false, callback);
   }
 
   /**
@@ -146,7 +187,7 @@ class Base {
    *
    * @return {Base}
    */
-  required() {
+  required(): this {
     this._required = true;
     return this;
   }
@@ -156,10 +197,12 @@ class Base {
    *
    * @return {Base}
    */
-  cast() {
+  cast(): this {
     this._need_cast = true;
     return this;
   }
+
+  _cast(_value: any): any {}
 
   /**
    * Custom validator
@@ -169,24 +212,17 @@ class Base {
    * @param  {Function}   message
    * @return {Base}
    */
-  custom(name, callback, message) {
-    if (typeof name !== 'string') {
-      throw new Error(
-        'first param of custom() must the unique name of this test'
-      );
-    }
-
+  custom(name: string, callback: TestFunction): this {
     this.test(
       `custom.${name}`,
-      async (str) => {
+      async (value: any) => {
         try {
-          return await callback(str);
+          return await callback(value);
         } catch (e) {
           return false;
         }
       },
-      {},
-      message
+      {}
     );
     return this;
   }
@@ -197,7 +233,7 @@ class Base {
    * @param  {mixed} toTest
    * @return {boolean}
    */
-  presence(toTest) {
+  presence(toTest: any): Boolean {
     if (
       toTest === null ||
       typeof toTest === 'undefined' ||
@@ -228,7 +264,15 @@ class Base {
    * @param  {function} options.otherwise
    * @return {Base}
    */
-  if({ test, then, otherwise }) {
+  if({
+    test,
+    then,
+    otherwise,
+  }: {
+    test: ChainFunction;
+    then: ChainFunction;
+    otherwise: ChainFunction;
+  }): this {
     this.test('if', async (str) => {
       const clone = this.clone();
       clone.tests = [];
@@ -246,4 +290,8 @@ class Base {
   }
 }
 
-module.exports = Base;
+export interface BaseConstructor {
+  new (instance?: AltheiaInstance): TypeBase;
+}
+
+export default TypeBase;

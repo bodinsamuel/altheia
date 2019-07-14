@@ -1,11 +1,9 @@
-const Base = require('./base');
-
-module.exports.lang = {};
+import Base from './base';
 
 /**
  * Any is just a empty class to allow chaining
  */
-class any extends Base {
+export class TypeAny extends Base {
   /**
    * Constructor
    * @return {Base}
@@ -16,4 +14,8 @@ class any extends Base {
   }
 }
 
-module.exports.Class = any;
+const def = {
+  Class: TypeAny,
+};
+
+export default def;

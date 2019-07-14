@@ -1,6 +1,7 @@
-const Base = require('./base');
+import TypeBase from './base';
+import { LangList } from './lang';
 
-module.exports.lang = {
+export const messages: LangList = {
   'string.typeof': (name) => `${name} must be a valid string`,
   'string.empty': (name) => `${name} can not be empty`,
   'string.min': (name, args) =>
@@ -19,7 +20,7 @@ module.exports.lang = {
 /**
  * String class
  */
-class string extends Base {
+export class TypeString extends TypeBase {
   /**
    * Constructor
    * @return {Base}
@@ -62,7 +63,7 @@ class string extends Base {
    * @param  {number} min
    * @return {Base}
    */
-  min(min) {
+  min(min: number) {
     this.test(
       'min',
       (str) => {
@@ -80,7 +81,7 @@ class string extends Base {
    * @param  {number} max
    * @return {Base}
    */
-  max(max) {
+  max(max: number) {
     this.test(
       'max',
       (str) => {
@@ -98,7 +99,7 @@ class string extends Base {
    * @param  {Regex} regex
    * @return {Base}
    */
-  pattern(regex) {
+  pattern(regex: RegExp) {
     this.test(
       'pattern',
       (str) => {
@@ -116,7 +117,7 @@ class string extends Base {
    * @param  {...string} obj
    * @return {Base}
    */
-  in(...obj) {
+  in(...obj: string[]) {
     this.test(
       'in',
       (str) => {
@@ -134,7 +135,7 @@ class string extends Base {
    * @param  {...string} obj
    * @return {Base}
    */
-  not(...obj) {
+  not(...obj: string[]) {
     this.test(
       'not',
       (str) => {
@@ -186,4 +187,9 @@ class string extends Base {
   }
 }
 
-module.exports.Class = string;
+const def = {
+  Class: TypeString,
+  messages,
+};
+
+export default def;

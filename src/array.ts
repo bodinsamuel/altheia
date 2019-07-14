@@ -1,7 +1,9 @@
-const Base = require('./base');
-const arrayDiff = require('./utils/arraydiff');
+import TypeBase from './base';
+import arrayDiff = require('./utils/arraydiff');
+import { LangList } from './lang';
+import { ValidatorError } from './base';
 
-module.exports.lang = {
+export const messages: LangList = {
   'array.typeof': (name) => `${name} must be a valid array`,
   'array.min': (name, args) =>
     `${name} must contains at least ${args.min} items`,
@@ -12,13 +14,14 @@ module.exports.lang = {
   'array.not': (name) => `${name} contains forbidden value`,
   'array.unique': (name) => `${name} can not contains duplicated value`,
   'array.oneOf': (name) => `${name} contains forbidden items`,
-  'array.itemInvalid': (name) => `${name} does not match any of the allowed types`,
+  'array.itemInvalid': (name) =>
+    `${name} does not match any of the allowed types`,
 };
 
 /**
  * Array class
  */
-class array extends Base {
+export class TypeArray extends TypeBase {
   /**
    * Constructor
    * @return {Base}
@@ -34,7 +37,7 @@ class array extends Base {
    *
    * @return {Base}
    */
-  typeof() {
+  typeof(): this {
     this.test('typeof', (str) => {
       return Array.isArray(str);
     });
@@ -47,7 +50,7 @@ class array extends Base {
    * @param  {number} min
    * @return {Base}
    */
-  min(min) {
+  min(min: number): this {
     this.test(
       'min',
       (str) => {
@@ -65,7 +68,7 @@ class array extends Base {
    * @param  {number} max
    * @return {Base}
    */
-  max(max) {
+  max(max: number): this {
     this.test(
       'max',
       (str) => {
@@ -83,11 +86,11 @@ class array extends Base {
    * @param  {...string} array
    * @return {Base}
    */
-  in(...array) {
+  in(...array: string[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = array[0];
+      only = (array[0] as unknown) as string[];
     }
 
     this.test(
@@ -107,11 +110,11 @@ class array extends Base {
    * @param  {...string} array
    * @return {Base}
    */
-  not(...array) {
+  not(...array: string[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = array[0];
+      only = (array[0] as unknown) as string[];
     }
 
     this.test(
@@ -130,7 +133,7 @@ class array extends Base {
    *
    * @return {Base}
    */
-  unique() {
+  unique(): this {
     this.test('unique', (str) => {
       const a = new Set(str);
       return a.size === str.length;
@@ -145,32 +148,47 @@ class array extends Base {
    * @param  {...Validator} templates
    * @return {Base}
    */
-  oneOf(...templates) {
+  oneOf(...templates: TypeBase[]): this {
     this.test(
       'oneOf',
       async (array) => {
-        const errors = [];
-        await Promise.all(array.map(async (value, index) => {
-          let error = false;
+        const errors: ValidatorError[] = [];
+        await Promise.all(
+          array.map(async (value: any, index: number) => {
+            let error: ValidatorError | null = null;
 
-          const label = 'item';
-          for (var i = 0; i < templates.length; i++) {
-            const test = await templates[i].required().validate(value);
-            if (test) {
-              error = { label, test, position: index };
-            } else {
-              // early break if one template matched (returned no error)
+            const label = 'item';
+            for (var i = 0; i < templates.length; i++) {
+              const test = await templates[i].required().validate(value);
+              if (test) {
+                error = { label, test, position: index };
+              } else {
+                // early break if one template matched (returned no error)
+                return;
+              }
+            }
+
+            // Help typescript understand we have error here
+            if (!error) {
               return;
             }
-          }
 
-          // if multiples templates, return a generic message
-          if (templates.length > 1) {
-            errors.push({ label, test: this.createTest({ isValid: false, name: 'array.itemInvalid' }), position: index });
-          } else {
-            errors.push(error);
-          }
-        }));
+            // if multiples templates, return a generic message
+            if (templates.length > 1) {
+              error = {
+                label,
+                test: this.createTest({
+                  isValid: false,
+                  name: 'array.itemInvalid',
+                }),
+                position: index,
+              };
+              errors.push(error);
+            } else {
+              errors.push(error);
+            }
+          })
+        );
 
         return {
           isValid: errors.length <= 0,
@@ -185,4 +203,9 @@ class array extends Base {
   }
 }
 
-module.exports.Class = array;
+const def = {
+  Class: TypeArray,
+  messages,
+};
+
+export default def;

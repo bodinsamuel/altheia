@@ -1,4 +1,5 @@
-const Base = require('./base');
+import TypeBase from './base';
+import { LangList } from './lang';
 
 /* eslint-disable */
 const iso = new RegExp(
@@ -6,7 +7,7 @@ const iso = new RegExp(
 );
 /* eslint-enable */
 
-module.exports.lang = {
+export const messages: LangList = {
   'date.typeof': (name) => `${name} must be a valid date`,
   'date.iso': (name) => `${name} must be an ISO-8601 date`,
   'date.min': (name, { min }) =>
@@ -18,7 +19,7 @@ module.exports.lang = {
 /**
  * Date class
  */
-class date extends Base {
+export class TypeDate extends TypeBase {
   /**
    * Constructor
    *
@@ -36,7 +37,7 @@ class date extends Base {
    * @param {mixed} value
    * @return {Date|mixed}
    */
-  _cast(value) {
+  _cast(value: any) {
     return Date.parse(value);
   }
 
@@ -70,7 +71,7 @@ class date extends Base {
    * @param  {Date} min
    * @return {Base}
    */
-  min(min) {
+  min(min: Date) {
     this.test(
       'min',
       (str) => {
@@ -81,7 +82,7 @@ class date extends Base {
         ) {
           return false;
         }
-        return Date.parse(str) >= min;
+        return Date.parse(str) >= min.getTime();
       },
       { min }
     );
@@ -94,7 +95,7 @@ class date extends Base {
    * @param  {Date} max
    * @return {Base}
    */
-  max(max) {
+  max(max: Date) {
     this.test(
       'max',
       (str) => {
@@ -105,7 +106,7 @@ class date extends Base {
         ) {
           return false;
         }
-        return Date.parse(str) <= max;
+        return Date.parse(str) <= max.getTime();
       },
       { max }
     );
@@ -113,4 +114,9 @@ class date extends Base {
   }
 }
 
-module.exports.Class = date;
+const def = {
+  Class: TypeDate,
+  messages,
+};
+
+export default def;

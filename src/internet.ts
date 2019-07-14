@@ -1,6 +1,7 @@
-const Base = require('./base');
-const Luhn = require('./utils/luhn');
-const { URL } = require('url');
+import TypeBase from './base';
+import Luhn = require('./utils/luhn');
+import url = require('url');
+import { LangList } from './lang';
 
 // eslint-disable-next-line
 const hostname = new RegExp(
@@ -16,7 +17,7 @@ const ipv6 = new RegExp(
   /^((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4}))*::((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4}))*|((?:[0-9A-Fa-f]{1,4}))((?::[0-9A-Fa-f]{1,4})){7}$/
 );
 
-module.exports.lang = {
+export const messages: LangList = {
   'internet.typeof': (name) => `${name} must be a valid string`,
   'internet.url': (name) => `${name} must be a valid url`,
   'internet.hostname': (name) => `${name} must be a valid hostname`,
@@ -31,7 +32,7 @@ module.exports.lang = {
 /**
  * Internet class
  */
-class internet extends Base {
+export class TypeInternet extends TypeBase {
   /**
    * Constructor
    * @return {Base}
@@ -68,7 +69,7 @@ class internet extends Base {
         }
 
         // eslint-disable-next-line
-        new URL(str);
+        new url.URL(str);
         return true;
       } catch (e) {
         return false;
@@ -172,4 +173,9 @@ class internet extends Base {
   }
 }
 
-module.exports.Class = internet;
+const def = {
+  Class: TypeInternet,
+  messages,
+};
+
+export default def;

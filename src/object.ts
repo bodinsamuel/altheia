@@ -1,9 +1,11 @@
-const arrayDiff = require('./utils/arraydiff');
-const isPlainObject = require('lodash/isPlainObject');
+import arrayDiff = require('./utils/arraydiff');
+import isPlainObject = require('lodash/isPlainObject');
 
-const Base = require('./base');
+import TypeBase from './base';
+import { LangList } from './lang';
+import Validator from './validator';
 
-module.exports.lang = {
+export const messages: LangList = {
   'object.typeof': (name) => `${name} must be a valid object`,
   'object.in': (name, args) =>
     `${name} must only contains these keys [${args.in}]`,
@@ -27,7 +29,7 @@ module.exports.lang = {
 /**
  * Object class
  */
-class object extends Base {
+export class TypeObject extends TypeBase {
   /**
    * Constructor
    *
@@ -57,16 +59,13 @@ class object extends Base {
    * @param  {...string} array
    * @return {Base}
    */
-  in(...array) {
+  in(...array: string[]) {
     let only = array;
     let oneErrorPerKey = false;
 
     // handle someone passing literal array instead of multiple args
     if (array.length > 0 && Array.isArray(array[0])) {
-      only = array[0];
-      if (isPlainObject(array[1])) {
-        oneErrorPerKey = !!array[1].oneErrorPerKey;
-      }
+      only = (array[0] as unknown) as string[];
     }
 
     this.test(
@@ -78,7 +77,10 @@ class object extends Base {
             isValid: false,
             error: 'in',
             errors: diff.map((label) => {
-              return { test: this.createTest({ isValid: false, name: 'forbidden' }), label };
+              return {
+                test: this.createTest({ isValid: false, name: 'forbidden' }),
+                label,
+              };
             }),
           };
         }
@@ -95,11 +97,11 @@ class object extends Base {
    * @param  {...string} array
    * @return {Base}
    */
-  not(...array) {
+  not(...array: string[]) {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = array[0];
+      only = (array[0] as unknown) as string[];
     }
 
     this.test(
@@ -120,15 +122,7 @@ class object extends Base {
    * @param  {boolean} options.returnErrors If true, deep errors while be returned too
    * @return {Base}
    */
-  schema(schema, { returnErrors = true } = {}) {
-    // old api
-    if (isPlainObject(schema) && schema.schema) {
-      if (typeof schema.returnErrors !== 'undefined') {
-        returnErrors = schema.returnErrors;
-      }
-      schema = schema.schema;
-    }
-
+  schema(schema: Validator, { returnErrors = true } = {}) {
     if (typeof schema.isValidator === 'undefined') {
       if (!isPlainObject(schema)) {
         throw new Error(
@@ -168,13 +162,13 @@ class object extends Base {
    * @param  {mixed} params
    * @return {Base}
    */
-  oneOf(...params) {
+  oneOf(...params: any) {
     if (params.length <= 1) {
       throw new Error('oneOf expect at least 2 params');
     }
 
     let oneIsRequired = false;
-    let keys = [];
+    let keys: string[] = [];
     if (typeof params[0] === 'boolean') {
       oneIsRequired = params[0];
       keys = params.splice(1);
@@ -185,7 +179,10 @@ class object extends Base {
     this.test(
       'oneOf',
       async (obj) => {
-        const presence = { a: null, b: null };
+        const presence: { a: null | string; b: null | string } = {
+          a: null,
+          b: null,
+        };
 
         try {
           Object.keys(obj).forEach((key) => {
@@ -223,7 +220,7 @@ class object extends Base {
    * @param  {...string} keys
    * @return {Base}
    */
-  allOf(...keys) {
+  allOf(...keys: string[]) {
     this.test(
       'allOf',
       async (obj) => {
@@ -242,4 +239,9 @@ class object extends Base {
   }
 }
 
-module.exports.Class = object;
+const def = {
+  Class: TypeObject,
+  messages,
+};
+
+export default def;

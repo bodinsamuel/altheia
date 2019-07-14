@@ -1,23 +1,51 @@
-const isPlainObject = require('lodash/isPlainObject');
-const isEqual = require('lodash/isEqual');
+import isPlainObject = require('lodash/isPlainObject');
+import isEqual = require('lodash/isEqual');
 
-const ObjectValidator = require('./object').Class;
+import { TypeObject } from './object';
+import TypeBase, { ValidatorError, ValidatorTest } from './base';
+import { AltheiaInstance } from '.';
+
+export interface ValidatorOptions {
+  required: boolean;
+  unknown: boolean;
+}
+
+export interface ValidatorConfirm {
+  initial: string;
+  comparison: string;
+}
+
+export interface ValidatorSchema {
+  [k: string]: TypeBase;
+}
 
 /**
  * Validator class
  * new Validator({ foo: 'bar' });
  */
 class Validator {
+  inst: AltheiaInstance;
+  isValidator: number;
+  validated: boolean;
+  _schema: any;
+  _body: any;
+  _errors: any[];
+  _errorsRaw: any[];
+  _confirm: ValidatorConfirm[];
+  _options: ValidatorOptions;
+
   /**
    * Constructor
    * @param  {object} schema
    * @param  {object} inst   An Altheia instance
    * @return {Validator}
    */
-  constructor(schema, inst) {
+  constructor(schema: ValidatorSchema, inst: AltheiaInstance) {
     this.inst = inst;
+
     this.isValidator = 1;
     this.validated = false;
+
     this._schema = {};
     this._body = {};
     this._errors = [];
@@ -48,7 +76,7 @@ class Validator {
    * @param  {object} body
    * @return {Validator}
    */
-  body(body) {
+  body(body: any) {
     this._body = Object.assign({}, body);
     return this;
   }
@@ -59,7 +87,7 @@ class Validator {
    * @param  {object} schema
    * @return {Validator}
    */
-  schema(schema) {
+  schema(schema: ValidatorSchema) {
     if (!isPlainObject(schema)) {
       throw new Error('schema should be object');
     }
@@ -73,7 +101,7 @@ class Validator {
    * @param  {object} options
    * @return {Validator}
    */
-  options(options) {
+  options(options: ValidatorOptions) {
     if (!isPlainObject(options)) {
       throw new Error('schema should be object');
     }
@@ -87,7 +115,7 @@ class Validator {
    * @param  {string} label
    * @return {object}
    */
-  formatError(error, label) {
+  formatError(error: ValidatorTest, label: string) {
     return this.inst.formatError(error, label);
   }
 
@@ -99,26 +127,30 @@ class Validator {
    */
   async validate(callback = null) {
     if (this.validated) {
-      throw new Error('Already validated, please use .clone() to validate a different body');
+      throw new Error(
+        'Already validated, please use .clone() to validate a different body'
+      );
     }
     this.validated = true;
     // Return an object and call a callback if needed
-    const returnOrCallback = (callback, result) => {
+    const returnOrCallback = (callback, result: any) => {
       if (callback) {
         callback(result);
       }
       return result;
     };
 
-
     const errors = [];
     // Early return if unknown keys
     if (this._options.unknown === false) {
-      const only = await new ObjectValidator()
+      const only = await new TypeObject()
         .in(Object.keys(this._schema), { oneErrorPerKey: true })
         .validate(this._body);
+
       if (only) {
-        only.result.errors.map(error => errors.push(this.formatError(error.test, error.label)));
+        only.result.errors.map((error: ValidatorError) =>
+          errors.push(this.formatError(error.test, error.label))
+        );
       }
     }
 
@@ -156,8 +188,12 @@ class Validator {
         if (isEqual(initial, comparison)) {
           return;
         }
+
         this._errors.push(
-          this.formatError({ name: 'confirm', args: item }, item.comparison)
+          this.formatError(
+            { name: 'confirm', args: item, isValid: false },
+            item.comparison
+          )
         );
       });
     }
@@ -176,10 +212,10 @@ class Validator {
    * @param  {string} comparison The second key
    * @return {Validator}
    */
-  confirm(initial, comparison) {
-    this._confirm.push({ initial, comparison });
+  confirm(initial: string, comparison: string) {
+    this._confirm.push({ initial, comparison } as ValidatorConfirm);
     return this;
   }
 }
 
-module.exports = Validator;
+export default Validator;

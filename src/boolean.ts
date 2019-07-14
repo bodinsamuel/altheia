@@ -1,6 +1,7 @@
-const Base = require('./base');
+import TypeBase from './base';
+import { LangList } from './lang';
 
-module.exports.lang = {
+export const messages: LangList = {
   'boolean.typeof': (name) => `${name} must be a valid boolean`,
   'boolean.true': (name) => `${name} must be true`,
   'boolean.false': (name) => `${name} must be false`,
@@ -9,7 +10,7 @@ module.exports.lang = {
 /**
  * Boolean class
  */
-class boolean extends Base {
+export class TypeBoolean extends TypeBase {
   /**
    * Constructor
    * @return {Base}
@@ -26,7 +27,7 @@ class boolean extends Base {
    * @param {mixed} value
    * @return {boolean|mixed}
    */
-  _cast(value) {
+  _cast(value: any): boolean | any {
     if (typeof value === 'string') {
       if (value === 'true' || value === 'True') {
         return true;
@@ -42,7 +43,7 @@ class boolean extends Base {
    *
    * @return {Base}
    */
-  typeof() {
+  typeof(): this {
     this.test('typeof', (str) => {
       return typeof str === 'boolean';
     });
@@ -54,7 +55,7 @@ class boolean extends Base {
    *
    * @return {Base}
    */
-  true() {
+  true(): this {
     this.test('true', (str) => {
       return str === true;
     });
@@ -66,7 +67,7 @@ class boolean extends Base {
    *
    * @return {Base}
    */
-  false() {
+  false(): this {
     this.test('false', (str) => {
       return str === false;
     });
@@ -74,4 +75,9 @@ class boolean extends Base {
   }
 }
 
-module.exports.Class = boolean;
+const def = {
+  Class: TypeBoolean,
+  messages,
+};
+
+export default def;

@@ -1,6 +1,7 @@
-const Base = require('./base');
+import TypeBase from './base';
+import { LangList } from './lang';
 
-module.exports.lang = {
+export const messages: LangList = {
   'number.typeof': (name) => `${name} must be a valid number`,
   'number.min': (name, args) => `${name} must be at least ${args.min}`,
   'number.max': (name, args) =>
@@ -16,7 +17,7 @@ module.exports.lang = {
 /**
  * Number class
  */
-class number extends Base {
+export class TypeNumber extends TypeBase {
   /**
    * Constructor
    * @return {Base}
@@ -33,7 +34,7 @@ class number extends Base {
    * @param {mixed} value
    * @return {Number|mixed}
    */
-  _cast(value) {
+  _cast(value: any) {
     if (typeof value === 'string') {
       return parseFloat(value);
     }
@@ -58,7 +59,7 @@ class number extends Base {
    * @param  {number} min
    * @return {Base}
    */
-  min(min) {
+  min(min: number) {
     this.test(
       'min',
       (str) => {
@@ -75,7 +76,7 @@ class number extends Base {
    * @param  {number} max
    * @return {Base}
    */
-  max(max) {
+  max(max: number) {
     this.test(
       'max',
       (str) => {
@@ -140,7 +141,7 @@ class number extends Base {
    * @param  {...number} obj
    * @return {Base}
    */
-  in(...obj) {
+  in(...obj: number[]) {
     this.test(
       'in',
       (str) => {
@@ -158,7 +159,7 @@ class number extends Base {
    * @param  {...number} obj
    * @return {Base}
    */
-  not(...obj) {
+  not(...obj: number[]) {
     this.test(
       'not',
       (str) => {
@@ -171,4 +172,9 @@ class number extends Base {
   }
 }
 
-module.exports.Class = number;
+const def = {
+  Class: TypeNumber,
+  messages,
+};
+
+export default def;

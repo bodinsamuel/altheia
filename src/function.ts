@@ -1,13 +1,14 @@
-const Base = require('./base');
+import TypeBase from './base';
+import { LangList } from './lang';
 
-module.exports.lang = {
+export const messages: LangList = {
   'function.typeof': (name) => `${name} must be a valid function`,
 };
 
 /**
  * Function class
  */
-class func extends Base {
+export class TypeFunc extends TypeBase {
   /**
    * Constructor
    *
@@ -32,4 +33,9 @@ class func extends Base {
   }
 }
 
-module.exports.Class = func;
+const def = {
+  Class: TypeFunc,
+  messages,
+};
+
+export default def;
