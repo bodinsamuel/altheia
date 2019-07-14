@@ -33,7 +33,7 @@ export interface BaseConstructor {
 }
 
 // ---------- Lang
-export type LangFunction = (name: string, args: any, result: any) => string;
+export type LangFunction = (name: string, args?: any, result?: any) => string;
 
 export type LangList = {
   [k: string]: LangFunction;
@@ -41,8 +41,8 @@ export type LangList = {
 
 // ---------- Validator
 export interface ValidatorOptions {
-  required: boolean;
-  unknown: boolean;
+  required?: boolean;
+  unknown?: boolean;
 }
 
 export interface ValidatorConfirm {

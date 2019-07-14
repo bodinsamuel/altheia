@@ -47,7 +47,7 @@ class Validator {
     this._confirm = [];
     this._options = {
       required: false,
-      unknown: true,
+      unknown: false,
     };
 
     this.schema(schema);

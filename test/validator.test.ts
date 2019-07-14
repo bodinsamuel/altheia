@@ -73,6 +73,7 @@ describe('Validator', () => {
     });
     test('should throw error on bad params', async () => {
       expect(() => {
+        // @ts-ignore
         Alt(true);
       }).toThrow('schema should be object');
     });
@@ -81,6 +82,7 @@ describe('Validator', () => {
   describe('options()', () => {
     test('should throw error on bad params', async () => {
       expect(() => {
+        // @ts-ignore
         Alt({}).options(true);
       }).toThrow('schema should be object');
     });

@@ -1,5 +1,5 @@
 import Alt from './../src';
-import StringValidator from './../src/string');
+import StringValidator, { TypeString } from './../src/string';
 
 describe('Index', () => {
   describe('instance()', () => {
@@ -33,7 +33,7 @@ describe('Index', () => {
       });
       expect(alt1.langList).toBeInstanceOf(Object);
       expect(alt1.langList['string.min']).toBeInstanceOf(Function);
-      expect(alt1.langList['string.min']()).toBe('foobar');
+      expect(alt1.langList['string.min']('value')).toBe('foobar');
 
       expect(Alt.langList['string.min']('value', { min: 1 })).toBe(
         'value must be at least 1 characters long'
@@ -45,7 +45,7 @@ describe('Index', () => {
     test('should create a new instance with custom plugin', () => {
       const alt1 = Alt.instance();
       alt1.use({
-        lang: {
+        messages: {
           'mycustom.myrule': () => 'not good',
         },
         Class: class mycustom extends Alt.Base {
@@ -109,7 +109,7 @@ describe('Index', () => {
           .max(10)
       );
 
-      const back = alt1.is('login').lowercase();
+      const back = (alt1.is('login') as TypeString).lowercase();
       expect(back).toBeInstanceOf(StringValidator);
       expect(back.tests.length).toBe(4);
 
