@@ -119,7 +119,9 @@ class Validator {
    * @param  {Function} callback
    * @return {object}
    */
-  async validate(callback?: (value: any) => void) {
+  async validate(
+    callback?: (value: false | ValidatorErrorFormatted) => void
+  ): Promise<false | ValidatorErrorFormatted> {
     if (this.validated) {
       throw new Error(
         'Already validated, please use .clone() to validate a different body'

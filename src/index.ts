@@ -23,7 +23,7 @@ import NumberValidator from './number';
 import ObjectValidator from './object';
 import StringValidator from './string';
 
-const Instance = (lang?: LangList): AltheiaInstance => {
+export const Instance = (lang?: LangList): AltheiaInstance => {
   const inst: AltheiaInstance = (schema: ValidatorSchema): Validator => {
     return new Validator(schema, inst);
   };

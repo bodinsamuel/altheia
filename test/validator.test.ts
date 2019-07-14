@@ -330,6 +330,7 @@ describe('Validator', () => {
         .body({ login: 'foobA', password: 'foob' })
         .validate();
       expect(hasError).toBeTruthy();
+      // @ts-ignore
       expect(hasError.length).toBe(2);
 
       expect(hasError[0]).toEqual({

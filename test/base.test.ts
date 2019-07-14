@@ -37,7 +37,7 @@ describe('Base', () => {
     test('should understand object response', async () => {
       const hasError = await Alt.string()
         .custom('mytest', () => {
-          return { isValid: false, error: 'not_okay' };
+          return { valid: false, error: 'not_okay' };
         })
         .validate('foobar');
 
@@ -45,6 +45,7 @@ describe('Base', () => {
       expect(hasError).toBeTruthy();
       expect(hasError.result.error).toEqual('not_okay');
     });
+
     test('should fail if result is string', async () => {
       let error;
       try {
@@ -58,10 +59,11 @@ describe('Base', () => {
       }
       expect(error).toEqual(
         new Error(
-          'test() should return a boolean or an object { isValid:boolean, error:string }'
+          'test() should return a boolean or an object { valid: boolean, error: string }'
         )
       );
     });
+
     test('should fail if not a valid object', async () => {
       let error;
       try {
@@ -75,7 +77,7 @@ describe('Base', () => {
       }
       expect(error).toEqual(
         new Error(
-          'test() should return a boolean or an object { isValid:boolean, error:string }'
+          'test() should return a boolean or an object { valid: boolean, error: string }'
         )
       );
     });
@@ -256,11 +258,11 @@ describe('Base', () => {
       const schema = Alt.string().in('hello');
 
       const hasError1 = await schema.validate('good morning');
-      expect(hasError1.isValid).toBe(false);
+      expect(hasError1.valid).toBe(false);
 
       const hasError2 = await schema.validate('hello');
       expect(hasError2).toBe(false);
-      expect(hasError1.isValid).toBe(false);
+      expect(hasError1.valid).toBe(false);
 
       done();
     });

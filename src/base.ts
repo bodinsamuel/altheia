@@ -75,12 +75,12 @@ class TypeBase {
    */
   async validate(
     toTest: any,
-    callback?: (value: any) => void
+    callback?: (value: false | ValidatorTestResult) => void
   ): Promise<false | ValidatorTestResult> {
     // Return an object and call a callback if needed
     const returnOrCallback = (
       result: false | ValidatorTestResult,
-      callback?: (value: any) => void
+      callback?: (value: false | ValidatorTestResult) => void
     ) => {
       if (callback) {
         callback(result);
@@ -121,15 +121,19 @@ class TypeBase {
         result = this.testToTestResult(await test.func(toTest));
       } else {
         result = this.testToTestResult(await test.func(toTest));
+      }
 
-        if (typeof result.error === 'undefined') {
-          'test() should return a boolean or an object { valid: boolean; error: string }';
-          throw new Error();
-        }
+      if (
+        typeof result.error === 'undefined' ||
+        typeof result.valid === 'undefined'
+      ) {
+        throw new Error(
+          'test() should return a boolean or an object { valid: boolean, error: string }'
+        );
       }
 
       // Do not go deeper in test
-      if (result) {
+      if (!result.valid) {
         return returnOrCallback(
           this.createTestResult(test, result.valid, result),
           callback

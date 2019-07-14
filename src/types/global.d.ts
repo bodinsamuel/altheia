@@ -7,6 +7,9 @@ export interface ValidatorTemplates {
 }
 
 export interface AltheiaInstance {
+  // All plugins are here
+  [k: string]: any;
+
   (schema: ValidatorSchema): Validator;
 
   langList: LangList;
@@ -23,9 +26,6 @@ export interface AltheiaInstance {
     label?: string,
     position?: number
   ) => ValidatorErrorFormatted;
-
-  // All plugins are here
-  [k: string]: any;
 }
 
 export interface BaseConstructor {
