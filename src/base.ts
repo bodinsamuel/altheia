@@ -1,34 +1,18 @@
 import isPlainObject = require('lodash/isPlainObject');
-import { AltheiaInstance } from '.';
-
-type TestFunction = (
-  params: any
-) => Promise<boolean | ValidatorTest> | boolean | ValidatorTest;
-type ChainFunction = (validator: TypeBase) => TypeBase;
-
-export interface ValidatorTest {
-  name?: string;
-  isValid: boolean;
-  func?: TestFunction | null;
-  args?: any;
-  result?: any;
-}
-
-export interface ValidatorError {
-  label: string;
-  type?: string;
-  message?: string;
-  position?: number;
-  errors?: ValidatorError[];
-  test?: ValidatorTest;
-}
+import {
+  ValidatorTest,
+  TestFunction,
+  ValidatorResult,
+  ChainFunction,
+  AltheiaInstance,
+} from './types/global';
 
 /**
  * All type inherit this Class
  */
 class TypeBase {
-  inst: any;
-  tests: any[];
+  inst: AltheiaInstance;
+  tests: (() => ValidatorTest)[];
   name?: string;
 
   _required: boolean;
@@ -41,7 +25,7 @@ class TypeBase {
    * @param  {Altheia} inst
    * @return {Base}
    */
-  constructor(inst = undefined) {
+  constructor(inst?: AltheiaInstance) {
     this.inst = inst || require('./index');
     this.tests = [];
 
@@ -70,13 +54,15 @@ class TypeBase {
    * @return {undefined}
    */
   test(name: string, func: TestFunction, args = {}): void {
-    this.tests.push(() => ({
-      name: `${this.name}.${name}`,
-      func,
-      args,
-      isValid: true,
-      result: {},
-    }));
+    this.tests.push(() => {
+      return this.createTest({
+        name: `${this.name}.${name}`,
+        func,
+        args,
+        isValid: true,
+        result: {},
+      });
+    });
   }
 
   /**
@@ -91,10 +77,16 @@ class TypeBase {
   createTest({
     name,
     isValid = true,
-    func = null,
-    args = null,
+    func = () => false,
+    args = {},
     result = {},
-  }: ValidatorTest): ValidatorTest {
+  }: {
+    name: string;
+    isValid?: boolean;
+    func?: TestFunction;
+    args?: any;
+    result?: any;
+  }): ValidatorTest {
     return {
       name,
       func,
@@ -144,38 +136,29 @@ class TypeBase {
       let test = this.tests[i]();
 
       // Special condition for IF() we need to display error of deep validation
+      let result: ValidatorResult;
+
       if (test.name.indexOf('.if') >= 0) {
-        test = await test.func(toTest);
+        result = this.testResultBooleanToType(await test.func(toTest));
       } else {
-        const result = await test.func(toTest);
-        const resultIsObject = isPlainObject(result);
-
-        // Check result format
-        let isResultOkay = true;
-        if (resultIsObject) {
-          if (
-            typeof result.isValid === 'undefined' ||
-            typeof result.error === 'undefined'
-          ) {
-            isResultOkay = false;
-          }
-        } else if (typeof result !== 'boolean') {
-          isResultOkay = false;
+        result = this.testResultBooleanToType(await test.func(toTest));
+        if (
+          typeof result.isValid !== 'boolean' ||
+          (isPlainObject(result) &&
+            (typeof result.isValid === 'undefined' ||
+              typeof result.error === 'undefined'))
+        ) {
+          'test() should return a boolean or an object { isValid:boolean, error:string }';
+          throw new Error();
         }
 
-        if (!isResultOkay) {
-          throw new Error(
-            'test() should return a boolean or an object { isValid:boolean, error:string }'
-          );
-        }
-
-        test.isValid = resultIsObject ? result.isValid : result;
-        test.result = resultIsObject ? result : {};
+        test.isValid = result.isValid;
+        test.result = result;
       }
 
       // Do not go deeper in test
-      if (test.isValid === false) {
-        return returnOrCallback(callback, test);
+      if (result.isValid === false) {
+        return returnOrCallback(test, callback);
       }
     }
 
@@ -288,10 +271,13 @@ class TypeBase {
     });
     return this;
   }
-}
 
-export interface BaseConstructor {
-  new (instance?: AltheiaInstance): TypeBase;
+  private testResultBooleanToType(result: boolean | ValidatorResult) {
+    if (typeof result === 'boolean') {
+      return { isValid: result, error: '' };
+    }
+    return result;
+  }
 }
 
 export default TypeBase;

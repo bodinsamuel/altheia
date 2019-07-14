@@ -2,22 +2,14 @@ import isPlainObject = require('lodash/isPlainObject');
 import isEqual = require('lodash/isEqual');
 
 import { TypeObject } from './object';
-import TypeBase, { ValidatorError, ValidatorTest } from './base';
-import { AltheiaInstance } from '.';
-
-export interface ValidatorOptions {
-  required: boolean;
-  unknown: boolean;
-}
-
-export interface ValidatorConfirm {
-  initial: string;
-  comparison: string;
-}
-
-export interface ValidatorSchema {
-  [k: string]: TypeBase;
-}
+import {
+  ValidatorTest,
+  ValidatorError,
+  ValidatorConfirm,
+  ValidatorOptions,
+  ValidatorSchema,
+  AltheiaInstance,
+} from './types/global';
 
 /**
  * Validator class
@@ -125,15 +117,17 @@ class Validator {
    * @param  {Function} callback
    * @return {object}
    */
-  async validate(callback = null) {
+  async validate(callback?: (value: any) => void) {
     if (this.validated) {
       throw new Error(
         'Already validated, please use .clone() to validate a different body'
       );
     }
+
     this.validated = true;
+
     // Return an object and call a callback if needed
-    const returnOrCallback = (callback, result: any) => {
+    const returnOrCallback = (result: any, callback?: (value: any) => void) => {
       if (callback) {
         callback(result);
       }
@@ -199,10 +193,10 @@ class Validator {
     }
 
     if (errors.length > 0) {
-      return returnOrCallback(callback, errors);
+      return returnOrCallback(errors, callback);
     }
 
-    return returnOrCallback(callback, false);
+    return returnOrCallback(false, callback);
   }
 
   /**

@@ -2,8 +2,8 @@ import arrayDiff = require('./utils/arraydiff');
 import isPlainObject = require('lodash/isPlainObject');
 
 import TypeBase from './base';
-import { LangList } from './lang';
 import Validator from './validator';
+import { LangList } from './types/global';
 
 export const messages: LangList = {
   'object.typeof': (name) => `${name} must be a valid object`,

@@ -1,7 +1,6 @@
 import TypeBase from './base';
 import arrayDiff = require('./utils/arraydiff');
-import { LangList } from './lang';
-import { ValidatorError } from './base';
+import { LangList, ValidatorError } from './types/global';
 
 export const messages: LangList = {
   'array.typeof': (name) => `${name} must be a valid array`,

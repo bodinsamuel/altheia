@@ -1,7 +1,4 @@
-export type LangFunction = (name: string, args: any, result: any) => string;
-export type LangList = {
-  [k: string]: LangFunction;
-};
+import { LangList } from './types/global';
 
 const messages: LangList = {
   forbidden: (name: string) => `${name} is not allowed`,

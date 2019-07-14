@@ -1,5 +1,5 @@
 import TypeBase from './base';
-import { LangList } from './lang';
+import { LangList } from './types/global';
 
 /* eslint-disable */
 const iso = new RegExp(

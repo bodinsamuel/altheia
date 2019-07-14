@@ -1,7 +1,7 @@
 import TypeBase from './base';
 import Luhn = require('./utils/luhn');
 import url = require('url');
-import { LangList } from './lang';
+import { LangList } from './types/global';
 
 // eslint-disable-next-line
 const hostname = new RegExp(

@@ -1,13 +1,17 @@
 import isPlainObject = require('lodash/isPlainObject');
 
-import LangBase, { LangList, LangFunction } from './lang';
-import Validator, { ValidatorSchema } from './validator';
-import TypeBase, {
-  BaseConstructor,
-  ValidatorTest,
+import LangBase from './lang';
+import Validator from './validator';
+import TypeBase from './base';
+import {
+  LangList,
   ValidatorError,
-} from './base';
+  AltheiaInstance,
+  ValidatorSchema,
+  ValidatorTemplates,
+} from './types/global';
 
+// Default extractors
 import AnyValidator from './any';
 import ArrayValidator from './array';
 import BooleanValidator from './boolean';
@@ -18,36 +22,13 @@ import NumberValidator from './number';
 import ObjectValidator from './object';
 import StringValidator from './string';
 
-export interface Templates {
-  [k: string]: TypeBase;
-}
-
-export interface AltheiaInstance {
-  (schema: ValidatorSchema): Validator;
-
-  langList: LangList;
-  templates: Templates;
-  Base: typeof TypeBase;
-
-  instance: (lang?: LangList) => AltheiaInstance;
-  use: (plugin: { Class: BaseConstructor; messages?: LangList }) => this;
-  lang: (key: LangList | string, tpl?: LangFunction) => void;
-  template: (name: string, schema: TypeBase) => void;
-  is: (name: string) => TypeBase;
-  formatError: (
-    { name, args, result }: ValidatorTest,
-    label: string,
-    position?: number
-  ) => ValidatorError;
-}
-
 const Instance = (lang?: LangList): AltheiaInstance => {
   const inst: AltheiaInstance = (schema: ValidatorSchema): Validator => {
     return new Validator(schema, inst);
   };
 
   inst.langList = Object.assign({}, LangBase);
-  inst.templates = {} as Templates;
+  inst.templates = {} as ValidatorTemplates;
   inst.Base = TypeBase;
 
   inst.instance = (newLang: LangList = {}) => {
