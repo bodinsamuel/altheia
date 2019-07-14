@@ -130,18 +130,9 @@ export class TypeObject extends TypeBase {
    */
   schema(schema: Validator, { returnErrors = true } = {}) {
     if (typeof schema.isValidator === 'undefined') {
-      if (!isPlainObject(schema)) {
-        throw new Error(
-          'schema should be an instance of altheia validator "Alt({ ... })" or a plain object'
-        );
-      }
-
-      if (Object.keys(schema).length <= 0) {
-        throw new Error('schema should have one key at least');
-      }
-
-      const Alt = require('./index');
-      schema = Alt(schema);
+      throw new Error(
+        'schema should be an instance of altheia validator "Alt({ ... })"'
+      );
     }
 
     this.test(
