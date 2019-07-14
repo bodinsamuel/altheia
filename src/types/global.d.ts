@@ -19,10 +19,10 @@ export interface AltheiaInstance {
   template: (name: string, schema: TypeBase) => void;
   is: (name: string) => TypeBase;
   formatError: (
-    { name, args, result }: ValidatorTest,
+    { type, args, result }: ValidatorTestResult,
     label: string,
     position?: number
-  ) => ValidatorError;
+  ) => ValidatorErrorFormatted;
 
   // All plugins are here
   [k: string]: any;
@@ -40,21 +40,6 @@ export type LangList = {
 };
 
 // ---------- Validator
-export interface ValidatorResult {
-  isValid: boolean;
-  error: string;
-  errors?: ValidatorError[];
-}
-
-export interface ValidatorError {
-  label: string;
-  type: string;
-  message: string;
-  position?: number;
-  errors?: ValidatorError[];
-  test: ValidatorTest;
-}
-
 export interface ValidatorOptions {
   required: boolean;
   unknown: boolean;
@@ -69,16 +54,48 @@ export interface ValidatorSchema {
   [k: string]: TypeBase;
 }
 
-export interface ValidatorTest {
-  name: string;
-  isValid: boolean;
+// ---------- Tests Public
+
+export interface ValidatorTestResult {
+  valid: boolean;
+  type: string;
   func: TestFunction;
   args: any;
   result?: any;
+}
+
+export interface ValidatorErrorRaw {
+  test: ValidatorTestResult;
+  label: string;
+  position?: number;
+}
+
+export interface ValidatorErrorFormatted {
+  label: string;
+  type: string;
+  message: string;
+  position?: number;
+  errors?: ValidatorErrorFormatted[];
 }
 
 export type ChainFunction = (validator: TypeBase) => TypeBase;
 
 export type TestFunction = (
   params: any
-) => Promise<boolean | ValidatorResult> | boolean | ValidatorResult;
+) =>
+  | Promise<boolean | ValidatorInternalTestResult>
+  | boolean
+  | ValidatorInternalTestResult;
+
+// ---------- Tests Private
+export interface ValidatorInternalTest {
+  type: string;
+  func: TestFunction;
+  args: any;
+}
+
+export interface ValidatorInternalTestResult {
+  valid: boolean;
+  error: string;
+  errors?: ValidatorErrorRaw[];
+}

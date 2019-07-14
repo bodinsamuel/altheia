@@ -59,12 +59,15 @@ export class TypeObject extends TypeBase {
    * @param  {...string} array
    * @return {Base}
    */
-  in(...array: string[]) {
+  in(...array: (string | object)[]) {
     let only = array;
     let oneErrorPerKey = false;
 
     // handle someone passing literal array instead of multiple args
     if (array.length > 0 && Array.isArray(array[0])) {
+      if (isPlainObject(array[1])) {
+        oneErrorPerKey = (!!array[1] as any).oneErrorPerKey;
+      }
       only = (array[0] as unknown) as string[];
     }
 
@@ -74,11 +77,14 @@ export class TypeObject extends TypeBase {
         const diff = arrayDiff(Object.keys(str), only);
         if (oneErrorPerKey && diff.length > 0) {
           return {
-            isValid: false,
+            valid: false,
             error: 'in',
             errors: diff.map((label) => {
               return {
-                test: this.createTest({ isValid: false, name: 'forbidden' }),
+                test: this.createTestResult(
+                  this.createTest({ type: 'forbidden' }),
+                  false
+                ),
                 label,
               };
             }),
@@ -144,7 +150,7 @@ export class TypeObject extends TypeBase {
         const clone = schema.clone();
         const hasError = await clone.body(obj).validate();
         return {
-          isValid: hasError === false,
+          valid: hasError === false,
           error: 'schema',
           errors: hasError && returnErrors ? clone._errorsRaw : undefined,
         };
@@ -162,7 +168,7 @@ export class TypeObject extends TypeBase {
    * @param  {mixed} params
    * @return {Base}
    */
-  oneOf(...params: any) {
+  oneOf(...params: (string | boolean)[]) {
     if (params.length <= 1) {
       throw new Error('oneOf expect at least 2 params');
     }
@@ -170,10 +176,10 @@ export class TypeObject extends TypeBase {
     let oneIsRequired = false;
     let keys: string[] = [];
     if (typeof params[0] === 'boolean') {
-      oneIsRequired = params[0];
-      keys = params.splice(1);
+      oneIsRequired = params[0] as boolean;
+      keys = params.splice(1) as string[];
     } else {
-      keys = params;
+      keys = params as string[];
     }
 
     this.test(
@@ -197,14 +203,14 @@ export class TypeObject extends TypeBase {
           });
         } catch (e) {
           return {
-            isValid: false,
+            valid: false,
             error: 'exclusion',
             keys: Object.values(presence),
           };
         }
 
         if (oneIsRequired && !presence.a && !presence.b) {
-          return { isValid: false, error: 'oneIsRequired' };
+          return { valid: false, error: 'oneIsRequired' };
         }
 
         return true;

@@ -1,6 +1,6 @@
 import TypeBase from './base';
 import arrayDiff = require('./utils/arraydiff');
-import { LangList, ValidatorError } from './types/global';
+import { LangList, ValidatorErrorRaw } from './types/global';
 
 export const messages: LangList = {
   'array.typeof': (name) => `${name} must be a valid array`,
@@ -151,16 +151,17 @@ export class TypeArray extends TypeBase {
     this.test(
       'oneOf',
       async (array) => {
-        const errors: ValidatorError[] = [];
+        const errors: ValidatorErrorRaw[] = [];
+
         await Promise.all(
           array.map(async (value: any, index: number) => {
-            let error: ValidatorError | null = null;
+            let error: ValidatorErrorRaw | undefined = undefined;
 
             const label = 'item';
             for (var i = 0; i < templates.length; i++) {
               const test = await templates[i].required().validate(value);
               if (test) {
-                error = { label, test, position: index };
+                error = { label, test, position: index } as ValidatorErrorRaw;
               } else {
                 // early break if one template matched (returned no error)
                 return;
@@ -176,10 +177,12 @@ export class TypeArray extends TypeBase {
             if (templates.length > 1) {
               error = {
                 label,
-                test: this.createTest({
-                  isValid: false,
-                  name: 'array.itemInvalid',
-                }),
+                test: this.createTestResult(
+                  this.createTest({
+                    type: 'array.itemInvalid',
+                  }),
+                  false
+                ),
                 position: index,
               };
               errors.push(error);
@@ -190,7 +193,7 @@ export class TypeArray extends TypeBase {
         );
 
         return {
-          isValid: errors.length <= 0,
+          valid: errors.length <= 0,
           error: 'not_matching',
           errors,
         };

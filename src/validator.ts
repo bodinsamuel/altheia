@@ -3,13 +3,15 @@ import isEqual = require('lodash/isEqual');
 
 import { TypeObject } from './object';
 import {
-  ValidatorTest,
-  ValidatorError,
   ValidatorConfirm,
   ValidatorOptions,
   ValidatorSchema,
   AltheiaInstance,
+  ValidatorErrorRaw,
+  ValidatorErrorFormatted,
+  ValidatorTestResult,
 } from './types/global';
+import { createTest, createTestResult } from './utils/createTest';
 
 /**
  * Validator class
@@ -21,8 +23,8 @@ class Validator {
   validated: boolean;
   _schema: any;
   _body: any;
-  _errors: any[];
-  _errorsRaw: any[];
+  _errors: ValidatorErrorFormatted[];
+  _errorsRaw: ValidatorErrorRaw[];
   _confirm: ValidatorConfirm[];
   _options: ValidatorOptions;
 
@@ -107,7 +109,7 @@ class Validator {
    * @param  {string} label
    * @return {object}
    */
-  formatError(error: ValidatorTest, label: string) {
+  formatError(error: ValidatorTestResult, label: string) {
     return this.inst.formatError(error, label);
   }
 
@@ -141,8 +143,8 @@ class Validator {
         .in(Object.keys(this._schema), { oneErrorPerKey: true })
         .validate(this._body);
 
-      if (only) {
-        only.result.errors.map((error: ValidatorError) =>
+      if (typeof only !== 'boolean') {
+        only.result.errors.map((error: ValidatorErrorRaw) =>
           errors.push(this.formatError(error.test, error.label))
         );
       }
@@ -185,7 +187,10 @@ class Validator {
 
         this._errors.push(
           this.formatError(
-            { name: 'confirm', args: item, isValid: false },
+            createTestResult(
+              createTest({ type: 'confirm', args: item }),
+              false
+            ),
             item.comparison
           )
         );

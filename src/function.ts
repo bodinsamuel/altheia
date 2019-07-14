@@ -1,5 +1,5 @@
 import TypeBase from './base';
-import { LangList } from './lang';
+import { LangList } from './types/global';
 
 export const messages: LangList = {
   'function.typeof': (name) => `${name} must be a valid function`,

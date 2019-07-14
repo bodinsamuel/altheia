@@ -1,18 +1,19 @@
-import isPlainObject = require('lodash/isPlainObject');
 import {
-  ValidatorTest,
+  ValidatorInternalTest,
   TestFunction,
-  ValidatorResult,
   ChainFunction,
   AltheiaInstance,
+  ValidatorInternalTestResult,
+  ValidatorTestResult,
 } from './types/global';
+import { createTest, createTestResult } from './utils/createTest';
 
 /**
  * All type inherit this Class
  */
 class TypeBase {
   inst: AltheiaInstance;
-  tests: (() => ValidatorTest)[];
+  tests: (() => ValidatorInternalTest)[];
   name?: string;
 
   _required: boolean;
@@ -56,45 +57,15 @@ class TypeBase {
   test(name: string, func: TestFunction, args = {}): void {
     this.tests.push(() => {
       return this.createTest({
-        name: `${this.name}.${name}`,
+        type: `${this.name}.${name}`,
         func,
         args,
-        isValid: true,
-        result: {},
       });
     });
   }
 
-  /**
-   * Return a test default ibject
-   * @param  {string}  options.name      The name of the test
-   * @param  {Boolean} options.isValid   Has the test passed ?
-   * @param  {function}  options.func    The function to call
-   * @param  {object}  options.args      The arguments to pass to the function
-   * @param  {Object}  options.result    The result of the function
-   * @return {object}                    The final test object
-   */
-  createTest({
-    name,
-    isValid = true,
-    func = () => false,
-    args = {},
-    result = {},
-  }: {
-    name: string;
-    isValid?: boolean;
-    func?: TestFunction;
-    args?: any;
-    result?: any;
-  }): ValidatorTest {
-    return {
-      name,
-      func,
-      args,
-      isValid,
-      result,
-    };
-  }
+  createTest = createTest;
+  createTestResult = createTestResult;
 
   /**
    * Validate a value based on all tests added
@@ -102,9 +73,15 @@ class TypeBase {
    * @param  {Function} callback
    * @return {object}
    */
-  async validate(toTest: any, callback?: (value: any) => void): Promise<any> {
+  async validate(
+    toTest: any,
+    callback?: (value: any) => void
+  ): Promise<false | ValidatorTestResult> {
     // Return an object and call a callback if needed
-    const returnOrCallback = (result: any, callback?: (value: any) => void) => {
+    const returnOrCallback = (
+      result: false | ValidatorTestResult,
+      callback?: (value: any) => void
+    ) => {
       if (callback) {
         callback(result);
       }
@@ -119,10 +96,12 @@ class TypeBase {
       }
 
       return returnOrCallback(
-        this.createTest({
-          name: 'required',
-          isValid: false,
-        }),
+        this.createTestResult(
+          this.createTest({
+            type: 'required',
+          }),
+          false
+        ),
         callback
       );
     }
@@ -136,29 +115,25 @@ class TypeBase {
       let test = this.tests[i]();
 
       // Special condition for IF() we need to display error of deep validation
-      let result: ValidatorResult;
+      let result: ValidatorInternalTestResult;
 
-      if (test.name.indexOf('.if') >= 0) {
-        result = this.testResultBooleanToType(await test.func(toTest));
+      if (test.type.indexOf('.if') >= 0) {
+        result = this.testToTestResult(await test.func(toTest));
       } else {
-        result = this.testResultBooleanToType(await test.func(toTest));
-        if (
-          typeof result.isValid !== 'boolean' ||
-          (isPlainObject(result) &&
-            (typeof result.isValid === 'undefined' ||
-              typeof result.error === 'undefined'))
-        ) {
-          'test() should return a boolean or an object { isValid:boolean, error:string }';
+        result = this.testToTestResult(await test.func(toTest));
+
+        if (typeof result.error === 'undefined') {
+          'test() should return a boolean or an object { valid: boolean; error: string }';
           throw new Error();
         }
-
-        test.isValid = result.isValid;
-        test.result = result;
       }
 
       // Do not go deeper in test
-      if (result.isValid === false) {
-        return returnOrCallback(test, callback);
+      if (result) {
+        return returnOrCallback(
+          this.createTestResult(test, result.valid, result),
+          callback
+        );
       }
     }
 
@@ -261,20 +236,27 @@ class TypeBase {
       clone.tests = [];
 
       const hasError = await test(clone).validate(str);
-      if (hasError === false) {
+      if (!hasError) {
         clone.tests = [];
-        return await then(clone).validate(str);
+        return ((await then(clone).validate(
+          str
+        )) as unknown) as ValidatorInternalTestResult;
       }
 
       clone.tests = [];
-      return await otherwise(clone).validate(str);
+      return ((await otherwise(clone).validate(
+        str
+      )) as unknown) as ValidatorInternalTestResult;
+      // call 911
     });
     return this;
   }
 
-  private testResultBooleanToType(result: boolean | ValidatorResult) {
+  private testToTestResult(
+    result: boolean | ValidatorInternalTestResult
+  ): ValidatorInternalTestResult {
     if (typeof result === 'boolean') {
-      return { isValid: result, error: '' };
+      return { valid: result, error: '' };
     }
     return result;
   }

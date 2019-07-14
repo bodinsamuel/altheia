@@ -5,10 +5,11 @@ import Validator from './validator';
 import TypeBase from './base';
 import {
   LangList,
-  ValidatorError,
   AltheiaInstance,
   ValidatorSchema,
   ValidatorTemplates,
+  ValidatorErrorFormatted,
+  ValidatorErrorRaw,
 } from './types/global';
 
 // Default extractors
@@ -67,21 +68,21 @@ const Instance = (lang?: LangList): AltheiaInstance => {
   };
 
   inst.formatError = (
-    { name, args, result },
+    { type, args, result },
     label = 'value',
     position
-  ): ValidatorError => {
+  ): ValidatorErrorFormatted => {
     // Get messages from error
     let msg;
-    if (typeof inst.langList[name] !== 'undefined') {
-      msg = inst.langList[name](label, args, result);
+    if (typeof inst.langList[type] !== 'undefined') {
+      msg = inst.langList[type](label, args, result);
     } else {
       msg = 'Invalid value';
     }
 
-    const formatted: ValidatorError = {
+    const formatted: ValidatorErrorFormatted = {
       label,
-      type: name,
+      type,
       message: msg,
     };
 
@@ -91,7 +92,7 @@ const Instance = (lang?: LangList): AltheiaInstance => {
 
     // nested errors
     if (result && result.errors) {
-      formatted.errors = result.errors.map((error: ValidatorError) =>
+      formatted.errors = result.errors.map((error: ValidatorErrorRaw) =>
         inst.formatError(error.test, error.label, error.position)
       );
     }
