@@ -1,4 +1,4 @@
-const Alt = require('./../src');
+import Alt from './../src';
 
 describe('Object', () => {
   describe('typeof()', () => {
@@ -173,7 +173,7 @@ describe('Object', () => {
           schema: Alt({
             foo: Alt.number(),
           }).options({ required: true }),
-          returnErrors: false
+          returnErrors: false,
         })
         .validate({ foo: 'bar' });
       expect(hasError).toBeTruthy();
@@ -186,10 +186,12 @@ describe('Object', () => {
 
     test('should fail with all messages', async () => {
       const hasError = await Alt.object()
-        .schema(Alt({
-          foo: Alt.number(),
-        }).options({ required: true }),
-        { returnErrors: true })
+        .schema(
+          Alt({
+            foo: Alt.number(),
+          }).options({ required: true }),
+          { returnErrors: true }
+        )
         .validate({ foo: 'bar' });
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({

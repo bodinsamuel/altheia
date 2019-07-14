@@ -1,5 +1,5 @@
-const Alt = require('./../src');
-const Validator = require('./../src/validator');
+import Alt from './../src';
+import Validator from './../src/validator';
 
 describe('Validator', () => {
   test('Should be a func', async () => {
@@ -462,11 +462,12 @@ describe('Reuse', () => {
     expect(schema._errors).toHaveLength(1);
     expect(schema._errorsRaw).toHaveLength(1);
 
-
     try {
       await schema.body({ foo: 'bar' }).validate();
     } catch (e) {
-      expect(e.message).toBe('Already validated, please use .clone() to validate a different body');
+      expect(e.message).toBe(
+        'Already validated, please use .clone() to validate a different body'
+      );
       done();
     }
   });

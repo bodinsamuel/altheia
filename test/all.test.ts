@@ -1,4 +1,4 @@
-const Alt = require('./../src');
+import Alt from './../src';
 
 describe('All', () => {
   // test('should pass', async () => {
@@ -73,7 +73,7 @@ describe('All', () => {
               )
             ),
           }).options({ unknown: false, required: true })
-        ),
+        )
       ),
     })
       .body({

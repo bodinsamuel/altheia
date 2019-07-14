@@ -1,6 +1,6 @@
 import TypeBase from './base';
-import Luhn = require('./utils/luhn');
-import url = require('url');
+import Luhn from './utils/luhn';
+import url from 'url';
 import { LangList } from './types/global';
 
 // eslint-disable-next-line

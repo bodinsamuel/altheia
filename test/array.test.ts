@@ -1,4 +1,4 @@
-const Alt = require('./../src');
+import Alt from './../src';
 
 describe('String', () => {
   describe('typeof()', () => {
@@ -240,7 +240,7 @@ describe('String', () => {
           'foobar',
           { foo: { bar: '1' } },
           { foo: { bar: 1 } },
-          { foo: { bar: '1' } }
+          { foo: { bar: '1' } },
         ]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError)).toEqual({

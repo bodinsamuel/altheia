@@ -20,7 +20,7 @@ export interface AltheiaInstance {
   is: (name: string) => TypeBase;
   formatError: (
     { type, args, result }: ValidatorTestResult,
-    label: string,
+    label?: string,
     position?: number
   ) => ValidatorErrorFormatted;
 

@@ -1,4 +1,4 @@
-const Alt = require('./../src');
+import Alt from './../src';
 
 describe('Boolean', () => {
   describe('typeof()', () => {

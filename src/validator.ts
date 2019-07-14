@@ -1,5 +1,5 @@
-import isPlainObject = require('lodash/isPlainObject');
-import isEqual = require('lodash/isEqual');
+import isPlainObject from 'lodash/isPlainObject';
+import isEqual from 'lodash/isEqual';
 
 import { TypeObject } from './object';
 import {

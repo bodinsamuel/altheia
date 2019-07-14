@@ -1,5 +1,5 @@
-const Alt = require('./../src');
-const AltInternet = require('./../src/internet');
+import Alt from './../src';
+import AltInternet from './../src/internet';
 
 const alt = Alt.instance();
 alt.use(AltInternet);

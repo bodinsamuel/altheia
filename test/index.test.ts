@@ -1,5 +1,5 @@
-const Alt = require('./../src');
-const StringValidator = require('./../src/string').Class;
+import Alt from './../src';
+import StringValidator from './../src/string');
 
 describe('Index', () => {
   describe('instance()', () => {

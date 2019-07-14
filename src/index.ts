@@ -1,4 +1,4 @@
-import isPlainObject = require('lodash/isPlainObject');
+import isPlainObject from 'lodash/isPlainObject';
 
 import LangBase from './lang';
 import Validator from './validator';

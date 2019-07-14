@@ -1,5 +1,5 @@
 import TypeBase from './base';
-import arrayDiff = require('./utils/arraydiff');
+import arrayDiff from './utils/arraydiff';
 import { LangList, ValidatorErrorRaw } from './types/global';
 
 export const messages: LangList = {

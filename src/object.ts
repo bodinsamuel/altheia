@@ -1,5 +1,5 @@
-import arrayDiff = require('./utils/arraydiff');
-import isPlainObject = require('lodash/isPlainObject');
+import arrayDiff from './utils/arraydiff';
+import isPlainObject from 'lodash/isPlainObject';
 
 import TypeBase from './base';
 import Validator from './validator';
