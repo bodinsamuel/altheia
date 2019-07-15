@@ -61,7 +61,7 @@ export interface ValidatorTestResult {
   type: string;
   func: TestFunction;
   args: any;
-  result?: any;
+  result?: ValidatorInternalTestResult;
 }
 
 export interface ValidatorErrorRaw {

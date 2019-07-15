@@ -2,6 +2,7 @@ import {
   TestFunction,
   ValidatorInternalTest,
   ValidatorTestResult,
+  ValidatorInternalTestResult,
 } from '../types/global';
 
 /**
@@ -30,7 +31,7 @@ export function createTest({
 export function createTestResult(
   test: ValidatorInternalTest,
   valid: boolean,
-  result?: any
+  result?: ValidatorInternalTestResult
 ): ValidatorTestResult {
   return {
     ...test,

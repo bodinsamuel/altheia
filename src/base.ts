@@ -115,17 +115,16 @@ class TypeBase {
       let test = this.tests[i]();
 
       // Special condition for IF() we need to display error of deep validation
-      let result: ValidatorInternalTestResult;
+      let internalResult: ValidatorInternalTestResult;
 
       if (test.type.indexOf('.if') >= 0) {
-        result = this.testToTestResult(await test.func(toTest));
+        internalResult = this.testToTestResult(await test.func(toTest));
       } else {
-        result = this.testToTestResult(await test.func(toTest));
+        internalResult = this.testToTestResult(await test.func(toTest));
       }
-
       if (
-        typeof result.error === 'undefined' ||
-        typeof result.valid === 'undefined'
+        typeof internalResult.error === 'undefined' ||
+        typeof internalResult.valid === 'undefined'
       ) {
         throw new Error(
           'test() should return a boolean or an object { valid: boolean, error: string }'
@@ -133,9 +132,9 @@ class TypeBase {
       }
 
       // Do not go deeper in test
-      if (!result.valid) {
+      if (!internalResult.valid) {
         return returnOrCallback(
-          this.createTestResult(test, result.valid, result),
+          this.createTestResult(test, internalResult.valid, internalResult),
           callback
         );
       }
@@ -242,16 +241,19 @@ class TypeBase {
       const hasError = await test(clone).validate(str);
       if (!hasError) {
         clone.tests = [];
-        return ((await then(clone).validate(
-          str
-        )) as unknown) as ValidatorInternalTestResult;
+        const temp = await then(clone).validate(str);
+        console.log(
+          'premier if',
+          temp,
+          'return',
+          temp && temp.result ? temp.result : true
+        );
+        return temp && temp.result ? temp.result : true;
       }
 
       clone.tests = [];
-      return ((await otherwise(clone).validate(
-        str
-      )) as unknown) as ValidatorInternalTestResult;
-      // call 911
+      const temp = await otherwise(clone).validate(str);
+      return temp && temp.result ? temp.result : true;
     });
     return this;
   }
