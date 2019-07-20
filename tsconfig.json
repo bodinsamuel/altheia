@@ -14,5 +14,6 @@
     "target": "es5",
     "noImplicitAny": true
   },
-  "include": ["./src/**/*", "./src/types/global.d.ts"]
+  "include": ["./src/**/*", "src/types/index.ts"],
+  "exclude": ["node_modules/**"]
 }

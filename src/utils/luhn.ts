@@ -1,6 +1,6 @@
 // credit => https://gist.github.com/ShirtlessKirk/2134376
-export = (function(arr: number[]) {
-  return function(ccNum: string): boolean | 0 {
+export = ((arr: number[]): ((ccNum: string) => boolean | 0) => {
+  return (ccNum: string): boolean | 0 => {
     let len = ccNum.length;
     let bit = 1;
     let sum = 0;

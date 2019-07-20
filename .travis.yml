@@ -1,26 +1,26 @@
 language: node_js
 
 node_js:
-  - "8"
-  - "9"
-  - "node"
+  - '8'
+  - '9'
+  - 'node'
 
 sudo: false
 
 branches:
-   only:
-   - master
+  only:
+    - master
 
 cache:
   directories:
-    - "node_modules"
+    - 'node_modules'
 
 script:
-  - "npm run lint"
-  - "npm run test"
+  - 'yarn lint'
+  - 'yarn test'
 
 jobs:
   include:
     - stage: Produce Coverage
       node_js: node
-      script: npm run coveralls
+      script: yarn coveralls

@@ -286,6 +286,42 @@ describe('Validator', () => {
         expect(hasError).toBe(false);
       });
     });
+
+    describe('flatten', () => {
+      test('should flatten simple errors', async () => {
+        const hasError = await Alt({
+          name: Alt.number(),
+          login: Alt.number(),
+        })
+          .body({
+            name: 'top',
+            login: 'bar',
+          })
+          .options({
+            flatten: true,
+          })
+          .validate();
+
+        expect(hasError).toMatchSnapshot();
+      });
+
+      test('should flatten nested errors', async () => {
+        const hasError = await Alt({
+          name: Alt.array().oneOf(Alt.number()),
+          login: Alt.number(),
+        })
+          .body({
+            name: ['top', 'foo'],
+            login: 'bar',
+          })
+          .options({
+            flatten: true,
+          })
+          .validate();
+
+        expect(hasError).toMatchSnapshot();
+      });
+    });
   });
 
   describe('validate()', () => {

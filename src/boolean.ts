@@ -1,5 +1,5 @@
 import TypeBase from './base';
-import { LangList } from './types/global';
+import { LangList } from './types';
 
 export const messages: LangList = {
   'boolean.typeof': (name) => `${name} must be a valid boolean`,
@@ -13,7 +13,6 @@ export const messages: LangList = {
 export class TypeBoolean extends TypeBase {
   /**
    * Constructor
-   * @return {Base}
    */
   constructor() {
     super();
@@ -41,7 +40,7 @@ export class TypeBoolean extends TypeBase {
   /**
    * Test to validate the type of the value
    *
-   * @return {Base}
+   * @return {this}
    */
   typeof(): this {
     this.test('typeof', (str) => {
@@ -53,7 +52,7 @@ export class TypeBoolean extends TypeBase {
   /**
    * Force a boolean to equal true
    *
-   * @return {Base}
+   * @return {this}
    */
   true(): this {
     this.test('true', (str) => {
@@ -65,7 +64,7 @@ export class TypeBoolean extends TypeBase {
   /**
    * Force a boolean to equal false
    *
-   * @return {Base}
+   * @return {this}
    */
   false(): this {
     this.test('false', (str) => {

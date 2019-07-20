@@ -6,7 +6,6 @@ import Base from './base';
 export class TypeAny extends Base {
   /**
    * Constructor
-   * @return {Base}
    */
   constructor() {
     super();

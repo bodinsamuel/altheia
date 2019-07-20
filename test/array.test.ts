@@ -1,4 +1,5 @@
 import Alt from './../src';
+import { ValidatorTestResult } from '../src/types';
 
 describe('String', () => {
   describe('typeof()', () => {
@@ -13,7 +14,7 @@ describe('String', () => {
     test('should not pass: int', async () => {
       const hasError = await Alt.array().validate(1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.typeof',
         message: 'value must be a valid array',
@@ -47,7 +48,7 @@ describe('String', () => {
         .min(2)
         .validate([1]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.min',
         message: 'value must contains at least 2 items',
@@ -67,7 +68,7 @@ describe('String', () => {
         .max(2)
         .validate([1, 2, 3, 4]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.max',
         message: 'value must contains at most 2 items',
@@ -93,7 +94,7 @@ describe('String', () => {
         .in(1, 2)
         .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.in',
         message: 'value must only contains these keys [1,2]',
@@ -119,7 +120,7 @@ describe('String', () => {
         .not(3)
         .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.not',
         message: 'value contains forbidden value',
@@ -130,7 +131,7 @@ describe('String', () => {
         .not([1, 2, 3])
         .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.not',
         message: 'value contains forbidden value',
@@ -141,7 +142,7 @@ describe('String', () => {
         .not(3, 4, 5)
         .validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.not',
         message: 'value contains forbidden value',
@@ -161,7 +162,7 @@ describe('String', () => {
         .unique()
         .validate([1, 2, 2]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.unique',
         message: 'value can not contains duplicated value',
@@ -181,7 +182,7 @@ describe('String', () => {
         .oneOf(Alt.string())
         .validate(['foo', 2, 'bar']);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.oneOf',
         message: 'value contains forbidden items',
@@ -207,7 +208,7 @@ describe('String', () => {
         .oneOf(Alt.number(), Alt.object())
         .validate([1, 2, 'foobar']);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.oneOf',
         message: 'value contains forbidden items',
@@ -243,7 +244,7 @@ describe('String', () => {
           { foo: { bar: '1' } },
         ]);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'array.oneOf',
         message: 'value contains forbidden items',

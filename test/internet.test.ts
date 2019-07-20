@@ -1,5 +1,6 @@
 import Alt from './../src';
 import AltInternet from './../src/internet';
+import { ValidatorTestResult } from '../src/types';
 
 const alt = Alt.instance();
 alt.use(AltInternet);
@@ -12,7 +13,7 @@ describe('String', () => {
     });
     test('should fail', async () => {
       const hasError = await alt.internet().validate(1);
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.typeof',
         message: 'value must be a valid string',
@@ -48,7 +49,7 @@ describe('String', () => {
         .url()
         .validate('//hello.com');
       expect(hasError).toBeTruthy();
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.url',
         message: 'value must be a valid url',
@@ -121,7 +122,7 @@ describe('String', () => {
         .hostname()
         .validate('http://foo.hello.io');
       expect(hasError).toBeTruthy();
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.hostname',
         message: 'value must be a valid hostname',
@@ -150,7 +151,7 @@ describe('String', () => {
         .hex()
         .validate('123afg');
       expect(hasError).toBeTruthy();
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.hex',
         message: 'value must be a valid hex',
@@ -218,7 +219,7 @@ describe('String', () => {
         .creditCard()
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.creditCard',
         message: 'value must be a valid Credit Card',
@@ -261,7 +262,7 @@ describe('String', () => {
           .uuidv4()
           .validate(tests[i]);
         expect(hasError).toBeTruthy();
-        expect(alt.formatError(hasError)).toEqual({
+        expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
           label: 'value',
           type: 'internet.uuidv4',
           message: 'value must be a valid token',
@@ -298,7 +299,7 @@ describe('String', () => {
         .ipv4()
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.ipv4',
         message: 'value must be a valid IP v4',
@@ -341,7 +342,7 @@ describe('String', () => {
         .ipv6()
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.ipv6',
         message: 'value must be a valid IP v6',
@@ -377,7 +378,7 @@ describe('String', () => {
         .ip()
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(alt.formatError(hasError)).toEqual({
+      expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'internet.ip',
         message: 'value must be a valid IP',

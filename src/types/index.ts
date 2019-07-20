@@ -1,5 +1,14 @@
 import TypeBase from '../base';
 import Validator from '../validator';
+import { TypeString } from '../string';
+import { TypeAny } from '../any';
+import { TypeArray } from '../array';
+import { TypeBoolean } from '../boolean';
+import { TypeDate } from '../date';
+import { TypeFunc } from '../function';
+import { TypeInternet } from '../internet';
+import { TypeNumber } from '../number';
+import { TypeObject } from '../object';
 
 // ---------- Altheia
 export interface ValidatorTemplates {
@@ -26,6 +35,16 @@ export interface AltheiaInstance {
     label?: string,
     position?: number
   ) => ValidatorErrorFormatted;
+
+  any: () => TypeAny;
+  array: () => TypeArray;
+  boolean: () => TypeBoolean;
+  date: () => TypeDate;
+  func: () => TypeFunc;
+  internet: () => TypeInternet;
+  number: () => TypeNumber;
+  object: () => TypeObject;
+  string: () => TypeString;
 }
 
 export interface BaseConstructor {
@@ -35,14 +54,15 @@ export interface BaseConstructor {
 // ---------- Lang
 export type LangFunction = (name: string, args?: any, result?: any) => string;
 
-export type LangList = {
+export interface LangList {
   [k: string]: LangFunction;
-};
+}
 
 // ---------- Validator
 export interface ValidatorOptions {
   required?: boolean;
   unknown?: boolean;
+  flatten?: boolean;
 }
 
 export interface ValidatorConfirm {
@@ -77,8 +97,6 @@ export interface ValidatorErrorFormatted {
   position?: number;
   errors?: ValidatorErrorFormatted[];
 }
-
-export type ChainFunction = (validator: TypeBase) => TypeBase;
 
 export type TestFunction = (
   params: any

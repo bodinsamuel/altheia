@@ -3,7 +3,7 @@ import isPlainObject from 'lodash/isPlainObject';
 
 import TypeBase from './base';
 import Validator from './validator';
-import { LangList } from './types/global';
+import { LangList } from './types';
 
 export const messages: LangList = {
   'object.typeof': (name) => `${name} must be a valid object`,
@@ -16,9 +16,7 @@ export const messages: LangList = {
       return `${name} must contain one of these keys [${args.keys}]`;
     }
     if (result.keys) {
-      return `${name} can not contain these two keys [${
-        result.keys
-      }] at the same time`;
+      return `${name} can not contain these two keys [${result.keys}] at the same time`;
     }
     return 'unknown error';
   },
@@ -26,14 +24,16 @@ export const messages: LangList = {
     `${name} must contain either none or all of these keys [${args.keys}]`,
 };
 
+export interface OptionsIn {
+  oneErrorPerKey: boolean;
+}
+
 /**
  * Object class
  */
 export class TypeObject extends TypeBase {
   /**
    * Constructor
-   *
-   * @return {Base}
    */
   constructor() {
     super();
@@ -44,9 +44,9 @@ export class TypeObject extends TypeBase {
   /**
    * Test to validate the type of the value
    *
-   * @return {Base}
+   * @return {this}
    */
-  typeof() {
+  typeof(): this {
     this.test('typeof', (str) => {
       return isPlainObject(str);
     });
@@ -55,18 +55,18 @@ export class TypeObject extends TypeBase {
 
   /**
    * Force an object to have only the keys passed in the set
-   *
-   * @param  {...string} array
-   * @return {Base}
    */
-  in(...array: (string | object)[]) {
+  in(...array: string[]): this;
+  in(array: string[]): this;
+  in(array: string[], options: OptionsIn): this;
+  in(...array: (string | string[] | OptionsIn)[]): this {
     let only = array;
-    let oneErrorPerKey = false;
+    let options: OptionsIn = { oneErrorPerKey: false };
 
     // handle someone passing literal array instead of multiple args
     if (array.length > 0 && Array.isArray(array[0])) {
       if (isPlainObject(array[1])) {
-        oneErrorPerKey = (!!array[1] as any).oneErrorPerKey;
+        options = { ...(array[1] as any) };
       }
       only = (array[0] as unknown) as string[];
     }
@@ -75,7 +75,11 @@ export class TypeObject extends TypeBase {
       'in',
       (str) => {
         const diff = arrayDiff(Object.keys(str), only);
-        if (oneErrorPerKey && diff.length > 0) {
+        if (diff.length <= 0) {
+          return true;
+        }
+
+        if (options.oneErrorPerKey) {
           return {
             valid: false,
             error: 'in',
@@ -90,7 +94,8 @@ export class TypeObject extends TypeBase {
             }),
           };
         }
-        return diff.length === 0;
+
+        return false;
       },
       { in: only }
     );
@@ -101,9 +106,11 @@ export class TypeObject extends TypeBase {
    * Force an object to not have the keys passed in the set
    *
    * @param  {...string} array
-   * @return {Base}
+   * @return {this}
    */
-  not(...array: string[]) {
+  not(...array: string[]): this;
+  not(array: string[]): this;
+  not(...array: (string | string[])[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
@@ -126,9 +133,9 @@ export class TypeObject extends TypeBase {
    *
    * @param  {Altheia} schema
    * @param  {boolean} options.returnErrors If true, deep errors while be returned too
-   * @return {Base}
+   * @return {this}
    */
-  schema(schema: Validator, { returnErrors = true } = {}) {
+  schema(schema: Validator, { returnErrors = true } = {}): this {
     if (typeof schema.isValidator === 'undefined') {
       throw new Error(
         'schema should be an instance of altheia validator "Alt({ ... })"'
@@ -157,9 +164,9 @@ export class TypeObject extends TypeBase {
    *  oneIsRequired is false by default
    *
    * @param  {mixed} params
-   * @return {Base}
+   * @return {this}
    */
-  oneOf(...params: (string | boolean)[]) {
+  oneOf(...params: (string | boolean)[]): this {
     if (params.length <= 1) {
       throw new Error('oneOf expect at least 2 params');
     }
@@ -215,9 +222,9 @@ export class TypeObject extends TypeBase {
    * Force all keys to be mutually required. If one is presents, all are required. Pass if none are present.
    *
    * @param  {...string} keys
-   * @return {Base}
+   * @return {this}
    */
-  allOf(...keys: string[]) {
+  allOf(...keys: string[]): this {
     this.test(
       'allOf',
       async (obj) => {

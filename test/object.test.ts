@@ -1,4 +1,5 @@
 import Alt from './../src';
+import { ValidatorTestResult } from '../src/types';
 
 describe('Object', () => {
   describe('typeof()', () => {
@@ -9,7 +10,7 @@ describe('Object', () => {
     test('should not pass: int', async () => {
       const hasError = await Alt.object().validate(1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.typeof',
         message: 'value must be a valid object',
@@ -73,7 +74,7 @@ describe('Object', () => {
         .in('foo', 'bar')
         .validate({ foo: 1, alice: 1 });
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.in',
         message: 'value must only contains these keys [foo,bar]',
@@ -85,7 +86,7 @@ describe('Object', () => {
         .in(['foo', 'bar'], { oneErrorPerKey: true })
         .validate({ foo: 1, alice: 1 });
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.in',
         message: 'value must only contains these keys [foo,bar]',
@@ -136,7 +137,7 @@ describe('Object', () => {
         .not('foo', 'bar')
         .validate({ foo: 1, alice: 1 });
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.not',
         message: 'value contains forbidden value',
@@ -150,6 +151,7 @@ describe('Object', () => {
       try {
         await Alt.object()
           .schema({
+            // @ts-ignore
             schema: Alt({
               foo: Alt.string(),
             }).options({ required: true }),
@@ -186,7 +188,7 @@ describe('Object', () => {
         )
         .validate({ foo: 'bar' });
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.schema',
         message: 'value has not a valid schema',
@@ -203,6 +205,7 @@ describe('Object', () => {
     test('should fail not valid schema', async () => {
       expect(() => {
         Alt.object().schema({
+          // @ts-ignore
           schema: {},
         });
       }).toThrow();
@@ -240,6 +243,7 @@ describe('Object', () => {
 
     test('should fail bad parameter schema', async () => {
       expect(() => {
+        // @ts-ignore
         Alt.object().schema(new Error());
       }).toThrow(
         'schema should be an instance of altheia validator "Alt({ ... })"'
@@ -249,8 +253,9 @@ describe('Object', () => {
     test('should not pass, plain object (v5)', async () => {
       let error;
       try {
-        const hasError = await Alt({
+        await Alt({
           data: Alt.object().schema({
+            // @ts-ignore
             foo: Alt.number(),
           }),
         })
@@ -295,7 +300,7 @@ describe('Object', () => {
         .oneOf('a', 'b')
         .validate({ a: 1, b: 1 });
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.oneOf',
         message: 'value can not contain these two keys [a,b] at the same time',
@@ -314,7 +319,7 @@ describe('Object', () => {
         .oneOf(true, 'a', 'b')
         .validate({});
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.oneOf',
         message: 'value must contain one of these keys [a,b]',
@@ -340,7 +345,7 @@ describe('Object', () => {
         .allOf('a', 'b', 'c')
         .validate({ z: 1 });
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.allOf',
         message: 'value must contain either none or all of these keys [a,b,c]',
@@ -358,7 +363,7 @@ describe('Object', () => {
     test('should not pass: undefined', async () => {
       const hasError = await Alt.object()
         .required()
-        .validate();
+        .validate(undefined);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {

@@ -1,6 +1,6 @@
 import TypeBase from './base';
 import arrayDiff from './utils/arraydiff';
-import { LangList, ValidatorErrorRaw } from './types/global';
+import { LangList, ValidatorErrorRaw } from './types';
 
 export const messages: LangList = {
   'array.typeof': (name) => `${name} must be a valid array`,
@@ -23,7 +23,6 @@ export const messages: LangList = {
 export class TypeArray extends TypeBase {
   /**
    * Constructor
-   * @return {Base}
    */
   constructor() {
     super();
@@ -34,7 +33,7 @@ export class TypeArray extends TypeBase {
   /**
    * Test to validate the type of the value
    *
-   * @return {Base}
+   * @return {this}
    */
   typeof(): this {
     this.test('typeof', (str) => {
@@ -47,7 +46,7 @@ export class TypeArray extends TypeBase {
    * Force an array to contains at least a number of items equal to the value passed.
    *
    * @param  {number} min
-   * @return {Base}
+   * @return {this}
    */
   min(min: number): this {
     this.test(
@@ -65,7 +64,7 @@ export class TypeArray extends TypeBase {
    * Force an array to contains at most a number of items equal to the value passed.
    *
    * @param  {number} max
-   * @return {Base}
+   * @return {this}
    */
   max(max: number): this {
     this.test(
@@ -80,16 +79,16 @@ export class TypeArray extends TypeBase {
   }
 
   /**
-   * Force an array to have only the keys passed in the set
+   * Force an array to have only the values passed in the set
    *
-   * @param  {...string} array
-   * @return {Base}
+   * @param  {...array} array
+   * @return {this}
    */
-  in(...array: string[]): this {
+  in(...array: any[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = (array[0] as unknown) as string[];
+      only = (array[0] as unknown) as any[];
     }
 
     this.test(
@@ -104,16 +103,16 @@ export class TypeArray extends TypeBase {
   }
 
   /**
-   * Force an array not to have the keys passed in the set
+   * Force an array not to have the values passed in the set
    *
-   * @param  {...string} array
-   * @return {Base}
+   * @param  {...array} array
+   * @return {this}
    */
-  not(...array: string[]): this {
+  not(...array: any[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = (array[0] as unknown) as string[];
+      only = (array[0] as unknown) as any[];
     }
 
     this.test(
@@ -130,7 +129,7 @@ export class TypeArray extends TypeBase {
   /**
    * Force an array to only have each item once
    *
-   * @return {Base}
+   * @return {this}
    */
   unique(): this {
     this.test('unique', (str) => {
@@ -145,7 +144,7 @@ export class TypeArray extends TypeBase {
    * Force all array's items to match one of the template
    *
    * @param  {...Validator} templates
-   * @return {Base}
+   * @return {this}
    */
   oneOf(...templates: TypeBase[]): this {
     this.test(
@@ -161,7 +160,7 @@ export class TypeArray extends TypeBase {
             for (var i = 0; i < templates.length; i++) {
               const test = await templates[i].required().validate(value);
               if (test) {
-                error = { label, test, position: index } as ValidatorErrorRaw;
+                error = { label, test, position: index };
               } else {
                 // early break if one template matched (returned no error)
                 return;

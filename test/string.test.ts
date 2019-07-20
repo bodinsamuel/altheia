@@ -1,4 +1,5 @@
 import Alt from './../src';
+import { ValidatorTestResult } from '../src/types';
 
 describe('String', () => {
   describe('typeof()', () => {
@@ -9,7 +10,7 @@ describe('String', () => {
     test('should not pass: int', async () => {
       const hasError = await Alt.string().validate(1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.typeof',
         message: 'value must be a valid string',
@@ -38,7 +39,7 @@ describe('String', () => {
         .noEmpty()
         .validate('');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.empty',
         message: 'value can not be empty',
@@ -58,7 +59,7 @@ describe('String', () => {
         .min(2)
         .validate('a');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.min',
         message: 'value must be at least 2 characters long',
@@ -78,7 +79,7 @@ describe('String', () => {
         .max(2)
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.max',
         message: 'value must be at most 2 characters long',
@@ -98,7 +99,7 @@ describe('String', () => {
         .pattern(/^[a-z]+$/)
         .validate('f00bar');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.pattern',
         message: 'value must match pattern "/^[a-z]+$/"',
@@ -118,7 +119,7 @@ describe('String', () => {
         .in('barfoo', 'top')
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.in',
         message: 'value must be one of [barfoo,top]',
@@ -138,7 +139,7 @@ describe('String', () => {
         .not('foobar')
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.not',
         message: 'value contains forbidden value',
@@ -158,7 +159,7 @@ describe('String', () => {
         .email()
         .validate('foobar');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.email',
         message: 'value must be a valid email',
@@ -178,7 +179,7 @@ describe('String', () => {
         .lowercase()
         .validate('fooBar');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.lowercase',
         message: 'value must be lowercase only',
@@ -198,7 +199,7 @@ describe('String', () => {
         .uppercase()
         .validate('FOObAR');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'string.uppercase',
         message: 'value must be uppercase only',

@@ -1,7 +1,7 @@
 import TypeBase from './base';
 import Luhn from './utils/luhn';
 import url from 'url';
-import { LangList } from './types/global';
+import { LangList } from './types';
 
 // eslint-disable-next-line
 const hostname = new RegExp(
@@ -35,7 +35,6 @@ export const messages: LangList = {
 export class TypeInternet extends TypeBase {
   /**
    * Constructor
-   * @return {Base}
    */
   constructor() {
     super();
@@ -46,9 +45,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Test to validate the type of the value
    *
-   * @return {Base}
+   * @return {this}
    */
-  typeof() {
+  typeof(): this {
     this.test('typeof', (str) => {
       return typeof str === 'string';
     });
@@ -58,9 +57,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid url (RFC)
    *
-   * @return {Base}
+   * @return {this}
    */
-  url() {
+  url(): this {
     this.test('url', (str) => {
       try {
         // eslint-disable-next-line
@@ -81,9 +80,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid hostname (RFC)
    *
-   * @return {Base}
+   * @return {this}
    */
-  hostname() {
+  hostname(): this {
     this.test('hostname', (str) => {
       return str.match(hostname) !== null;
     });
@@ -93,9 +92,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid hex (a-f0-9)
    *
-   * @return {Base}
+   * @return {this}
    */
-  hex() {
+  hex(): this {
     this.test('hex', (str) => {
       return str.match(/^[a-f0-9]+$/i) !== null;
     });
@@ -105,9 +104,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid credit card (using Luhn's algorithm)
    *
-   * @return {Base}
+   * @return {this}
    */
-  creditCard() {
+  creditCard(): this {
     this.test('creditCard', (str) => {
       if (/[^0-9-\s]+/.test(str)) {
         return false;
@@ -124,9 +123,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid uuid version 4
    *
-   * @return {Base}
+   * @return {this}
    */
-  uuidv4() {
+  uuidv4(): this {
     this.test('uuidv4', (str) => {
       if (str.length < 32) {
         return false;
@@ -139,9 +138,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid ipv4 or ipv6
    *
-   * @return {Base}
+   * @return {this}
    */
-  ip() {
+  ip(): this {
     this.test('ip', (str) => {
       return ipv4.test(str) || ipv6.test(str);
     });
@@ -151,9 +150,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid ipv4
    *
-   * @return {Base}
+   * @return {this}
    */
-  ipv4() {
+  ipv4(): this {
     this.test('ipv4', (str) => {
       return ipv4.test(str);
     });
@@ -163,9 +162,9 @@ export class TypeInternet extends TypeBase {
   /**
    * Force a string to be a valid ipv6
    *
-   * @return {Base}
+   * @return {this}
    */
-  ipv6() {
+  ipv6(): this {
     this.test('ipv6', (str) => {
       return ipv6.test(str);
     });

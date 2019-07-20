@@ -1,4 +1,5 @@
 import Alt from './../src';
+import { ValidatorTestResult } from '../src/types';
 
 describe('Number', () => {
   describe('typeof()', () => {
@@ -13,7 +14,7 @@ describe('Number', () => {
     test('should not pass: string', async () => {
       const hasError = await Alt.number().validate('1');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.typeof',
         message: 'value must be a valid number',
@@ -82,7 +83,7 @@ describe('Number', () => {
         .min(2)
         .validate(1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.min',
         message: 'value must be at least 2',
@@ -108,7 +109,7 @@ describe('Number', () => {
         .max(20)
         .validate(21);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.max',
         message: 'value must be less than or equal to 20',
@@ -128,7 +129,7 @@ describe('Number', () => {
         .integer()
         .validate(1.1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.integer',
         message: 'value must be an integer',
@@ -148,7 +149,7 @@ describe('Number', () => {
         .unsigned()
         .validate(-1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.unsigned',
         message: 'value must be an unsigned number',
@@ -168,7 +169,7 @@ describe('Number', () => {
         .positive()
         .validate(0);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.positive',
         message: 'value must be a positive number',
@@ -188,7 +189,7 @@ describe('Number', () => {
         .negative()
         .validate(1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.negative',
         message: 'value must be a negative number',
@@ -208,7 +209,7 @@ describe('Number', () => {
         .in(1, 2)
         .validate(3);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.in',
         message: 'value must be one of [1,2]',
@@ -228,7 +229,7 @@ describe('Number', () => {
         .not(1)
         .validate(1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'number.not',
         message: 'value contains forbidden value',
@@ -258,7 +259,7 @@ describe('Number', () => {
     test('should not pass: undefined', async () => {
       const hasError = await Alt.number()
         .required()
-        .validate();
+        .validate(undefined);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {

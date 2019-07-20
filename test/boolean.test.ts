@@ -1,4 +1,5 @@
 import Alt from './../src';
+import { ValidatorTestResult } from '../src/types';
 
 describe('Boolean', () => {
   describe('typeof()', () => {
@@ -13,7 +14,7 @@ describe('Boolean', () => {
     test('should not pass: int', async () => {
       const hasError = await Alt.boolean().validate(1);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'boolean.typeof',
         message: 'value must be a valid boolean',
@@ -93,7 +94,7 @@ describe('Boolean', () => {
         .false()
         .validate(true);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'boolean.false',
         message: 'value must be false',
@@ -113,7 +114,7 @@ describe('Boolean', () => {
         .true()
         .validate(false);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'boolean.true',
         message: 'value must be true',

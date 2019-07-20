@@ -1,6 +1,7 @@
 import Alt from './../src';
+import { ValidatorTestResult } from '../src/types';
 
-const timeoutSuccess = (mark) => {
+const timeoutSuccess = (mark): (() => Promise<true>) => {
   return () => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -10,7 +11,7 @@ const timeoutSuccess = (mark) => {
     });
   };
 };
-const timeoutError = (mark) => {
+const timeoutError = (mark): (() => Promise<false>) => {
   return () => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -43,13 +44,16 @@ describe('Base', () => {
 
       // to avoid false positive we check the callback real use
       expect(hasError).toBeTruthy();
-      expect(hasError.result.error).toEqual('not_okay');
+      expect((hasError as ValidatorTestResult).result.error).toEqual(
+        'not_okay'
+      );
     });
 
     test('should fail if result is string', async () => {
       let error;
       try {
         await Alt.string()
+          // @ts-ignore
           .custom('dfd', () => {
             return 'nope';
           })
@@ -68,6 +72,7 @@ describe('Base', () => {
       let error;
       try {
         await Alt.string()
+          // @ts-ignore
           .custom('dfd', () => {
             return { foo: 'bar' };
           })
@@ -109,7 +114,7 @@ describe('Base', () => {
     test('should not pass: undefined', async () => {
       const hasError = await Alt.string()
         .required()
-        .validate();
+        .validate(undefined);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {
@@ -175,7 +180,7 @@ describe('Base', () => {
         .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
-      expect(hasError.name).toBe('string.min');
+      expect((hasError as ValidatorTestResult).type).toBe('string.min');
     });
 
     test('should fail in then async', async () => {
@@ -189,7 +194,9 @@ describe('Base', () => {
         .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
-      expect(hasError.name).toBe('string.custom.my_if');
+      expect((hasError as ValidatorTestResult).type).toBe(
+        'string.custom.my_if'
+      );
       expect(mark.pass).toBe(true);
     });
 
@@ -214,7 +221,7 @@ describe('Base', () => {
       const mark = { pass: false };
       const hasError = await Alt.string()
         .if({
-          test: (chain) => chain.uppercase(),
+          test: (self) => self.uppercase(),
           then: (chain) => chain.min(2),
           otherwise: (chain) => chain.custom('my_if', timeoutSuccess(mark)),
         })
@@ -234,7 +241,7 @@ describe('Base', () => {
         .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
-      expect(hasError.name).toBe('string.max');
+      expect((hasError as ValidatorTestResult).type).toBe('string.max');
     });
 
     test('should fail in otherwise async', async () => {
@@ -248,7 +255,9 @@ describe('Base', () => {
         .validate('foo@bar');
 
       expect(hasError).toBeTruthy();
-      expect(hasError.name).toBe('string.custom.my_if');
+      expect((hasError as ValidatorTestResult).type).toBe(
+        'string.custom.my_if'
+      );
       expect(mark.pass).toBe(true);
     });
   });
@@ -258,11 +267,11 @@ describe('Base', () => {
       const schema = Alt.string().in('hello');
 
       const hasError1 = await schema.validate('good morning');
-      expect(hasError1.valid).toBe(false);
+      expect((hasError1 as ValidatorTestResult).valid).toBe(false);
 
       const hasError2 = await schema.validate('hello');
       expect(hasError2).toBe(false);
-      expect(hasError1.valid).toBe(false);
+      expect((hasError1 as ValidatorTestResult).valid).toBe(false);
 
       done();
     });

@@ -14,15 +14,15 @@
     "data"
   ],
   "scripts": {
-    "lint": "eslint src/ test/",
+    "lint": "eslint \"src/**\" \"test/**\"",
     "test": "jest test/",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "build": "webpack",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint"
+    "*.ts": [
+      "yarn lint"
     ]
   },
   "prettier": {
@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/bodinsamuel/altheia#readme",
   "engines": {
-    "node": ">= 7.6"
+    "node": ">= 8"
   },
   "pre-commit": [
     "lint"
@@ -54,10 +54,13 @@
     "@types/jest": "24.0.15",
     "@types/lodash": "4.14.136",
     "@types/node": "12.6.2",
+    "@typescript-eslint/eslint-plugin": "1.12.0",
+    "@typescript-eslint/parser": "1.12.0",
     "coveralls": "^3.0.2",
-    "eslint": "^6.0.1",
+    "eslint": "6.0.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-jest": "^22.7.1",
+    "eslint-plugin-prettier": "3.1.0",
     "husky": "3.0.0",
     "jest": "24.8.0",
     "lint-staged": "^9.1.0",

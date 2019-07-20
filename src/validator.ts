@@ -10,7 +10,7 @@ import {
   ValidatorErrorRaw,
   ValidatorErrorFormatted,
   ValidatorTestResult,
-} from './types/global';
+} from './types';
 import { createTest, createTestResult } from './utils/createTest';
 
 /**
@@ -21,6 +21,7 @@ class Validator {
   inst: AltheiaInstance;
   isValidator: number;
   validated: boolean;
+
   _schema: any;
   _body: any;
   _errors: ValidatorErrorFormatted[];
@@ -32,7 +33,6 @@ class Validator {
    * Constructor
    * @param  {object} schema
    * @param  {object} inst   An Altheia instance
-   * @return {Validator}
    */
   constructor(schema: ValidatorSchema, inst: AltheiaInstance) {
     this.inst = inst;
@@ -48,6 +48,7 @@ class Validator {
     this._options = {
       required: false,
       unknown: false,
+      flatten: false,
     };
 
     this.schema(schema);
@@ -57,7 +58,7 @@ class Validator {
    * Clone a validator
    * @return {Validator}
    */
-  clone() {
+  clone(): Validator {
     const clone = new Validator(this._schema, this.inst);
     clone.options(this._options);
     clone._confirm = [...this._confirm];
@@ -68,9 +69,9 @@ class Validator {
    * Assign the body to validate
    *
    * @param  {object} body
-   * @return {Validator}
+   * @return {this}
    */
-  body(body: any) {
+  body(body: any): this {
     this._body = Object.assign({}, body);
     return this;
   }
@@ -79,9 +80,9 @@ class Validator {
    * Declare the schema that describe the body()
    *
    * @param  {object} schema
-   * @return {Validator}
+   * @return {this}
    */
-  schema(schema: ValidatorSchema) {
+  schema(schema: ValidatorSchema): this {
     if (!isPlainObject(schema)) {
       throw new Error('schema should be object');
     }
@@ -93,9 +94,9 @@ class Validator {
    * Declare options to change the defaults behaviour of the Validator
    *
    * @param  {object} options
-   * @return {Validator}
+   * @return {this}
    */
-  options(options: ValidatorOptions) {
+  options(options: ValidatorOptions): this {
     if (!isPlainObject(options)) {
       throw new Error('schema should be object');
     }
@@ -107,21 +108,32 @@ class Validator {
    * Format any Error Array returned by a test
    * @param  {object} error
    * @param  {string} label
-   * @return {object}
+   * @return {ValidatorErrorFormatted} Formatted error
    */
-  formatError(error: ValidatorTestResult, label: string) {
+  formatError(
+    error: ValidatorTestResult,
+    label: string
+  ): ValidatorErrorFormatted {
     return this.inst.formatError(error, label);
+  }
+
+  private flatten(bag: any[], error: ValidatorErrorFormatted): any[] {
+    if (error.errors) {
+      return error.errors.reduce(this.flatten, bag);
+    }
+    bag.push(error);
+    return bag;
   }
 
   /**
    * Validate the body against the schema
    *
-   * @param  {Function} callback
-   * @return {object}
+   * @param  {function} callback
+   * @return {false | ValidatorErrorFormatted[]} Test resutls
    */
   async validate(
-    callback?: (value: false | ValidatorErrorFormatted) => void
-  ): Promise<false | ValidatorErrorFormatted> {
+    callback?: (value: false | ValidatorErrorFormatted[]) => void
+  ): Promise<false | ValidatorErrorFormatted[]> {
     if (this.validated) {
       throw new Error(
         'Already validated, please use .clone() to validate a different body'
@@ -131,7 +143,10 @@ class Validator {
     this.validated = true;
 
     // Return an object and call a callback if needed
-    const returnOrCallback = (result: any, callback?: (value: any) => void) => {
+    const returnOrCallback = (
+      result: any,
+      callback?: (value: any) => void
+    ): false | ValidatorErrorFormatted[] => {
       if (callback) {
         callback(result);
       }
@@ -145,7 +160,7 @@ class Validator {
         .in(Object.keys(this._schema), { oneErrorPerKey: true })
         .validate(this._body);
 
-      if (typeof only !== 'boolean') {
+      if (typeof only !== 'boolean' && only.result && only.result.errors) {
         only.result.errors.map((error: ValidatorErrorRaw) =>
           errors.push(this.formatError(error.test, error.label))
         );
@@ -174,7 +189,11 @@ class Validator {
 
       this._errorsRaw.push({ test: hasError, label: key });
       const formatted = this.formatError(hasError, key);
-      errors.push(formatted);
+      if (!formatted.errors || !this._options.flatten) {
+        errors.push(formatted);
+      } else if (this._options.flatten && formatted.errors) {
+        errors.push(...formatted.errors.reduce(this.flatten, []));
+      }
     }
     this._errors = errors;
 
@@ -211,10 +230,10 @@ class Validator {
    *
    * @param  {string} initial    The first key
    * @param  {string} comparison The second key
-   * @return {Validator}
+   * @return {this}
    */
-  confirm(initial: string, comparison: string) {
-    this._confirm.push({ initial, comparison } as ValidatorConfirm);
+  confirm(initial: string, comparison: string): this {
+    this._confirm.push({ initial, comparison });
     return this;
   }
 }

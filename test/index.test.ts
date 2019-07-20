@@ -48,7 +48,7 @@ describe('Index', () => {
         messages: {
           'mycustom.myrule': () => 'not good',
         },
-        Class: class mycustom extends Alt.Base {
+        Class: class MyCustom extends Alt.Base {
           // eslint-disable-next-line
           myrule() {
             this.test('myrule', () => {
@@ -81,7 +81,7 @@ describe('Index', () => {
 
       expect(alt1).toHaveProperty('templates');
       expect(alt1.templates).toHaveProperty('login');
-      expect(alt1.templates.login).toBeInstanceOf(StringValidator);
+      expect(alt1.templates.login).toBeInstanceOf(StringValidator.Class);
 
       expect(alt2.templates).not.toHaveProperty('login');
     });
@@ -97,7 +97,7 @@ describe('Index', () => {
 
       const back = alt1.is('login');
 
-      expect(back).toBeInstanceOf(StringValidator);
+      expect(back).toBeInstanceOf(StringValidator.Class);
     });
 
     test('should get template back and not modify template', () => {
@@ -110,7 +110,7 @@ describe('Index', () => {
       );
 
       const back = (alt1.is('login') as TypeString).lowercase();
-      expect(back).toBeInstanceOf(StringValidator);
+      expect(back).toBeInstanceOf(StringValidator.Class);
       expect(back.tests.length).toBe(4);
 
       expect(alt1.is('login').tests.length).toBe(3);

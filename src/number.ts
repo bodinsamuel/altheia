@@ -1,5 +1,5 @@
 import TypeBase from './base';
-import { LangList } from './types/global';
+import { LangList } from './types';
 
 export const messages: LangList = {
   'number.typeof': (name) => `${name} must be a valid number`,
@@ -20,7 +20,6 @@ export const messages: LangList = {
 export class TypeNumber extends TypeBase {
   /**
    * Constructor
-   * @return {Base}
    */
   constructor() {
     super();
@@ -34,7 +33,7 @@ export class TypeNumber extends TypeBase {
    * @param {mixed} value
    * @return {Number|mixed}
    */
-  _cast(value: any) {
+  _cast(value: any): number | any {
     if (typeof value === 'string') {
       return parseFloat(value);
     }
@@ -44,9 +43,9 @@ export class TypeNumber extends TypeBase {
   /**
    * Test to validate the type of the value
    *
-   * @return {Base}
+   * @return {this}
    */
-  typeof() {
+  typeof(): this {
     this.test('typeof', (str) => {
       return typeof str === 'number' && !isNaN(str) && isFinite(str);
     });
@@ -57,9 +56,9 @@ export class TypeNumber extends TypeBase {
    * Force a number to be equal or more to the value passed.
    *
    * @param  {number} min
-   * @return {Base}
+   * @return {this}
    */
-  min(min: number) {
+  min(min: number): this {
     this.test(
       'min',
       (str) => {
@@ -74,9 +73,9 @@ export class TypeNumber extends TypeBase {
    * Force a number to be equal or less to the value passed.
    *
    * @param  {number} max
-   * @return {Base}
+   * @return {this}
    */
-  max(max: number) {
+  max(max: number): this {
     this.test(
       'max',
       (str) => {
@@ -90,9 +89,9 @@ export class TypeNumber extends TypeBase {
   /**
    * Force a number to be an integer.
    *
-   * @return {Base}
+   * @return {this}
    */
-  integer() {
+  integer(): this {
     this.test('integer', (str) => {
       return Number.isSafeInteger(str) === true;
     });
@@ -102,9 +101,9 @@ export class TypeNumber extends TypeBase {
   /**
    * Force a number to be unsigned.
    *
-   * @return {Base}
+   * @return {this}
    */
-  unsigned() {
+  unsigned(): this {
     this.test('unsigned', (str) => {
       return str >= 0;
     });
@@ -114,9 +113,9 @@ export class TypeNumber extends TypeBase {
   /**
    * Force a number to be greater than 0.
    *
-   * @return {Base}
+   * @return {this}
    */
-  positive() {
+  positive(): this {
     this.test('positive', (str) => {
       return str > 0;
     });
@@ -126,9 +125,9 @@ export class TypeNumber extends TypeBase {
   /**
    * Force a number to be lesser than 0.
    *
-   * @return {Base}
+   * @return {this}
    */
-  negative() {
+  negative(): this {
     this.test('negative', (str) => {
       return str < 0;
     });
@@ -139,9 +138,9 @@ export class TypeNumber extends TypeBase {
    * Force a number to be equal to one of the value passed in the set.
    *
    * @param  {...number} obj
-   * @return {Base}
+   * @return {this}
    */
-  in(...obj: number[]) {
+  in(...obj: number[]): this {
     this.test(
       'in',
       (str) => {
@@ -157,9 +156,9 @@ export class TypeNumber extends TypeBase {
    * Force a number to be different to all of the value passed in the set.
    *
    * @param  {...number} obj
-   * @return {Base}
+   * @return {this}
    */
-  not(...obj: number[]) {
+  not(...obj: number[]): this {
     this.test(
       'not',
       (str) => {

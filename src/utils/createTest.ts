@@ -3,7 +3,7 @@ import {
   ValidatorInternalTest,
   ValidatorTestResult,
   ValidatorInternalTestResult,
-} from '../types/global';
+} from '../types';
 
 /**
  * Return a test default object
@@ -14,7 +14,7 @@ import {
  */
 export function createTest({
   type,
-  func = () => false,
+  func = (): boolean => false,
   args = {},
 }: {
   type: string;

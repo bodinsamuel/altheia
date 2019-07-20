@@ -1,5 +1,5 @@
 import TypeBase from './base';
-import { LangList } from './types/global';
+import { LangList } from './types';
 
 export const messages: LangList = {
   'string.typeof': (name) => `${name} must be a valid string`,
@@ -23,21 +23,20 @@ export const messages: LangList = {
 export class TypeString extends TypeBase {
   /**
    * Constructor
-   * @return {Base}
    */
   constructor() {
     super();
     this.name = 'string';
-    this._no_empty = false;
+    this._noEmpty = false;
     this.typeof();
   }
 
   /**
    * Test to validate the type of the value
    *
-   * @return {Base}
+   * @return {this}
    */
-  typeof() {
+  typeof(): this {
     this.test('typeof', (str) => {
       return typeof str === 'string';
     });
@@ -47,10 +46,10 @@ export class TypeString extends TypeBase {
   /**
    * Force a string to be not empty
    *
-   * @return {Base}
+   * @return {this}
    */
-  noEmpty() {
-    this._no_empty = true;
+  noEmpty(): this {
+    this._noEmpty = true;
     this.test('empty', (str) => {
       return str.length > 0;
     });
@@ -61,9 +60,9 @@ export class TypeString extends TypeBase {
    * Force a string to be equal or more to the value passed.
    *
    * @param  {number} min
-   * @return {Base}
+   * @return {this}
    */
-  min(min: number) {
+  min(min: number): this {
     this.test(
       'min',
       (str) => {
@@ -79,9 +78,9 @@ export class TypeString extends TypeBase {
    * Force a string to be equal or less to the value passed.
    *
    * @param  {number} max
-   * @return {Base}
+   * @return {this}
    */
-  max(max: number) {
+  max(max: number): this {
     this.test(
       'max',
       (str) => {
@@ -97,9 +96,9 @@ export class TypeString extends TypeBase {
    * Force a string to match the regex passed.
    *
    * @param  {Regex} regex
-   * @return {Base}
+   * @return {this}
    */
-  pattern(regex: RegExp) {
+  pattern(regex: RegExp): this {
     this.test(
       'pattern',
       (str) => {
@@ -115,9 +114,9 @@ export class TypeString extends TypeBase {
    * Force a string to be equal to one of the value passed in the set.
    *
    * @param  {...string} obj
-   * @return {Base}
+   * @return {this}
    */
-  in(...obj: string[]) {
+  in(...obj: string[]): this {
     this.test(
       'in',
       (str) => {
@@ -133,9 +132,9 @@ export class TypeString extends TypeBase {
    * Force a string to be different to all of the value passed in the set.
    *
    * @param  {...string} obj
-   * @return {Base}
+   * @return {this}
    */
-  not(...obj: string[]) {
+  not(...obj: string[]): this {
     this.test(
       'not',
       (str) => {
@@ -150,9 +149,9 @@ export class TypeString extends TypeBase {
   /**
    * Force a string to be a valid email (contain an @).
    *
-   * @return {Base}
+   * @return {this}
    */
-  email() {
+  email(): this {
     this.test('email', (str) => {
       return str.search('@') >= 0;
     });
@@ -163,9 +162,9 @@ export class TypeString extends TypeBase {
   /**
    * Force a string to be fully in lowercase.
    *
-   * @return {Base}
+   * @return {this}
    */
-  lowercase() {
+  lowercase(): this {
     this.test('lowercase', (str) => {
       return str.toLocaleLowerCase() === str;
     });
@@ -176,9 +175,9 @@ export class TypeString extends TypeBase {
   /**
    * Force a string to be fully in uppercase.
    *
-   * @return {Base}
+   * @return {this}
    */
-  uppercase() {
+  uppercase(): this {
     this.test('uppercase', (str) => {
       return str.toLocaleUpperCase() === str;
     });

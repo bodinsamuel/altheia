@@ -7,10 +7,9 @@ import {
   LangList,
   AltheiaInstance,
   ValidatorSchema,
-  ValidatorTemplates,
   ValidatorErrorFormatted,
   ValidatorErrorRaw,
-} from './types/global';
+} from './types';
 
 // Default extractors
 import AnyValidator from './any';
@@ -24,21 +23,22 @@ import ObjectValidator from './object';
 import StringValidator from './string';
 
 export const Instance = (lang?: LangList): AltheiaInstance => {
+  // @ts-ignore
   const inst: AltheiaInstance = (schema: ValidatorSchema): Validator => {
     return new Validator(schema, inst);
   };
 
   inst.langList = Object.assign({}, LangBase);
-  inst.templates = {} as ValidatorTemplates;
+  inst.templates = {};
   inst.Base = TypeBase;
 
-  inst.instance = (newLang: LangList = {}) => {
+  inst.instance = (newLang: LangList = {}): AltheiaInstance => {
     return Instance(Object.assign({}, inst.langList, newLang));
   };
 
-  inst.use = (plugin) => {
+  inst.use = (plugin): AltheiaInstance => {
     const test = new plugin.Class();
-    inst[test.name || test.constructor.name] = () => {
+    inst[test.name || test.constructor.name] = (): TypeBase => {
       return new plugin.Class(inst);
     };
     if (plugin.messages) {
@@ -47,7 +47,7 @@ export const Instance = (lang?: LangList): AltheiaInstance => {
     return inst;
   };
 
-  inst.lang = (key, tpl) => {
+  inst.lang = (key, tpl): void => {
     if (isPlainObject(key)) {
       inst.langList = Object.assign({}, inst.langList, key);
     } else if (typeof key === 'string' && tpl) {
@@ -55,11 +55,11 @@ export const Instance = (lang?: LangList): AltheiaInstance => {
     }
   };
 
-  inst.template = (name, schema) => {
+  inst.template = (name, schema): void => {
     inst.templates[name] = schema;
   };
 
-  inst.is = (name) => {
+  inst.is = (name): TypeBase => {
     if (typeof inst.templates[name] === 'undefined') {
       throw new Error(`unknow template ${name}`);
     }

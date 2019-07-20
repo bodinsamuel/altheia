@@ -1,11 +1,10 @@
 import {
   ValidatorInternalTest,
   TestFunction,
-  ChainFunction,
   AltheiaInstance,
   ValidatorInternalTestResult,
   ValidatorTestResult,
-} from './types/global';
+} from './types';
 import { createTest, createTestResult } from './utils/createTest';
 
 /**
@@ -17,30 +16,29 @@ class TypeBase {
   name?: string;
 
   _required: boolean;
-  _need_cast: boolean;
-  _no_empty?: boolean;
+  _needCast: boolean;
+  _noEmpty?: boolean;
 
   /**
    * Constructor
    *
    * @param  {Altheia} inst
-   * @return {Base}
    */
   constructor(inst?: AltheiaInstance) {
     this.inst = inst || require('./index');
     this.tests = [];
 
     this._required = false;
-    this._need_cast = false;
+    this._needCast = false;
   }
 
   /**
    * Clone this class
    *
-   * @return {Base}
+   * @return {TypeBase}
    */
-  clone(): TypeBase {
-    const clone = Object.assign(Object.create(this), this);
+  clone<T extends this>(): T {
+    const clone = Object.assign(Object.create(this), this) as T;
     // Quick deep clone
     clone.tests = this.tests.slice(0);
     return clone;
@@ -81,7 +79,7 @@ class TypeBase {
     const returnOrCallback = (
       result: false | ValidatorTestResult,
       callback?: (value: false | ValidatorTestResult) => void
-    ) => {
+    ): false | ValidatorTestResult => {
       if (callback) {
         callback(result);
       }
@@ -106,7 +104,8 @@ class TypeBase {
       );
     }
 
-    if (this._need_cast) {
+    if (this._needCast) {
+      // @ts-ignore
       toTest = await this._cast(toTest);
     }
 
@@ -146,7 +145,7 @@ class TypeBase {
   /**
    * Force the value to be non-null
    *
-   * @return {Base}
+   * @return {this}
    */
   required(): this {
     this._required = true;
@@ -156,14 +155,12 @@ class TypeBase {
   /**
    * Force the value to be casted before any check
    *
-   * @return {Base}
+   * @return {this}
    */
   cast(): this {
-    this._need_cast = true;
+    this._needCast = true;
     return this;
   }
-
-  _cast(_value: any): any {}
 
   /**
    * Custom validator
@@ -171,7 +168,7 @@ class TypeBase {
    * @param  {string}   name
    * @param  {Function} callback
    * @param  {Function}   message
-   * @return {Base}
+   * @return {this}
    */
   custom(name: string, callback: TestFunction): this {
     this.test(
@@ -194,7 +191,7 @@ class TypeBase {
    * @param  {mixed} toTest
    * @return {boolean}
    */
-  presence(toTest: any): Boolean {
+  presence(toTest: any): boolean {
     if (
       toTest === null ||
       typeof toTest === 'undefined' ||
@@ -207,7 +204,7 @@ class TypeBase {
       // If the flag is passed to true
       // we consider the string valid and can be deeply tested,
       // this will trigger the noEmpty() test
-      if (this._no_empty) {
+      if (this._noEmpty) {
         return true;
       }
 
@@ -223,31 +220,25 @@ class TypeBase {
    * @param  {function} options.test
    * @param  {function} options.then
    * @param  {function} options.otherwise
-   * @return {Base}
+   * @return {this}
    */
-  if({
+  if<T extends this>({
     test,
     then,
     otherwise,
   }: {
-    test: ChainFunction;
-    then: ChainFunction;
-    otherwise: ChainFunction;
+    test: (chain: T) => TypeBase;
+    then: (chain: T) => TypeBase;
+    otherwise: (chain: T) => TypeBase;
   }): this {
     this.test('if', async (str) => {
-      const clone = this.clone();
+      const clone = this.clone() as T;
       clone.tests = [];
 
       const hasError = await test(clone).validate(str);
       if (!hasError) {
         clone.tests = [];
         const temp = await then(clone).validate(str);
-        console.log(
-          'premier if',
-          temp,
-          'return',
-          temp && temp.result ? temp.result : true
-        );
         return temp && temp.result ? temp.result : true;
       }
 

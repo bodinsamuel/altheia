@@ -1,5 +1,5 @@
 import TypeBase from './base';
-import { LangList } from './types/global';
+import { LangList } from './types';
 
 /* eslint-disable */
 const iso = new RegExp(
@@ -22,8 +22,6 @@ export const messages: LangList = {
 export class TypeDate extends TypeBase {
   /**
    * Constructor
-   *
-   * @return {Base}
    */
   constructor() {
     super();
@@ -37,16 +35,16 @@ export class TypeDate extends TypeBase {
    * @param {mixed} value
    * @return {Date|mixed}
    */
-  _cast(value: any) {
+  _cast(value: any): Date | any {
     return Date.parse(value);
   }
 
   /**
    * Test to validate the type of the value
    *
-   * @return {Base}
+   * @return {this}
    */
-  typeof() {
+  typeof(): this {
     this.test('typeof', (str) => {
       return !isNaN(Date.parse(str));
     });
@@ -56,9 +54,9 @@ export class TypeDate extends TypeBase {
   /**
    * Force a date to be a valid ISO-8601.
    *
-   * @return {Base}
+   * @return {this}
    */
-  iso() {
+  iso(): this {
     this.test('iso', (str) => {
       return str.match(iso) !== null;
     });
@@ -69,9 +67,9 @@ export class TypeDate extends TypeBase {
    * Force a date to be a at least or bigger than value passed
    *
    * @param  {Date} min
-   * @return {Base}
+   * @return {this}
    */
-  min(min: Date) {
+  min(min: Date): this {
     this.test(
       'min',
       (str) => {
@@ -93,9 +91,9 @@ export class TypeDate extends TypeBase {
    * Force a date to be less or equal than value passed
    *
    * @param  {Date} max
-   * @return {Base}
+   * @return {this}
    */
-  max(max: Date) {
+  max(max: Date): this {
     this.test(
       'max',
       (str) => {

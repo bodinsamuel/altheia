@@ -1,4 +1,5 @@
 import Alt from './../src';
+import { ValidatorTestResult } from '../src/types';
 
 describe('Date', () => {
   describe('typeof()', () => {
@@ -25,7 +26,7 @@ describe('Date', () => {
     test('should not pass: boolean', async () => {
       const hasError = await Alt.date().validate(true);
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'date.typeof',
         message: 'value must be a valid date',
@@ -61,7 +62,7 @@ describe('Date', () => {
         .iso()
         .validate('1');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'date.iso',
         message: 'value must be an ISO-8601 date',
@@ -81,7 +82,7 @@ describe('Date', () => {
         .min(new Date('2018-05-15'))
         .validate('2017-05-15');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'date.min',
         message: 'value must be at least 2018-05-15T00:00:00.000Z',
@@ -89,6 +90,7 @@ describe('Date', () => {
     });
     test('should not pass invalid date', async () => {
       const hasError = await Alt.date()
+        // @ts-ignore
         .min('2016-05-15')
         .validate('2017-05-15');
       expect(hasError).toBeTruthy();
@@ -107,7 +109,7 @@ describe('Date', () => {
         .max(new Date('2016-05-15'))
         .validate('2017-05-15');
       expect(hasError).toBeTruthy();
-      expect(Alt.formatError(hasError)).toEqual({
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'date.max',
         message: 'value must be less than or equal to 2016-05-15T00:00:00.000Z',
@@ -115,6 +117,7 @@ describe('Date', () => {
     });
     test('should not pass invalid date', async () => {
       const hasError = await Alt.date()
+        // @ts-ignore
         .max('2018-05-15')
         .validate('2017-05-15');
       expect(hasError).toBeTruthy();
@@ -131,7 +134,7 @@ describe('Date', () => {
     test('should not pass: undefined', async () => {
       const hasError = await Alt.date()
         .required()
-        .validate();
+        .validate(undefined);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {
