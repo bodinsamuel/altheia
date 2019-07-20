@@ -116,11 +116,16 @@ class TypeBase {
       // Special condition for IF() we need to display error of deep validation
       let internalResult: ValidatorInternalTestResult;
 
-      if (test.type.indexOf('.if') >= 0) {
-        internalResult = this.testToTestResult(await test.func(toTest));
-      } else {
-        internalResult = this.testToTestResult(await test.func(toTest));
+      internalResult = this.testToTestResult(await test.func(toTest));
+
+      // Let test override current test type/arguments
+      // Helps when you encapsulate test inside other test and want a transparent error
+      //   e.g: `if()`
+      if (internalResult.overrideWith) {
+        test.type = internalResult.overrideWith.type;
+        test.args = internalResult.overrideWith.args;
       }
+
       if (
         typeof internalResult.error === 'undefined' ||
         typeof internalResult.valid === 'undefined'
@@ -239,12 +244,16 @@ class TypeBase {
       if (!hasError) {
         clone.tests = [];
         const temp = await then(clone).validate(str);
-        return temp && temp.result ? temp.result : true;
+        return temp && temp.result
+          ? { ...temp.result, overrideWith: temp }
+          : true;
       }
 
       clone.tests = [];
       const temp = await otherwise(clone).validate(str);
-      return temp && temp.result ? temp.result : true;
+      return temp && temp.result
+        ? { ...temp.result, overrideWith: temp }
+        : true;
     });
     return this;
   }

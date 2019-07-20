@@ -115,5 +115,6 @@ export interface ValidatorInternalTest {
 export interface ValidatorInternalTestResult {
   valid: boolean;
   error: string;
+  overrideWith?: ValidatorTestResult;
   errors?: ValidatorErrorRaw[];
 }

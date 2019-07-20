@@ -59,12 +59,12 @@ describe('Index', () => {
         },
       });
 
-      expect(alt1).toHaveProperty('mycustom');
-      expect(Alt).not.toHaveProperty('mycustom');
+      expect(alt1).toHaveProperty('MyCustom');
+      expect(Alt).not.toHaveProperty('MyCustom');
 
       // new instance should start clean
       const alt2 = alt1.instance();
-      expect(alt2).not.toHaveProperty('mycustom');
+      expect(alt2).not.toHaveProperty('MyCustom');
     });
   });
 

@@ -11,7 +11,7 @@
     "outDir": "./dist",
     "sourceMap": true,
     "strict": true,
-    "target": "es5",
+    "target": "es2017",
     "noImplicitAny": true
   },
   "include": ["./src/**/*", "src/types/index.ts"],
