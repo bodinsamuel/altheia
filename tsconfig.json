@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "declaration": true,
-    "module": "commonjs",
+    "esModuleInterop": true,
+    "module": "amd",
     "moduleResolution": "node",
+    "noImplicitAny": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "sourceMap": false,
     "outDir": "./dist",
-    "sourceMap": true,
+    "outFile": "./dist/types.js",
     "strict": true,
-    "target": "es2017",
-    "noImplicitAny": true
+    "target": "es2015"
   },
   "include": ["./src/**/*", "src/types/index.ts"],
   "exclude": ["node_modules/**"]

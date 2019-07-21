@@ -1,5 +1,5 @@
 // credit => https://gist.github.com/ShirtlessKirk/2134376
-export = ((arr: number[]): ((ccNum: string) => boolean | 0) => {
+export default ((arr: number[]): ((ccNum: string) => boolean | 0) => {
   return (ccNum: string): boolean | 0 => {
     let len = ccNum.length;
     let bit = 1;
