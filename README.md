@@ -1,68 +1,76 @@
 # Altheia
-[![Build Status](https://travis-ci.org/bodinsamuel/altheia.svg?branch=master)](https://travis-ci.org/bodinsamuel/altheia) [![Coverage Status](https://coveralls.io/repos/github/bodinsamuel/altheia/badge.svg?branch=master)](https://coveralls.io/github/bodinsamuel/altheia?branch=master)
 
+[![Build Status](https://travis-ci.org/bodinsamuel/altheia.svg?branch=master)](https://travis-ci.org/bodinsamuel/altheia) [![Coverage Status](https://coveralls.io/repos/github/bodinsamuel/altheia/badge.svg?branch=master)](https://coveralls.io/github/bodinsamuel/altheia?branch=master)
 
 A very simple, fast and customizable async data validator, inspired by Joi .
 
 ```javascript
-await Alt.string().email().custom('not_in_db', async (val) => await searchDB(val))
+await alt
+  .string()
+  .email()
+  .custom('not_in_db', async (val) => await searchDB(val));
 ```
 
-# Introduction
-After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aim at being very lightweight, simple to use and obvioulsy allow us to check anything from standard schema to very custom ones.
+## 🤓 Why?
 
-It's primary goal was to be used in batch json validation (i.e: for API).
-With Altheai you can easily:
-- change errors messages
-- add custom validation
-- call anything asynchronously to do further check (database, xhr...)
-- do nested object validation
-- adaptative validation with if() condition
-- reuse validation scheme...
+After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aim at being very lightweight, simple to use and allow to check anything from standard schema to very custom ones.
 
-# Install
+The goal of this library is to validate json -- for example in express middleware -- and complexe javascript object.
+
+- 💅 **Easy to customize.** Use builtin or create your own validation.
+- ⚡️**Async.** Call any resources asynchronously to do check your data (e.g: database, xhr...)
+- 🤩 **Typescript.** No more checking long documentation and wondering what to write.
+- 🧘 **Easy to use.** No configuration required
+
+## ✨ Install
+
 ```bash
-$ npm install altheia-async-data-validator
+npm install altheia-async-data-validator
 ```
 
+```sh
+yarn add altheia-async-data-validator
+```
 
-# Example
+## 🤩 Example
+
 ```javascript
-const Alt = require('altheia-async-data-validator');
-// or: import Alt from 'altheia-async-data-validator'
+import alt from 'altheia-async-data-validator'
 
-Alt.lang('string.min', (name, args) => `This ${name} is too short I think`});
-Alt.template('login', Alt.string().min(3).not('admin'));
+alt.lang('string.min', (name, args) => `This ${name} is too short`});
+alt.template('login', alt.string().min(3).not('admin'));
 
-const hasError = await Alt({
-    login: Alt.is('login').required(),
-    email: Alt.string().email().custom('not_in_db', async (val) => await searchDB(val)),
-    eyes: Alt.number().integer().positive().max(2),
-    date: Alt.date().iso(),
-    gender: Alt.string().if({
+const errors = await Alt({
+    login: alt.is('login'),
+    email: alt.string()
+        .email()
+        .custom('not_in_db', async (val) => await searchDB(val)),
+    eyes: alt.number().integer().positive().max(2),
+    date: alt.date().iso(),
+    gender: alt.string().if({
         test: test => test.uppercase(),
         then: test => test.in('F', 'M'),
         otherwise: test => test.in('female', 'male')
     })
 }).options({
-    required: true,
-    unknown: false
-}).body({
+    required: true
+}).validate({
     login: 'leela',
-    email: 'captain@planetexpress.earth',
+    email: 'captain@planetexpress.com',
     eyes: 1,
     date: '2015-01-04T17:35:22Z',
     gender: 'female',
-}).validate();
+});
 
-console.log(hasError); // false
+console.log(errors); // false
 ```
 
+## 📚 Documentation
 
-# Documentation
-You can find the full [documentation here](../master/Documentation.md) and the [CHANGELOG](../master/Documentation.md).
+- Full [Documentation](/docs/)
+- Validator [API](/docs/api.md)
+- [Changelog](../master/CHANGELOG.md)
 
+## 📋 Contributing
 
-
-# Contributing
-Every contribution or request will be gladly accepted in this issues section.
+Every contribution or feature requests will be gladly accepted in the issue section.

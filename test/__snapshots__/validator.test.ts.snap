@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Validator options() flatten should flatten nested errors 1`] = `
+Array [
+  Object {
+    "label": "item",
+    "message": "item must be a valid number",
+    "position": 0,
+    "type": "number.typeof",
+  },
+  Object {
+    "label": "item",
+    "message": "item must be a valid number",
+    "position": 1,
+    "type": "number.typeof",
+  },
+  Object {
+    "label": "login",
+    "message": "login must be a valid number",
+    "type": "number.typeof",
+  },
+]
+`;
+
+exports[`Validator options() flatten should flatten simple errors 1`] = `
+Array [
+  Object {
+    "label": "name",
+    "message": "name must be a valid number",
+    "type": "number.typeof",
+  },
+  Object {
+    "label": "login",
+    "message": "login must be a valid number",
+    "type": "number.typeof",
+  },
+]
+`;

@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`All should fail 1`] = `
+Array [
+  Object {
+    "label": "foo",
+    "message": "foo must be a valid string",
+    "type": "string.typeof",
+  },
+  Object {
+    "label": "number",
+    "message": "number must be a valid number",
+    "type": "number.typeof",
+  },
+  Object {
+    "label": "bool",
+    "message": "bool must be a valid boolean",
+    "type": "boolean.typeof",
+  },
+  Object {
+    "label": "array",
+    "message": "array must be a valid array",
+    "type": "array.typeof",
+  },
+  Object {
+    "label": "function",
+    "message": "function must be a valid function",
+    "type": "function.typeof",
+  },
+  Object {
+    "label": "date",
+    "message": "date must be a valid date",
+    "type": "date.typeof",
+  },
+  Object {
+    "label": "internetUrl",
+    "message": "internetUrl must be a valid string",
+    "type": "internet.typeof",
+  },
+  Object {
+    "label": "object",
+    "message": "object must be a valid object",
+    "type": "object.typeof",
+  },
+  Object {
+    "errors": Array [
+      Object {
+        "label": "item",
+        "message": "item must be a valid string",
+        "position": 0,
+        "type": "string.typeof",
+      },
+    ],
+    "label": "arrayWithTemplate",
+    "message": "arrayWithTemplate contains forbidden items",
+    "type": "array.oneOf",
+  },
+  Object {
+    "errors": Array [
+      Object {
+        "label": "item",
+        "message": "item does not match any of the allowed types",
+        "position": 0,
+        "type": "array.itemInvalid",
+      },
+      Object {
+        "label": "item",
+        "message": "item does not match any of the allowed types",
+        "position": 1,
+        "type": "array.itemInvalid",
+      },
+    ],
+    "label": "arrayWithTemplates",
+    "message": "arrayWithTemplates contains forbidden items",
+    "type": "array.oneOf",
+  },
+]
+`;
+
+exports[`All should fail nested 1`] = `
+Array [
+  Object {
+    "errors": Array [
+      Object {
+        "label": "item",
+        "message": "item must be a valid string",
+        "position": 0,
+        "type": "string.typeof",
+      },
+      Object {
+        "label": "item",
+        "message": "item must be a valid string",
+        "position": 3,
+        "type": "string.typeof",
+      },
+    ],
+    "label": "foo",
+    "message": "foo contains forbidden items",
+    "type": "array.oneOf",
+  },
+  Object {
+    "errors": Array [
+      Object {
+        "label": "bar",
+        "message": "bar must be a valid string",
+        "type": "string.typeof",
+      },
+    ],
+    "label": "object",
+    "message": "object has not a valid schema",
+    "type": "object.schema",
+  },
+  Object {
+    "errors": Array [
+      Object {
+        "errors": Array [
+          Object {
+            "errors": Array [
+              Object {
+                "label": "item",
+                "message": "item does not match any of the allowed types",
+                "position": 1,
+                "type": "array.itemInvalid",
+              },
+              Object {
+                "label": "item",
+                "message": "item does not match any of the allowed types",
+                "position": 2,
+                "type": "array.itemInvalid",
+              },
+            ],
+            "label": "nested2",
+            "message": "nested2 contains forbidden items",
+            "type": "array.oneOf",
+          },
+        ],
+        "label": "item",
+        "message": "item has not a valid schema",
+        "position": 0,
+        "type": "object.schema",
+      },
+    ],
+    "label": "nested",
+    "message": "nested contains forbidden items",
+    "type": "array.oneOf",
+  },
+]
+`;
