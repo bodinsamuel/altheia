@@ -59,7 +59,7 @@
   "devDependencies": {
     "@types/jest": "24.0.15",
     "@types/lodash": "4.14.136",
-    "@types/node": "12.6.2",
+    "@types/node": "12.6.8",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
     "coveralls": "^3.0.2",
