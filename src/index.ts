@@ -22,7 +22,7 @@ import NumberValidator from './number';
 import ObjectValidator from './object';
 import StringValidator from './string';
 
-export const Instance = (lang?: LangList): AltheiaInstance => {
+const Instance = (lang?: LangList): AltheiaInstance => {
   // @ts-ignore
   const inst: AltheiaInstance = (schema: ValidatorSchema): Validator => {
     return new Validator(schema, inst);
@@ -118,4 +118,5 @@ export const Instance = (lang?: LangList): AltheiaInstance => {
   return inst;
 };
 
-export default Instance();
+const def = Instance();
+export default def;

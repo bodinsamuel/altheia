@@ -13,9 +13,11 @@
     "data"
   ],
   "files": [
-    "dist"
+    "dist",
+    "lib"
   ],
-  "main": "dist/index.js",
+  "main": "lib/index.js",
+  "cjs": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "browser": "dist/index.bundle.js",
   "types": "dist/types.d.ts",
@@ -23,7 +25,7 @@
     "lint": "eslint \"src/**\" \"test/**\"",
     "test": "jest test/",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build": "rm -rf dist/ && yarn rollup -c && yarn tsc --declaration && rm dist/types.js"
+    "build": "rm -rf dist/ lib/ && yarn tsc && yarn rollup -c"
   },
   "lint-staged": {
     "*.ts": [
