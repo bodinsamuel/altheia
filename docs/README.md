@@ -63,4 +63,4 @@ To see all validators and main api => [API](api.md)
 
 ## Contribute
 
-See [Contributing](contributing)
+See [Contributing](contributing.md)
