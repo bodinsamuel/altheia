@@ -166,6 +166,8 @@ export class TypeObject extends TypeBase {
    * @param  {mixed} params
    * @return {this}
    */
+  oneOf(...params: string[]): this;
+  oneOf(oneIsRequired: boolean, ...params: string[]): this;
   oneOf(...params: (string | boolean)[]): this {
     if (params.length <= 1) {
       throw new Error('oneOf expect at least 2 params');
