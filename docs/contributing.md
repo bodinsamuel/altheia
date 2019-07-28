@@ -1,4 +1,4 @@
-# Contribute to Algolia
+# Contribute to Altheia
 
 ## Local installation
 

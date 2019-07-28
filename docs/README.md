@@ -1,5 +1,7 @@
 # Altheia Documentation
 
+Online version: [github.io/altheia/](https://bodinsamuel.github.io/altheia/)
+
 ## 🤓 Why?
 
 After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aim at being very lightweight, simple to use and allow to check anything from standard schema to very custom ones.
@@ -61,4 +63,4 @@ To see all validators and main api => [API](api.md)
 
 ## Contribute
 
-See [Contributing](contributing.md)
+See [Contributing](contributing)

@@ -11,6 +11,8 @@ await alt
   .custom('not_in_db', async (val) => await searchDB(val));
 ```
 
+Online documentation: [github.io/altheia/](https://bodinsamuel.github.io/altheia/)
+
 ## 🤓 Why?
 
 After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aim at being very lightweight, simple to use and allow to check anything from standard schema to very custom ones.
