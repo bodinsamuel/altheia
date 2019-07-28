@@ -10,6 +10,7 @@ export default {
     {
       format: 'cjs',
       file: pkg.cjs,
+      exports: 'default',
     },
     {
       format: 'amd',
@@ -27,7 +28,6 @@ export default {
       tsconfigOverride: {
         compilerOptions: {
           module: 'es2015',
-          declaration: false,
         },
       },
       useTsconfigDeclarationDir: true,

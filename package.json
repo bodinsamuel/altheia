@@ -13,19 +13,15 @@
     "data"
   ],
   "files": [
-    "dist",
     "lib"
   ],
   "main": "lib/index.js",
-  "cjs": "dist/index.cjs.js",
-  "module": "dist/index.es.js",
-  "browser": "dist/index.bundle.js",
   "types": "lib/",
   "scripts": {
     "lint": "eslint \"src/**\" \"test/**\"",
     "test": "jest test/",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build": "rm -rf dist/ lib/ && yarn tsc && yarn rollup -c"
+    "build": "rm -rf dist/ lib/ && yarn tsc"
   },
   "lint-staged": {
     "*.ts": [
