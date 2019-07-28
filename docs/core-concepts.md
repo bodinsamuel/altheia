@@ -1,5 +1,13 @@
 # Core concepts
 
+- [👯‍ Creating Instance](#-creating-instance)
+- [⚡️ Using async](#️-using-async)
+- [💪🏻 Custom check](#-custom-check)
+- [🗯 Language and Translation](#-language-and-translation)
+- [🎨 Templates](#-templates)
+- [👾 Plugins](#-plugins)
+- [What's next](#whats-next)
+
 ## 👯‍ Creating Instance
 
 To keep reuse validation accros your project, you can create an instance of altheia. All your custom check, templates, lang will follow the instance without modifying the global object.

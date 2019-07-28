@@ -35,12 +35,12 @@ Typescript definitions are builtin the library, no need to install an other pack
 
 ## Core Concepts
 
-- 👯‍ [Creating instance](core-concepts.md#)
-- ⚡️ [Using Async](core-concepts.md#)
-- 💪🏻 [Custom Check](core-concepts.md#)
-- 🗯 [Language and translation](core-concepts.md#)
-- 🎨 [Reusing validation with Template](core-concepts.md#)
-- 👾 [Code your own Plugin](core-concepts.md#)
+- 👯‍ [Creating instance](core-concepts.md#-creating-instance)
+- ⚡️ [Using Async](core-concepts.md#-using-async)
+- 💪🏻 [Custom Check](core-concepts.md#-custom-check)
+- 🗯 [Language and translation](core-concepts.md#-language-and-translation)
+- 🎨 [Reusing validation with Template](core-concepts.md#-templates)
+- 👾 [Code your own Plugin](core-concepts.md#-plugins)
 
 ## API
 
