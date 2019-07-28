@@ -35,30 +35,30 @@ Typescript definitions are builtin the library, no need to install an other pack
 
 ## Core Concepts
 
-- 👯‍ [Creating instance](/docs/core-concepts.md#)
-- ⚡️ [Using Async](/docs/core-concepts.md#)
-- 💪🏻 [Custom Check](/docs/core-concepts.md#)
-- 🗯 [Language and translation](/docs/core-concepts.md#)
-- 🎨 [Reusing validation with Template](/docs/core-concepts.md#)
-- 👾 [Code your own Plugin](/docs/core-concepts.md#)
+- 👯‍ [Creating instance](core-concepts.md#)
+- ⚡️ [Using Async](core-concepts.md#)
+- 💪🏻 [Custom Check](core-concepts.md#)
+- 🗯 [Language and translation](core-concepts.md#)
+- 🎨 [Reusing validation with Template](core-concepts.md#)
+- 👾 [Code your own Plugin](core-concepts.md#)
 
 ## API
 
-To see all validators and main api => [API](/docs/api.md)
+To see all validators and main api => [API](api.md)
 
 **Validators:**
 
-- [Global](/docs/api.md#global)
-- [Any](/docs/api.md#any)
-- [String](/docs/api.md#string)
-- [Object](/docs/api.md#object)
-- [Date](/docs/api.md#date)
-- [Number](/docs/api.md#number)
-- [Array](/docs/api.md#array),
-- [Boolean](/docs/api.md#boolean)
-- [Internet](/docs/api.md#internet)
-- [Function](/docs/api.md#function)
+- [Global](api.md#global)
+- [Any](api.md#any)
+- [String](api.md#string)
+- [Object](api.md#object)
+- [Date](api.md#date)
+- [Number](api.md#number)
+- [Array](api.md#array),
+- [Boolean](api.md#boolean)
+- [Internet](api.md#internet)
+- [Function](api.md#function)
 
 ## Contribute
 
-See [Contributing](/docs/contributing.md)
+See [Contributing](contributing.md)

@@ -120,4 +120,4 @@ copy.use({
 
 ## What's next
 
-Take a look at the [Validator](/docs/validator.md) api
+Take a look at the [Validator](validator.md) api

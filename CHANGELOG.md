@@ -2,6 +2,9 @@
 
 ## [5.0.0](https://github.com/bodinsamuel/altheia/compare/v5.0.0...master) (2019-08-01)
 
+New online documentation:
+[https://bodinsamuel.github.io/altheia/](https://bodinsamuel.github.io/altheia/)
+
 ### Breaking
 
 - Rewrite in Typescript
@@ -16,6 +19,10 @@
   - **name** has been renamed type
   - **isValid** has been renamed valid
     Please refer to typescript definition to see full object
+
+### Features
+
+- `alt.validate()` can now take a body directly `alt.validate({ my: 'body' })`; old syntax `alt.body({ my: 'body' }).validate()` still work.
 
 ## [4.0.0](https://github.com/bodinsamuel/altheia/compare/v4.0.0...master) (2018-11-20)
 
