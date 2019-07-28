@@ -32,7 +32,7 @@ npm install altheia-async-data-validator
 yarn add altheia-async-data-validator
 ```
 
-## 🤩 Example
+## 🖼 Example
 
 ```javascript
 import alt from 'altheia-async-data-validator'

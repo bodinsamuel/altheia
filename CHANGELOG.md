@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.0.0](https://github.com/bodinsamuel/altheia/compare/v5.0.0...master) (2019-08-01)
+
+### Breaking
+
+- Rewrite in Typescript
+- NodeJs support: 8 >=
+- Syntax ES6+
+- Now use yarn
+- `Object().schema()` old syntax no longer accepted.
+  Please use `schema(schema, { returnErrors = true })`
+- All tests should now return `{ valid: boolean; error: string } | boolean`
+- `alt.option()` **unknown** is now `true` by default
+- Types `.validate(<value>)` now return `{ type, valid, result? }`
+  - **name** has been renamed type
+  - **isValid** has been renamed valid
+    Please refer to typescript definition to see full object
+
 ## [4.0.0](https://github.com/bodinsamuel/altheia/compare/v4.0.0...master) (2018-11-20)
 
 ### Breaking

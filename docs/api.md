@@ -1,6 +1,6 @@
 # API
 
-To start using alt.heia, require the package this way:
+To start using Altheia, require the package this way:
 
 ```js
 import alt from 'altheia-async-data-validator';
@@ -119,7 +119,7 @@ await clone2.body({ login: 1 }).validate();
 
 ### `options(params: object)`
 
-> By default, alt.heia disallow **unknown** keys in the schema and does not require what you defined as mandatory. You can change these values to be more or less strict.
+> By default, Altheia disallow **unknown** keys in the schema and does not require what you defined as mandatory. You can change these values to be more or less strict.
 
 ```javascript
 alt({
@@ -153,7 +153,7 @@ alt.lang('string.min', () => `not good`);
 
 ### `use(plugin: object)`
 
-> Add a plugin to your alt.heia instance
+> Add a plugin to your Altheia instance
 
 ```javascript
 alt.use({
