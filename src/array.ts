@@ -84,7 +84,9 @@ export class TypeArray extends TypeBase {
    * @param  {...array} array
    * @return {this}
    */
-  in(...array: any[]): this {
+  in(value: any[]): this;
+  in(...value: any): this;
+  in(...array: any): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
@@ -108,6 +110,8 @@ export class TypeArray extends TypeBase {
    * @param  {...array} array
    * @return {this}
    */
+  not(value: any[]): this;
+  not(...value: any): this;
   not(...array: any[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
