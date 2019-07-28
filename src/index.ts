@@ -119,4 +119,4 @@ const Instance = (lang?: LangList): AltheiaInstance => {
 };
 
 const def = Instance();
-export default def;
+export = def;

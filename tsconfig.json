@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": true,
