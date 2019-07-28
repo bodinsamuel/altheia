@@ -13,6 +13,8 @@ import {
 } from './types';
 import { createTest, createTestResult } from './utils/createTest';
 
+export type ValidatorResult = false | ValidatorErrorFormatted[];
+export type ValidatorCallback = (errors: ValidatorResult) => void;
 /**
  * Validator class
  * new Validator({ foo: 'bar' });
@@ -132,12 +134,25 @@ class Validator {
    * @return {false | ValidatorErrorFormatted[]} Test resutls
    */
   async validate(
-    callback?: (value: false | ValidatorErrorFormatted[]) => void
-  ): Promise<false | ValidatorErrorFormatted[]> {
+    body: any,
+    callback?: ValidatorCallback
+  ): Promise<ValidatorResult>;
+  async validate(callback?: ValidatorCallback): Promise<ValidatorResult>;
+  async validate(...params: any | ValidatorCallback): Promise<ValidatorResult> {
     if (this.validated) {
       throw new Error(
         'Already validated, please use .clone() to validate a different body'
       );
+    }
+
+    let callback: ValidatorCallback | undefined = undefined;
+    if (params.length > 0) {
+      if (typeof params[0] === 'function') {
+        callback = params[0];
+      } else {
+        this.body(params[0]);
+        callback = params[1];
+      }
     }
 
     this.validated = true;
@@ -145,8 +160,8 @@ class Validator {
     // Return an object and call a callback if needed
     const returnOrCallback = (
       result: any,
-      callback?: (value: any) => void
-    ): false | ValidatorErrorFormatted[] => {
+      callback?: (value: ValidatorResult) => void
+    ): ValidatorResult => {
       if (callback) {
         callback(result);
       }

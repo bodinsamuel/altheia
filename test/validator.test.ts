@@ -342,6 +342,22 @@ describe('Validator', () => {
       expect(hasError).toBeTruthy();
     });
 
+    test('Should validate with a body', async () => {
+      const hasError = await Alt({
+        login: Alt.string().required(),
+      }).validate({ login: 'foobar' });
+      expect(hasError).toBe(false);
+    });
+
+    test('Should validate with a body and a callback', async (done) => {
+      await Alt({
+        login: Alt.string().required(),
+      }).validate({ login: 'foobar' }, (errors) => {
+        expect(errors).toBe(false);
+        done();
+      });
+    });
+
     test('Should pass mid-complexe schema', async () => {
       const hasError = await Alt({
         login: Alt.string()
