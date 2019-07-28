@@ -23,8 +23,7 @@
     "lint": "eslint \"src/**\" \"test/**\"",
     "test": "jest test/",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "build": "rm -rf dist/ && yarn rollup -c && yarn tsc --declaration && rm dist/types.js",
-    "precommit": "lint-staged"
+    "build": "rm -rf dist/ && yarn rollup -c && yarn tsc --declaration && rm dist/types.js"
   },
   "lint-staged": {
     "*.ts": [
@@ -87,6 +86,11 @@
       "ts-jest": {
         "diagnostics": false
       }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   }
 }
