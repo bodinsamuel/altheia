@@ -10,9 +10,9 @@ const iso = new RegExp(
 export const messages: LangList = {
   'date.typeof': (name) => `${name} must be a valid date`,
   'date.iso': (name) => `${name} must be an ISO-8601 date`,
-  'date.min': (name, { min }) =>
+  'date.min': (name, { min }: { min: Date }) =>
     `${name} must be at least ${min.toISOString()}`,
-  'date.max': (name, { max }) =>
+  'date.max': (name, { max }: { max: Date }) =>
     `${name} must be less than or equal to ${max.toISOString()}`,
 };
 
@@ -45,8 +45,8 @@ export class TypeDate extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str) => {
-      return !isNaN(Date.parse(str));
+    this.test('typeof', (val: any) => {
+      return !isNaN(Date.parse(val));
     });
     return this;
   }
@@ -57,8 +57,8 @@ export class TypeDate extends TypeBase {
    * @return {this}
    */
   iso(): this {
-    this.test('iso', (str) => {
-      return str.match(iso) !== null;
+    this.test('iso', (date: string) => {
+      return date.match(iso) !== null;
     });
     return this;
   }
@@ -72,7 +72,7 @@ export class TypeDate extends TypeBase {
   min(min: Date): this {
     this.test(
       'min',
-      (str) => {
+      (date: string) => {
         if (
           typeof min !== 'object' ||
           min.constructor.name !== 'Date' ||
@@ -80,7 +80,7 @@ export class TypeDate extends TypeBase {
         ) {
           return false;
         }
-        return Date.parse(str) >= min.getTime();
+        return Date.parse(date) >= min.getTime();
       },
       { min }
     );
@@ -96,7 +96,7 @@ export class TypeDate extends TypeBase {
   max(max: Date): this {
     this.test(
       'max',
-      (str) => {
+      (date: string) => {
         if (
           typeof max !== 'object' ||
           max.constructor.name !== 'Date' ||
@@ -104,7 +104,7 @@ export class TypeDate extends TypeBase {
         ) {
           return false;
         }
-        return Date.parse(str) <= max.getTime();
+        return Date.parse(date) <= max.getTime();
       },
       { max }
     );

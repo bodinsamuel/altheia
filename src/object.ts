@@ -7,11 +7,15 @@ import { LangList } from './types';
 
 export const messages: LangList = {
   'object.typeof': (name) => `${name} must be a valid object`,
-  'object.in': (name, args) =>
+  'object.in': (name, args: { in: string[] }) =>
     `${name} must only contains these keys [${args.in}]`,
   'object.not': (name) => `${name} contains forbidden value`,
   'object.schema': (name) => `${name} has not a valid schema`,
-  'object.oneOf': (name, args, result) => {
+  'object.oneOf': (
+    name,
+    args: { keys: string[] },
+    result: { error: string; keys: string[] }
+  ) => {
     if (result.error === 'oneIsRequired') {
       return `${name} must contain one of these keys [${args.keys}]`;
     }
@@ -20,7 +24,7 @@ export const messages: LangList = {
     }
     return 'unknown error';
   },
-  'object.allOf': (name, args) =>
+  'object.allOf': (name, args: { keys: string[] }) =>
     `${name} must contain either none or all of these keys [${args.keys}]`,
 };
 
@@ -47,8 +51,8 @@ export class TypeObject extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str) => {
-      return isPlainObject(str);
+    this.test('typeof', (val: any) => {
+      return isPlainObject(val);
     });
     return this;
   }
@@ -73,8 +77,8 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'in',
-      (str) => {
-        const diff = arrayDiff(Object.keys(str), only);
+      (obj: object) => {
+        const diff = arrayDiff<string>(Object.keys(obj), only);
         if (diff.length <= 0) {
           return true;
         }
@@ -119,8 +123,8 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'not',
-      (str) => {
-        const diff = arrayDiff(only, Object.keys(str));
+      (obj: object) => {
+        const diff = arrayDiff(only, Object.keys(obj));
         return diff.length === only.length;
       },
       { not: only }
@@ -144,7 +148,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'schema',
-      async (obj) => {
+      async (obj: object) => {
         const clone = schema.clone();
         const hasError = await clone.body(obj).validate();
         return {
@@ -184,7 +188,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'oneOf',
-      async (obj) => {
+      async (obj: object) => {
         const presence: { a: null | string; b: null | string } = {
           a: null,
           b: null,
@@ -229,7 +233,7 @@ export class TypeObject extends TypeBase {
   allOf(...keys: string[]): this {
     this.test(
       'allOf',
-      async (obj) => {
+      async (obj: object) => {
         return (
           Object.keys(obj).reduce((acc, k) => {
             if (keys.includes(k)) {

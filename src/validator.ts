@@ -12,6 +12,7 @@ import {
   ValidatorTestResult,
 } from './types';
 import { createTest, createTestResult } from './utils/createTest';
+import TypeBase from './base';
 
 export type ValidatorResult = false | ValidatorErrorFormatted[];
 export type ValidatorCallback = (errors: ValidatorResult) => void;
@@ -24,7 +25,7 @@ class Validator {
   isValidator: number;
   validated: boolean;
 
-  _schema: any;
+  _schema: { [key: string]: TypeBase };
   _body: any;
   _errors: ValidatorErrorFormatted[];
   _errorsRaw: ValidatorErrorRaw[];
