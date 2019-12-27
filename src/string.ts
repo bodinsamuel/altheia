@@ -4,13 +4,14 @@ import { LangList } from './types';
 export const messages: LangList = {
   'string.typeof': (name) => `${name} must be a valid string`,
   'string.empty': (name) => `${name} can not be empty`,
-  'string.min': (name, args) =>
+  'string.min': (name, args: { min: number }) =>
     `${name} must be at least ${args.min} characters long`,
-  'string.max': (name, args) =>
+  'string.max': (name, args: { max: number }) =>
     `${name} must be at most ${args.max} characters long`,
-  'string.pattern': (name, args) =>
+  'string.pattern': (name, args: { regex: RegExp }) =>
     `${name} must match pattern "${args.regex}"`,
-  'string.in': (name, args) => `${name} must be one of [${args.obj}]`,
+  'string.in': (name, args: { obj: string[] }) =>
+    `${name} must be one of [${args.obj}]`,
   'string.not': (name) => `${name} contains forbidden value`,
   'string.email': (name) => `${name} must be a valid email`,
   'string.lowercase': (name) => `${name} must be lowercase only`,

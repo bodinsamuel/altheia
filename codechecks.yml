@@ -1,4 +1,5 @@
 checks:
   - name: typecov
     options:
-      atLeast: 99
+      atLeast: 90
+      ignoreCatch: true

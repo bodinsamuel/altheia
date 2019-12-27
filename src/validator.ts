@@ -160,7 +160,7 @@ class Validator {
 
     // Return an object and call a callback if needed
     const returnOrCallback = (
-      result: any,
+      result: ValidatorResult,
       callback?: (value: ValidatorResult) => void
     ): ValidatorResult => {
       if (callback) {

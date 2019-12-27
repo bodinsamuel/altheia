@@ -122,7 +122,7 @@ export class TypeArray extends TypeBase {
     this.test(
       'not',
       (arr: any[]) => {
-        return arrayDiff(only, arr).length === only.length;
+        return arrayDiff<string>(only, arr).length === only.length;
       },
       { not: only }
     );

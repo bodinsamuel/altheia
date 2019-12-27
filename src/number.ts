@@ -3,14 +3,16 @@ import { LangList } from './types';
 
 export const messages: LangList = {
   'number.typeof': (name) => `${name} must be a valid number`,
-  'number.min': (name, args) => `${name} must be at least ${args.min}`,
-  'number.max': (name, args) =>
+  'number.min': (name, args: { min: number }) =>
+    `${name} must be at least ${args.min}`,
+  'number.max': (name, args: { max: number }) =>
     `${name} must be less than or equal to ${args.max}`,
   'number.integer': (name) => `${name} must be an integer`,
   'number.unsigned': (name) => `${name} must be an unsigned number`,
   'number.positive': (name) => `${name} must be a positive number`,
   'number.negative': (name) => `${name} must be a negative number`,
-  'number.in': (name, args) => `${name} must be one of [${args.obj}]`,
+  'number.in': (name, args: { obj: number[] }) =>
+    `${name} must be one of [${args.obj}]`,
   'number.not': (name) => `${name} contains forbidden value`,
 };
 
@@ -46,8 +48,8 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str) => {
-      return typeof str === 'number' && !isNaN(str) && isFinite(str);
+    this.test('typeof', (val: any) => {
+      return typeof val === 'number' && !isNaN(val) && isFinite(val);
     });
     return this;
   }
@@ -61,8 +63,8 @@ export class TypeNumber extends TypeBase {
   min(min: number): this {
     this.test(
       'min',
-      (str) => {
-        return str >= min;
+      (num: number) => {
+        return num >= min;
       },
       { min }
     );
@@ -78,8 +80,8 @@ export class TypeNumber extends TypeBase {
   max(max: number): this {
     this.test(
       'max',
-      (str) => {
-        return str <= max;
+      (num: number) => {
+        return num <= max;
       },
       { max }
     );
@@ -92,8 +94,8 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   integer(): this {
-    this.test('integer', (str) => {
-      return Number.isSafeInteger(str) === true;
+    this.test('integer', (num: number) => {
+      return Number.isSafeInteger(num) === true;
     });
     return this;
   }
@@ -104,8 +106,8 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   unsigned(): this {
-    this.test('unsigned', (str) => {
-      return str >= 0;
+    this.test('unsigned', (num: number) => {
+      return num >= 0;
     });
     return this;
   }
@@ -116,8 +118,8 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   positive(): this {
-    this.test('positive', (str) => {
-      return str > 0;
+    this.test('positive', (num: number) => {
+      return num > 0;
     });
     return this;
   }
@@ -128,8 +130,8 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   negative(): this {
-    this.test('negative', (str) => {
-      return str < 0;
+    this.test('negative', (num: number) => {
+      return num < 0;
     });
     return this;
   }
@@ -143,8 +145,8 @@ export class TypeNumber extends TypeBase {
   in(...obj: number[]): this {
     this.test(
       'in',
-      (str) => {
-        return obj.includes(str) === true;
+      (num: number) => {
+        return obj.includes(num) === true;
       },
       { obj }
     );
@@ -161,8 +163,8 @@ export class TypeNumber extends TypeBase {
   not(...obj: number[]): this {
     this.test(
       'not',
-      (str) => {
-        return obj.includes(str) === false;
+      (num: number) => {
+        return obj.includes(num) === false;
       },
       { obj }
     );
