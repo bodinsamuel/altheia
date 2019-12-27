@@ -4,11 +4,11 @@ import { LangList, ValidatorErrorRaw } from './types';
 
 export const messages: LangList = {
   'array.typeof': (name) => `${name} must be a valid array`,
-  'array.min': (name, args) =>
+  'array.min': (name, args: { min: number }) =>
     `${name} must contains at least ${args.min} items`,
-  'array.max': (name, args) =>
+  'array.max': (name, args: { max: number }) =>
     `${name} must contains at most ${args.max} items`,
-  'array.in': (name, args) =>
+  'array.in': (name, args: { in: string[] }) =>
     `${name} must only contains these keys [${args.in}]`,
   'array.not': (name) => `${name} contains forbidden value`,
   'array.unique': (name) => `${name} can not contains duplicated value`,
@@ -36,8 +36,8 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str) => {
-      return Array.isArray(str);
+    this.test('typeof', (val: any) => {
+      return Array.isArray(val);
     });
     return this;
   }
@@ -51,8 +51,8 @@ export class TypeArray extends TypeBase {
   min(min: number): this {
     this.test(
       'min',
-      (str) => {
-        return str.length >= min;
+      (arr: any[]) => {
+        return arr.length >= min;
       },
       { min }
     );
@@ -69,8 +69,8 @@ export class TypeArray extends TypeBase {
   max(max: number): this {
     this.test(
       'max',
-      (str) => {
-        return str.length <= max;
+      (arr: any[]) => {
+        return arr.length <= max;
       },
       { max }
     );
@@ -95,8 +95,8 @@ export class TypeArray extends TypeBase {
 
     this.test(
       'in',
-      (str) => {
-        return arrayDiff(str, only).length === 0;
+      (arr: any[]) => {
+        return arrayDiff<string>(arr, only).length === 0;
       },
       { in: only }
     );
@@ -121,8 +121,8 @@ export class TypeArray extends TypeBase {
 
     this.test(
       'not',
-      (str) => {
-        return arrayDiff(only, str).length === only.length;
+      (arr: any[]) => {
+        return arrayDiff<string>(only, arr).length === only.length;
       },
       { not: only }
     );
@@ -136,9 +136,9 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   unique(): this {
-    this.test('unique', (str) => {
-      const a = new Set(str);
-      return a.size === str.length;
+    this.test('unique', (arr: any[]) => {
+      const a = new Set(arr);
+      return a.size === arr.length;
     });
 
     return this;
@@ -153,11 +153,11 @@ export class TypeArray extends TypeBase {
   oneOf(...templates: TypeBase[]): this {
     this.test(
       'oneOf',
-      async (array) => {
+      async (arr: any[]) => {
         const errors: ValidatorErrorRaw[] = [];
 
         await Promise.all(
-          array.map(async (value: any, index: number) => {
+          arr.map(async (value: any, index: number) => {
             let error: ValidatorErrorRaw | undefined = undefined;
 
             const label = 'item';

@@ -43,8 +43,8 @@ export class TypeBoolean extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str) => {
-      return typeof str === 'boolean';
+    this.test('typeof', (bool: boolean) => {
+      return typeof bool === 'boolean';
     });
     return this;
   }
@@ -55,8 +55,8 @@ export class TypeBoolean extends TypeBase {
    * @return {this}
    */
   true(): this {
-    this.test('true', (str) => {
-      return str === true;
+    this.test('true', (bool: boolean) => {
+      return bool === true;
     });
     return this;
   }
@@ -67,8 +67,8 @@ export class TypeBoolean extends TypeBase {
    * @return {this}
    */
   false(): this {
-    this.test('false', (str) => {
-      return str === false;
+    this.test('false', (bool: boolean) => {
+      return bool === false;
     });
     return this;
   }

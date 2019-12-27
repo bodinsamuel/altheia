@@ -24,3 +24,6 @@ jobs:
     - stage: Produce Coverage
       node_js: node
       script: yarn coveralls
+    - stage: codechecks
+      node_js: node
+      script: yarn codechecks

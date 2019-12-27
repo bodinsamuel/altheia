@@ -48,8 +48,8 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str) => {
-      return typeof str === 'string';
+    this.test('typeof', (val: any) => {
+      return typeof val === 'string';
     });
     return this;
   }
@@ -60,7 +60,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   url(): this {
-    this.test('url', (str) => {
+    this.test('url', (str: string) => {
       try {
         // eslint-disable-next-line
         if (str.search('javascript:') === 0) {
@@ -83,7 +83,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   hostname(): this {
-    this.test('hostname', (str) => {
+    this.test('hostname', (str: string) => {
       return str.match(hostname) !== null;
     });
     return this;
@@ -95,7 +95,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   hex(): this {
-    this.test('hex', (str) => {
+    this.test('hex', (str: string) => {
       return str.match(/^[a-f0-9]+$/i) !== null;
     });
     return this;
@@ -107,7 +107,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   creditCard(): this {
-    this.test('creditCard', (str) => {
+    this.test('creditCard', (str: string) => {
       if (/[^0-9-\s]+/.test(str)) {
         return false;
       }
@@ -126,7 +126,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   uuidv4(): this {
-    this.test('uuidv4', (str) => {
+    this.test('uuidv4', (str: string) => {
       if (str.length < 32) {
         return false;
       }
@@ -141,7 +141,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   ip(): this {
-    this.test('ip', (str) => {
+    this.test('ip', (str: string) => {
       return ipv4.test(str) || ipv6.test(str);
     });
     return this;
@@ -153,7 +153,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   ipv4(): this {
-    this.test('ipv4', (str) => {
+    this.test('ipv4', (str: string) => {
       return ipv4.test(str);
     });
     return this;
@@ -165,7 +165,7 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   ipv6(): this {
-    this.test('ipv6', (str) => {
+    this.test('ipv6', (str: string) => {
       return ipv6.test(str);
     });
     return this;

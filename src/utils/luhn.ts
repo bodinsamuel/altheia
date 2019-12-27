@@ -4,7 +4,7 @@ export default ((arr: number[]): ((ccNum: string) => boolean | 0) => {
     let len = ccNum.length;
     let bit = 1;
     let sum = 0;
-    let val;
+    let val: number;
 
     while (len) {
       len = len - 1;
