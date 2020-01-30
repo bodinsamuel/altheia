@@ -465,6 +465,14 @@ alt.object().oneOf(true, 'a', 'b');
 alt.object().allOf('a', 'b', 'c');
 ```
 
+### object().`anyOf(...keys: string)`
+
+> Force one or more keys to be present in the object.
+
+```javascript
+alt.object().anyOf('a', 'b', 'c');
+```
+
 ---
 
 ## Array

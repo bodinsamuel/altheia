@@ -26,6 +26,8 @@ export const messages: LangList = {
   },
   'object.allOf': (name, args: { keys: string[] }) =>
     `${name} must contain either none or all of these keys [${args.keys}]`,
+  'object.anyOf': (name, args: { keys: string[] }) =>
+    `${name} must contain at least one of these keys [${args.keys}]`,
 };
 
 export interface OptionsIn {
@@ -241,6 +243,30 @@ export class TypeObject extends TypeBase {
             }
             return acc;
           }, 0) === keys.length
+        );
+      },
+      { keys }
+    );
+    return this;
+  }
+
+  /**
+   * Force one or many keys to be present
+   *
+   * @param  {...string} keys
+   * @return {this}
+   */
+  anyOf(...keys: string[]): this {
+    this.test(
+      'anyOf',
+      async (obj: object) => {
+        return (
+          Object.keys(obj).reduce((acc, k) => {
+            if (keys.includes(k)) {
+              acc += 1;
+            }
+            return acc;
+          }, 0) >= 1
         );
       },
       { keys }
