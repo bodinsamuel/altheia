@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.2](https://github.com/bodinsamuel/altheia/compare/v5.0.0...master) (2020-01-31)
+
+### Features
+
+- `Object.anyOf()` Force one or many keys to be present
+
 ## [5.0.0](https://github.com/bodinsamuel/altheia/compare/v5.0.0...master) (2019-08-01)
 
 New online documentation:
