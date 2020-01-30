@@ -353,6 +353,32 @@ describe('Object', () => {
     });
   });
 
+  describe('anyOf()', () => {
+    test('should pass: a, b, c', async () => {
+      const hasError = await Alt.object()
+        .anyOf('a', 'b', 'c')
+        .validate({ a: 1, b: 2, c: 3 });
+      expect(hasError).toBe(false);
+    });
+    test('should pass: a', async () => {
+      const hasError = await Alt.object()
+        .anyOf('a', 'b', 'c')
+        .validate({ a: 1 });
+      expect(hasError).toBe(false);
+    });
+    test('should not pass: none', async () => {
+      const hasError = await Alt.object()
+        .anyOf('a', 'b', 'c')
+        .validate({ z: 1 });
+      expect(hasError).toBeTruthy();
+      expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
+        label: 'value',
+        type: 'object.anyOf',
+        message: 'value must contain at least one of these keys [a,b,c]',
+      });
+    });
+  });
+
   describe('required()', () => {
     test('should pass', async () => {
       const hasError = await Alt.object()
