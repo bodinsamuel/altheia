@@ -67,7 +67,7 @@
     "eslint-plugin-prettier": "3.1.2",
     "husky": "3.1.0",
     "jest": "24.9.0",
-    "lint-staged": "^9.1.0",
+    "lint-staged": "^10.0.7",
     "prettier": "1.19.1",
     "rollup": "1.27.14",
     "rollup-plugin-commonjs": "10.1.0",
