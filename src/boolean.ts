@@ -30,7 +30,8 @@ export class TypeBoolean extends TypeBase {
     if (typeof value === 'string') {
       if (value === 'true' || value === 'True') {
         return true;
-      } else if (value === 'false' || value === 'False') {
+      }
+      if (value === 'false' || value === 'False') {
         return false;
       }
     }

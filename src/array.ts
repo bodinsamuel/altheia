@@ -85,7 +85,9 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   in(value: any[]): this;
+
   in(...value: any): this;
+
   in(...array: any): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
@@ -111,7 +113,9 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   not(value: any[]): this;
+
   not(...value: any): this;
+
   not(...array: any[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
@@ -158,10 +162,10 @@ export class TypeArray extends TypeBase {
 
         await Promise.all(
           arr.map(async (value: any, index: number) => {
-            let error: ValidatorErrorRaw | undefined = undefined;
+            let error: ValidatorErrorRaw | undefined;
 
             const label = 'item';
-            for (var i = 0; i < templates.length; i++) {
+            for (let i = 0; i < templates.length; i++) {
               const test = await templates[i].required().validate(value);
               if (test) {
                 error = { label, test, position: index };

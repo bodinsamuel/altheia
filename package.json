@@ -51,6 +51,7 @@
     "lint"
   ],
   "dependencies": {
+    "eslint-config-airbnb-base": "14.0.0",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
@@ -63,6 +64,7 @@
     "coveralls": "^3.0.2",
     "eslint": "6.8.0",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jest": "^23.1.1",
     "eslint-plugin-prettier": "3.1.2",
     "husky": "3.1.0",

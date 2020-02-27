@@ -1,5 +1,5 @@
-import Alt from './../src';
-import StringValidator, { TypeString } from './../src/string';
+import Alt from '../src';
+import StringValidator, { TypeString } from '../src/string';
 
 describe('Index', () => {
   describe('instance()', () => {

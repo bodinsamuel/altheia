@@ -1,5 +1,5 @@
-import Alt from './../src';
-import AltInternet from './../src/internet';
+import Alt from '../src';
+import AltInternet from '../src/internet';
 import { ValidatorTestResult } from '../src/types';
 
 const alt = Alt.instance();
@@ -184,7 +184,7 @@ describe('String', () => {
         '4012888888881881',
         '4111111111111111',
       ];
-      for (var i = 0; i < tests.length; i++) {
+      for (let i = 0; i < tests.length; i++) {
         const hasError = await alt
           .internet()
           .creditCard()
@@ -239,7 +239,7 @@ describe('String', () => {
         '0c74f13f-fa83-4c48-9b33-68921dd72463',
         'b4b2fb69c6244e5eb0698e0c6ec66618',
       ];
-      for (var i = 0; i < tests.length; i++) {
+      for (let i = 0; i < tests.length; i++) {
         const hasError = await alt
           .internet()
           .uuidv4()
@@ -256,7 +256,7 @@ describe('String', () => {
         '5ba3bba3-729a-4717-88c1-b7c4b7ba80db}',
         'dfksdjfldskjf',
       ];
-      for (var i = 0; i < tests.length; i++) {
+      for (let i = 0; i < tests.length; i++) {
         const hasError = await alt
           .internet()
           .uuidv4()

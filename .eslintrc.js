@@ -8,22 +8,44 @@ module.exports = {
     node: true,
     'jest/globals': true,
   },
+
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
+    ecmaFeatures: {
+      impliedStrict: true,
+    },
   },
+
   globals: {
     Promise: true,
   },
-  plugins: ['jest'],
+
   extends: [
+    'airbnb-base',
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
+
+  settings: {
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
+
+  plugins: ['jest', 'import', '@typescript-eslint', 'prettier'],
+
   // add your custom rules here
   rules: {
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/explicit-member-accessibility': [
       1,
@@ -31,8 +53,18 @@ module.exports = {
     ],
     '@typescript-eslint/explicit-function-return-type': [
       1,
-      { allowHigherOrderFunctions: true, allowTypedFunctionExpressions: true },
+      { allowHigherOrderFunctions: true, allowTypedFunctionExpressions: false },
     ],
+
+    // ---- import
+    'import/extensions': ['error', 'never'],
+
+    // ---- Disabled
+    'no-await-in-loop': 'off',
+    'no-underscore-dangle': 'off',
+    'no-dupe-class-members': 'off',
+    'no-restricted-globals': 'off',
+    'no-continue': 'off',
   },
   overrides: [
     {

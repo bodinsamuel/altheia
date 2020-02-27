@@ -1,4 +1,4 @@
-import Alt from './../src';
+import Alt from '../src';
 import { ValidatorTestResult } from '../src/types';
 
 describe('Boolean', () => {

@@ -7,10 +7,10 @@ export default ((arr: number[]): ((ccNum: string) => boolean | 0) => {
     let val: number;
 
     while (len) {
-      len = len - 1;
+      len -= 1;
       val = parseInt(ccNum.charAt(len), 10);
-      bit = bit ^ 1;
-      sum = sum + (bit ? arr[val] : val);
+      bit ^= 1;
+      sum += bit ? arr[val] : val;
     }
 
     return sum && sum % 10 === 0;

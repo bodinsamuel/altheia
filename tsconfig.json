@@ -10,6 +10,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": false,
+    "baseUrl": "./src",
     "outDir": "./lib",
     "strict": true,
     "target": "es2015"

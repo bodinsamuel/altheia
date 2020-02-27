@@ -1,4 +1,4 @@
-import Alt from './../src';
+import Alt from '../src';
 
 describe('Function', () => {
   describe('typeof()', () => {

@@ -1,21 +1,21 @@
-import arrayDiff from './utils/arraydiff';
 import isPlainObject from 'lodash/isPlainObject';
+import arrayDiff from './utils/arraydiff';
 
 import TypeBase from './base';
 import Validator from './validator';
-import { LangList } from './types';
+import { LangList, TestFunctionReturn, ValidatorErrorRaw } from './types';
 
 export const messages: LangList = {
-  'object.typeof': (name) => `${name} must be a valid object`,
-  'object.in': (name, args: { in: string[] }) =>
+  'object.typeof': (name): string => `${name} must be a valid object`,
+  'object.in': (name, args: { in: string[] }): string =>
     `${name} must only contains these keys [${args.in}]`,
-  'object.not': (name) => `${name} contains forbidden value`,
-  'object.schema': (name) => `${name} has not a valid schema`,
+  'object.not': (name): string => `${name} contains forbidden value`,
+  'object.schema': (name): string => `${name} has not a valid schema`,
   'object.oneOf': (
     name,
     args: { keys: string[] },
     result: { error: string; keys: string[] }
-  ) => {
+  ): string => {
     if (result.error === 'oneIsRequired') {
       return `${name} must contain one of these keys [${args.keys}]`;
     }
@@ -24,9 +24,9 @@ export const messages: LangList = {
     }
     return 'unknown error';
   },
-  'object.allOf': (name, args: { keys: string[] }) =>
+  'object.allOf': (name, args: { keys: string[] }): string =>
     `${name} must contain either none or all of these keys [${args.keys}]`,
-  'object.anyOf': (name, args: { keys: string[] }) =>
+  'object.anyOf': (name, args: { keys: string[] }): string =>
     `${name} must contain at least one of these keys [${args.keys}]`,
 };
 
@@ -53,7 +53,7 @@ export class TypeObject extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (val: any) => {
+    this.test('typeof', (val: any): boolean => {
       return isPlainObject(val);
     });
     return this;
@@ -63,8 +63,11 @@ export class TypeObject extends TypeBase {
    * Force an object to have only the keys passed in the set
    */
   in(...array: string[]): this;
+
   in(array: string[]): this;
+
   in(array: string[], options: OptionsIn): this;
+
   in(...array: (string | string[] | OptionsIn)[]): this {
     let only = array;
     let options: OptionsIn = { oneErrorPerKey: false };
@@ -79,7 +82,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'in',
-      (obj: object) => {
+      (obj: object): TestFunctionReturn => {
         const diff = arrayDiff<string>(Object.keys(obj), only);
         if (diff.length <= 0) {
           return true;
@@ -89,15 +92,17 @@ export class TypeObject extends TypeBase {
           return {
             valid: false,
             error: 'in',
-            errors: diff.map((label) => {
-              return {
-                test: this.createTestResult(
-                  this.createTest({ type: 'forbidden' }),
-                  false
-                ),
-                label,
-              };
-            }),
+            errors: diff.map(
+              (label): ValidatorErrorRaw => {
+                return {
+                  test: this.createTestResult(
+                    this.createTest({ type: 'forbidden' }),
+                    false
+                  ),
+                  label,
+                };
+              }
+            ),
           };
         }
 
@@ -115,7 +120,9 @@ export class TypeObject extends TypeBase {
    * @return {this}
    */
   not(...array: string[]): this;
+
   not(array: string[]): this;
+
   not(...array: (string | string[])[]): this {
     let only = array;
     // handle someone passing literal array instead of multiple args
@@ -125,7 +132,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'not',
-      (obj: object) => {
+      (obj: object): TestFunctionReturn => {
         const diff = arrayDiff(only, Object.keys(obj));
         return diff.length === only.length;
       },
@@ -150,7 +157,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'schema',
-      async (obj: object) => {
+      async (obj: object): Promise<TestFunctionReturn> => {
         const clone = schema.clone();
         const hasError = await clone.body(obj).validate();
         return {
@@ -173,7 +180,9 @@ export class TypeObject extends TypeBase {
    * @return {this}
    */
   oneOf(...params: string[]): this;
+
   oneOf(oneIsRequired: boolean, ...params: string[]): this;
+
   oneOf(...params: (string | boolean)[]): this {
     if (params.length <= 1) {
       throw new Error('oneOf expect at least 2 params');
@@ -190,14 +199,14 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'oneOf',
-      async (obj: object) => {
+      (obj: object): TestFunctionReturn => {
         const presence: { a: null | string; b: null | string } = {
           a: null,
           b: null,
         };
 
         try {
-          Object.keys(obj).forEach((key) => {
+          Object.keys(obj).forEach((key): void => {
             if (keys.includes(key)) {
               if (!presence.a) {
                 presence.a = key;
@@ -235,10 +244,11 @@ export class TypeObject extends TypeBase {
   allOf(...keys: string[]): this {
     this.test(
       'allOf',
-      async (obj: object) => {
+      (obj: object): TestFunctionReturn => {
         return (
-          Object.keys(obj).reduce((acc, k) => {
+          Object.keys(obj).reduce((acc, k): number => {
             if (keys.includes(k)) {
+              // eslint-disable-next-line no-param-reassign
               acc += 1;
             }
             return acc;
@@ -259,10 +269,11 @@ export class TypeObject extends TypeBase {
   anyOf(...keys: string[]): this {
     this.test(
       'anyOf',
-      async (obj: object) => {
+      (obj: object): TestFunctionReturn => {
         return (
-          Object.keys(obj).reduce((acc, k) => {
+          Object.keys(obj).reduce((acc, k): number => {
             if (keys.includes(k)) {
+              // eslint-disable-next-line no-param-reassign
               acc += 1;
             }
             return acc;

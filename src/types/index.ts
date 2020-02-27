@@ -100,10 +100,9 @@ export interface ValidatorErrorFormatted {
 
 export type TestFunction = (
   params: any
-) =>
-  | Promise<boolean | ValidatorInternalTestResult>
-  | boolean
-  | ValidatorInternalTestResult;
+) => Promise<TestFunctionReturn> | TestFunctionReturn;
+
+export type TestFunctionReturn = boolean | ValidatorInternalTestResult;
 
 // ---------- Tests Private
 export interface ValidatorInternalTest {
@@ -117,4 +116,5 @@ export interface ValidatorInternalTestResult {
   error: string;
   overrideWith?: ValidatorTestResult;
   errors?: ValidatorErrorRaw[];
+  [key: string]: any;
 }

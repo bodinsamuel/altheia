@@ -12,11 +12,15 @@ import { createTest, createTestResult } from './utils/createTest';
  */
 class TypeBase {
   inst: AltheiaInstance;
+
   tests: (() => ValidatorInternalTest)[];
+
   name?: string;
 
   _required: boolean;
+
   _needCast: boolean;
+
   _noEmpty?: boolean;
 
   /**
@@ -63,6 +67,7 @@ class TypeBase {
   }
 
   createTest = createTest;
+
   createTestResult = createTestResult;
 
   /**
@@ -110,8 +115,8 @@ class TypeBase {
     }
 
     // Iterate all tests
-    for (var i = 0; i < this.tests.length; i++) {
-      let test = this.tests[i]();
+    for (let i = 0; i < this.tests.length; i++) {
+      const test = this.tests[i]();
 
       // Special condition for IF() we need to display error of deep validation
       let internalResult: ValidatorInternalTestResult;

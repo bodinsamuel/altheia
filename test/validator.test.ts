@@ -1,5 +1,5 @@
-import Alt from './../src';
-import Validator from './../src/validator';
+import Alt from '../src';
+import Validator from '../src/validator';
 
 describe('Validator', () => {
   test('Should be a func', async () => {

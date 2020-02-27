@@ -28,12 +28,12 @@ const Instance = (lang?: LangList): AltheiaInstance => {
     return new Validator(schema, inst);
   };
 
-  inst.langList = Object.assign({}, LangBase);
+  inst.langList = { ...LangBase };
   inst.templates = {};
   inst.Base = TypeBase;
 
   inst.instance = (newLang: LangList = {}): AltheiaInstance => {
-    return Instance(Object.assign({}, inst.langList, newLang));
+    return Instance({ ...inst.langList, ...newLang });
   };
 
   inst.use = (plugin): AltheiaInstance => {
@@ -49,7 +49,7 @@ const Instance = (lang?: LangList): AltheiaInstance => {
 
   inst.lang = (key, tpl): void => {
     if (isPlainObject(key)) {
-      inst.langList = Object.assign({}, inst.langList, key);
+      inst.langList = { ...inst.langList, ...key };
     } else if (typeof key === 'string' && tpl) {
       inst.langList[key] = tpl;
     }

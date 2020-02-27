@@ -1,6 +1,6 @@
+import url from 'url';
 import TypeBase from './base';
 import Luhn from './utils/luhn';
-import url from 'url';
 import { LangList } from './types';
 
 // eslint-disable-next-line

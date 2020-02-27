@@ -22,14 +22,21 @@ export type ValidatorCallback = (errors: ValidatorResult) => void;
  */
 class Validator {
   inst: AltheiaInstance;
+
   isValidator: number;
+
   validated: boolean;
 
   _schema: { [key: string]: TypeBase };
+
   _body: any;
+
   _errors: ValidatorErrorFormatted[];
+
   _errorsRaw: ValidatorErrorRaw[];
+
   _confirm: ValidatorConfirm[];
+
   _options: ValidatorOptions;
 
   /**
@@ -75,7 +82,7 @@ class Validator {
    * @return {this}
    */
   body(body: any): this {
-    this._body = Object.assign({}, body);
+    this._body = { ...body };
     return this;
   }
 
@@ -138,7 +145,9 @@ class Validator {
     body: any,
     callback?: ValidatorCallback
   ): Promise<ValidatorResult>;
+
   async validate(callback?: ValidatorCallback): Promise<ValidatorResult>;
+
   async validate(...params: any | ValidatorCallback): Promise<ValidatorResult> {
     if (this.validated) {
       throw new Error(
@@ -146,7 +155,7 @@ class Validator {
       );
     }
 
-    let callback: ValidatorCallback | undefined = undefined;
+    let callback: ValidatorCallback | undefined;
     if (params.length > 0) {
       if (typeof params[0] === 'function') {
         callback = params[0];
@@ -185,7 +194,7 @@ class Validator {
 
     // Use old syntax to allow await in loop without using promise.all
     const keys = Object.keys(this._schema);
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       const item = this._schema[key];
       const value =
