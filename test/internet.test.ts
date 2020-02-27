@@ -1,9 +1,7 @@
 import Alt from '../src';
-import AltInternet from '../src/internet';
-import { ValidatorTestResult } from '../src/types';
+import { ValidatorTestResult } from '../src/typings/tests';
 
 const alt = Alt.instance();
-alt.use(AltInternet);
 
 describe('String', () => {
   describe('typeof()', () => {

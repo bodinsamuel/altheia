@@ -1,16 +1,28 @@
+import { createTest, createTestResult } from '../utils/createTest';
+import { AltheiaInstance } from '../typings/instance';
 import {
   ValidatorInternalTest,
   TestFunction,
-  AltheiaInstance,
-  ValidatorInternalTestResult,
   ValidatorTestResult,
-} from './types';
-import { createTest, createTestResult } from './utils/createTest';
+  ValidatorInternalTestResult,
+  TestFunctionReturn,
+} from '../typings/tests';
+
+// Return an object and call a callback if needed
+const returnOrCallback = (
+  result: false | ValidatorTestResult,
+  callback?: (value: false | ValidatorTestResult) => void
+): false | ValidatorTestResult => {
+  if (callback) {
+    callback(result);
+  }
+  return result;
+};
 
 /**
  * All type inherit this Class
  */
-class TypeBase {
+export class TypeBase {
   inst: AltheiaInstance;
 
   tests: (() => ValidatorInternalTest)[];
@@ -29,6 +41,7 @@ class TypeBase {
    * @param  {Altheia} inst
    */
   constructor(inst?: AltheiaInstance) {
+    // eslint-disable-next-line global-require
     this.inst = inst || require('./index');
     this.tests = [];
 
@@ -57,13 +70,15 @@ class TypeBase {
    * @return {undefined}
    */
   test(name: string, func: TestFunction, args = {}): void {
-    this.tests.push(() => {
-      return this.createTest({
-        type: `${this.name}.${name}`,
-        func,
-        args,
-      });
-    });
+    this.tests.push(
+      (): ValidatorInternalTest => {
+        return this.createTest({
+          type: `${this.name}.${name}`,
+          func,
+          args,
+        });
+      }
+    );
   }
 
   createTest = createTest;
@@ -80,17 +95,6 @@ class TypeBase {
     toTest: any,
     callback?: (value: false | ValidatorTestResult) => void
   ): Promise<false | ValidatorTestResult> {
-    // Return an object and call a callback if needed
-    const returnOrCallback = (
-      result: false | ValidatorTestResult,
-      callback?: (value: false | ValidatorTestResult) => void
-    ): false | ValidatorTestResult => {
-      if (callback) {
-        callback(result);
-      }
-      return result;
-    };
-
     // Test presence early to fail/pass early
     const presence = this.presence(toTest);
     if (presence === false) {
@@ -110,8 +114,10 @@ class TypeBase {
     }
 
     if (this._needCast) {
+      /* eslint-disable no-param-reassign */
       // @ts-ignore
       toTest = await this._cast(toTest);
+      /* eslint-enable no-param-reassign */
     }
 
     // Iterate all tests
@@ -119,9 +125,9 @@ class TypeBase {
       const test = this.tests[i]();
 
       // Special condition for IF() we need to display error of deep validation
-      let internalResult: ValidatorInternalTestResult;
-
-      internalResult = this.testToTestResult(await test.func(toTest));
+      const internalResult: ValidatorInternalTestResult = this.testToTestResult(
+        await test.func(toTest)
+      );
 
       // Let test override current test type/arguments
       // Helps when you encapsulate test inside other test and want a transparent error
@@ -183,7 +189,7 @@ class TypeBase {
   custom(name: string, callback: TestFunction): this {
     this.test(
       `custom.${name}`,
-      async (value: any) => {
+      async (value: any): Promise<TestFunctionReturn> => {
         try {
           return await callback(value);
         } catch (e) {
@@ -241,25 +247,28 @@ class TypeBase {
     then: (chain: T) => TypeBase;
     otherwise: (chain: T) => TypeBase;
   }): this {
-    this.test('if', async (str) => {
-      const clone = this.clone() as T;
-      clone.tests = [];
-
-      const hasError = await test(clone).validate(str);
-      if (!hasError) {
+    this.test(
+      'if',
+      async (str): Promise<TestFunctionReturn> => {
+        const clone = this.clone() as T;
         clone.tests = [];
-        const temp = await then(clone).validate(str);
+
+        const hasError = await test(clone).validate(str);
+        if (!hasError) {
+          clone.tests = [];
+          const temp = await then(clone).validate(str);
+          return temp && temp.result
+            ? { ...temp.result, overrideWith: temp }
+            : true;
+        }
+
+        clone.tests = [];
+        const temp = await otherwise(clone).validate(str);
         return temp && temp.result
           ? { ...temp.result, overrideWith: temp }
           : true;
       }
-
-      clone.tests = [];
-      const temp = await otherwise(clone).validate(str);
-      return temp && temp.result
-        ? { ...temp.result, overrideWith: temp }
-        : true;
-    });
+    );
     return this;
   }
 

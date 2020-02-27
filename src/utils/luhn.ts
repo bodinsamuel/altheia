@@ -9,6 +9,7 @@ export default ((arr: number[]): ((ccNum: string) => boolean | 0) => {
     while (len) {
       len -= 1;
       val = parseInt(ccNum.charAt(len), 10);
+      // eslint-disable-next-line no-bitwise
       bit ^= 1;
       sum += bit ? arr[val] : val;
     }

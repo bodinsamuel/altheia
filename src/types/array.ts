@@ -1,19 +1,20 @@
-import TypeBase from './base';
-import arrayDiff from './utils/arraydiff';
-import { LangList, ValidatorErrorRaw } from './types';
+import { TypeBase } from './base';
+import arrayDiff from '../utils/arraydiff';
+import { LangList } from '../typings/lang';
+import { TestFunctionReturn, ValidatorErrorRaw } from '../typings/tests';
 
 export const messages: LangList = {
-  'array.typeof': (name) => `${name} must be a valid array`,
-  'array.min': (name, args: { min: number }) =>
+  'array.typeof': (name): string => `${name} must be a valid array`,
+  'array.min': (name, args: { min: number }): string =>
     `${name} must contains at least ${args.min} items`,
-  'array.max': (name, args: { max: number }) =>
+  'array.max': (name, args: { max: number }): string =>
     `${name} must contains at most ${args.max} items`,
-  'array.in': (name, args: { in: string[] }) =>
+  'array.in': (name, args: { in: string[] }): string =>
     `${name} must only contains these keys [${args.in}]`,
-  'array.not': (name) => `${name} contains forbidden value`,
-  'array.unique': (name) => `${name} can not contains duplicated value`,
-  'array.oneOf': (name) => `${name} contains forbidden items`,
-  'array.itemInvalid': (name) =>
+  'array.not': (name): string => `${name} contains forbidden value`,
+  'array.unique': (name): string => `${name} can not contains duplicated value`,
+  'array.oneOf': (name): string => `${name} contains forbidden items`,
+  'array.itemInvalid': (name): string =>
     `${name} does not match any of the allowed types`,
 };
 
@@ -36,9 +37,12 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (val: any) => {
-      return Array.isArray(val);
-    });
+    this.test(
+      'typeof',
+      (val: any): TestFunctionReturn => {
+        return Array.isArray(val);
+      }
+    );
     return this;
   }
 
@@ -51,7 +55,7 @@ export class TypeArray extends TypeBase {
   min(min: number): this {
     this.test(
       'min',
-      (arr: any[]) => {
+      (arr: any[]): TestFunctionReturn => {
         return arr.length >= min;
       },
       { min }
@@ -69,7 +73,7 @@ export class TypeArray extends TypeBase {
   max(max: number): this {
     this.test(
       'max',
-      (arr: any[]) => {
+      (arr: any[]): TestFunctionReturn => {
         return arr.length <= max;
       },
       { max }
@@ -97,7 +101,7 @@ export class TypeArray extends TypeBase {
 
     this.test(
       'in',
-      (arr: any[]) => {
+      (arr: any[]): TestFunctionReturn => {
         return arrayDiff<string>(arr, only).length === 0;
       },
       { in: only }
@@ -125,7 +129,7 @@ export class TypeArray extends TypeBase {
 
     this.test(
       'not',
-      (arr: any[]) => {
+      (arr: any[]): TestFunctionReturn => {
         return arrayDiff<string>(only, arr).length === only.length;
       },
       { not: only }
@@ -140,10 +144,13 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   unique(): this {
-    this.test('unique', (arr: any[]) => {
-      const a = new Set(arr);
-      return a.size === arr.length;
-    });
+    this.test(
+      'unique',
+      (arr: any[]): TestFunctionReturn => {
+        const a = new Set(arr);
+        return a.size === arr.length;
+      }
+    );
 
     return this;
   }
@@ -157,46 +164,48 @@ export class TypeArray extends TypeBase {
   oneOf(...templates: TypeBase[]): this {
     this.test(
       'oneOf',
-      async (arr: any[]) => {
+      async (arr: any[]): Promise<TestFunctionReturn> => {
         const errors: ValidatorErrorRaw[] = [];
 
         await Promise.all(
-          arr.map(async (value: any, index: number) => {
-            let error: ValidatorErrorRaw | undefined;
+          arr.map(
+            async (value: any, index: number): Promise<void> => {
+              let error: ValidatorErrorRaw | undefined;
 
-            const label = 'item';
-            for (let i = 0; i < templates.length; i++) {
-              const test = await templates[i].required().validate(value);
-              if (test) {
-                error = { label, test, position: index };
-              } else {
-                // early break if one template matched (returned no error)
+              const label = 'item';
+              for (let i = 0; i < templates.length; i++) {
+                const test = await templates[i].required().validate(value);
+                if (test) {
+                  error = { label, test, position: index };
+                } else {
+                  // early break if one template matched (returned no error)
+                  return;
+                }
+              }
+
+              // Help typescript understand we have error here
+              if (!error) {
                 return;
               }
-            }
 
-            // Help typescript understand we have error here
-            if (!error) {
-              return;
+              // if multiples templates, return a generic message
+              if (templates.length > 1) {
+                error = {
+                  label,
+                  test: this.createTestResult(
+                    this.createTest({
+                      type: 'array.itemInvalid',
+                    }),
+                    false
+                  ),
+                  position: index,
+                };
+                errors.push(error);
+              } else {
+                errors.push(error);
+              }
             }
-
-            // if multiples templates, return a generic message
-            if (templates.length > 1) {
-              error = {
-                label,
-                test: this.createTestResult(
-                  this.createTest({
-                    type: 'array.itemInvalid',
-                  }),
-                  false
-                ),
-                position: index,
-              };
-              errors.push(error);
-            } else {
-              errors.push(error);
-            }
-          })
+          )
         );
 
         return {

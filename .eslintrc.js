@@ -65,6 +65,8 @@ module.exports = {
     'no-dupe-class-members': 'off',
     'no-restricted-globals': 'off',
     'no-continue': 'off',
+    'class-methods-use-this': 'off',
+    'import/no-cycle': 'off',
   },
   overrides: [
     {

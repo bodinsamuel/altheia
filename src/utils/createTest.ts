@@ -1,9 +1,9 @@
 import {
   TestFunction,
   ValidatorInternalTest,
-  ValidatorTestResult,
   ValidatorInternalTestResult,
-} from '../types';
+  ValidatorTestResult,
+} from '../typings/tests';
 
 /**
  * Return a test default object

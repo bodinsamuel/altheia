@@ -1,8 +1,9 @@
-import TypeBase from './base';
-import { LangList } from './types';
+import { TypeBase } from './base';
+import { LangList } from '../typings/lang';
+import { TestFunctionReturn } from '../typings/tests';
 
 export const messages: LangList = {
-  'function.typeof': (name) => `${name} must be a valid function`,
+  'function.typeof': (name): string => `${name} must be a valid function`,
 };
 
 /**
@@ -24,9 +25,12 @@ export class TypeFunc extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str: any) => {
-      return typeof str === 'function';
-    });
+    this.test(
+      'typeof',
+      (str: any): TestFunctionReturn => {
+        return typeof str === 'function';
+      }
+    );
     return this;
   }
 }

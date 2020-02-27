@@ -1,9 +1,10 @@
 import isPlainObject from 'lodash/isPlainObject';
-import arrayDiff from './utils/arraydiff';
+import arrayDiff from '../utils/arraydiff';
 
-import TypeBase from './base';
-import Validator from './validator';
-import { LangList, TestFunctionReturn, ValidatorErrorRaw } from './types';
+import { TypeBase } from './base';
+import { Validator } from '../validator';
+import { LangList } from '../typings/lang';
+import { TestFunctionReturn, ValidatorErrorRaw } from '../typings/tests';
 
 export const messages: LangList = {
   'object.typeof': (name): string => `${name} must be a valid object`,

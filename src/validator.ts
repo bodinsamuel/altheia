@@ -1,26 +1,40 @@
 import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 
-import { TypeObject } from './object';
+import { TypeObject, TypeBase } from './types';
+import { createTest, createTestResult } from './utils/createTest';
+
+import {
+  ValidatorErrorFormatted,
+  ValidatorErrorRaw,
+  ValidatorTestResult,
+} from './typings/tests';
+import { AltheiaInstance } from './typings/instance';
 import {
   ValidatorConfirm,
   ValidatorOptions,
   ValidatorSchema,
-  AltheiaInstance,
-  ValidatorErrorRaw,
-  ValidatorErrorFormatted,
-  ValidatorTestResult,
-} from './types';
-import { createTest, createTestResult } from './utils/createTest';
-import TypeBase from './base';
+} from './typings/validator';
 
 export type ValidatorResult = false | ValidatorErrorFormatted[];
 export type ValidatorCallback = (errors: ValidatorResult) => void;
+
+// Return an object and call a callback if needed
+const returnOrCallback = (
+  result: ValidatorResult,
+  callback?: (value: ValidatorResult) => void
+): ValidatorResult => {
+  if (callback) {
+    callback(result);
+  }
+  return result;
+};
+
 /**
  * Validator class
  * new Validator({ foo: 'bar' });
  */
-class Validator {
+export class Validator {
   inst: AltheiaInstance;
 
   isValidator: number;
@@ -158,25 +172,16 @@ class Validator {
     let callback: ValidatorCallback | undefined;
     if (params.length > 0) {
       if (typeof params[0] === 'function') {
+        // eslint-disable-next-line prefer-destructuring
         callback = params[0];
       } else {
         this.body(params[0]);
+        // eslint-disable-next-line prefer-destructuring
         callback = params[1];
       }
     }
 
     this.validated = true;
-
-    // Return an object and call a callback if needed
-    const returnOrCallback = (
-      result: ValidatorResult,
-      callback?: (value: ValidatorResult) => void
-    ): ValidatorResult => {
-      if (callback) {
-        callback(result);
-      }
-      return result;
-    };
 
     const errors = [];
     // Early return if unknown keys
@@ -186,9 +191,9 @@ class Validator {
         .validate(this._body);
 
       if (typeof only !== 'boolean' && only.result && only.result.errors) {
-        only.result.errors.map((error: ValidatorErrorRaw) =>
-          errors.push(this.formatError(error.test, error.label))
-        );
+        only.result.errors.forEach((error: ValidatorErrorRaw): void => {
+          errors.push(this.formatError(error.test, error.label));
+        });
       }
     }
 
@@ -224,7 +229,7 @@ class Validator {
 
     // Check confirm after validation
     if (this._confirm.length > 0) {
-      this._confirm.forEach((item) => {
+      this._confirm.forEach((item): void => {
         const initial = this._body[item.initial];
         const comparison = this._body[item.comparison];
         if (isEqual(initial, comparison)) {

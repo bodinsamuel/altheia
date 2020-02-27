@@ -1,9 +1,9 @@
-import Base from './base';
+import { TypeBase } from './base';
 
 /**
  * Any is just a empty class to allow chaining
  */
-export class TypeAny extends Base {
+export class TypeAny extends TypeBase {
   /**
    * Constructor
    */

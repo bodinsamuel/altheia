@@ -1,19 +1,20 @@
-import TypeBase from './base';
-import { LangList } from './types';
+import { TypeBase } from './base';
+import { LangList } from '../typings/lang';
+import { TestFunctionReturn } from '../typings/tests';
 
 export const messages: LangList = {
-  'number.typeof': (name) => `${name} must be a valid number`,
-  'number.min': (name, args: { min: number }) =>
+  'number.typeof': (name): string => `${name} must be a valid number`,
+  'number.min': (name, args: { min: number }): string =>
     `${name} must be at least ${args.min}`,
-  'number.max': (name, args: { max: number }) =>
+  'number.max': (name, args: { max: number }): string =>
     `${name} must be less than or equal to ${args.max}`,
-  'number.integer': (name) => `${name} must be an integer`,
-  'number.unsigned': (name) => `${name} must be an unsigned number`,
-  'number.positive': (name) => `${name} must be a positive number`,
-  'number.negative': (name) => `${name} must be a negative number`,
-  'number.in': (name, args: { obj: number[] }) =>
+  'number.integer': (name): string => `${name} must be an integer`,
+  'number.unsigned': (name): string => `${name} must be an unsigned number`,
+  'number.positive': (name): string => `${name} must be a positive number`,
+  'number.negative': (name): string => `${name} must be a negative number`,
+  'number.in': (name, args: { obj: number[] }): string =>
     `${name} must be one of [${args.obj}]`,
-  'number.not': (name) => `${name} contains forbidden value`,
+  'number.not': (name): string => `${name} contains forbidden value`,
 };
 
 /**
@@ -48,9 +49,12 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (val: any) => {
-      return typeof val === 'number' && !isNaN(val) && isFinite(val);
-    });
+    this.test(
+      'typeof',
+      (val: any): TestFunctionReturn => {
+        return typeof val === 'number' && !isNaN(val) && isFinite(val);
+      }
+    );
     return this;
   }
 
@@ -63,7 +67,7 @@ export class TypeNumber extends TypeBase {
   min(min: number): this {
     this.test(
       'min',
-      (num: number) => {
+      (num: number): TestFunctionReturn => {
         return num >= min;
       },
       { min }
@@ -80,7 +84,7 @@ export class TypeNumber extends TypeBase {
   max(max: number): this {
     this.test(
       'max',
-      (num: number) => {
+      (num: number): TestFunctionReturn => {
         return num <= max;
       },
       { max }
@@ -94,9 +98,12 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   integer(): this {
-    this.test('integer', (num: number) => {
-      return Number.isSafeInteger(num) === true;
-    });
+    this.test(
+      'integer',
+      (num: number): TestFunctionReturn => {
+        return Number.isSafeInteger(num) === true;
+      }
+    );
     return this;
   }
 
@@ -106,9 +113,12 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   unsigned(): this {
-    this.test('unsigned', (num: number) => {
-      return num >= 0;
-    });
+    this.test(
+      'unsigned',
+      (num: number): TestFunctionReturn => {
+        return num >= 0;
+      }
+    );
     return this;
   }
 
@@ -118,9 +128,12 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   positive(): this {
-    this.test('positive', (num: number) => {
-      return num > 0;
-    });
+    this.test(
+      'positive',
+      (num: number): TestFunctionReturn => {
+        return num > 0;
+      }
+    );
     return this;
   }
 
@@ -130,9 +143,12 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   negative(): this {
-    this.test('negative', (num: number) => {
-      return num < 0;
-    });
+    this.test(
+      'negative',
+      (num: number): TestFunctionReturn => {
+        return num < 0;
+      }
+    );
     return this;
   }
 
@@ -145,7 +161,7 @@ export class TypeNumber extends TypeBase {
   in(...obj: number[]): this {
     this.test(
       'in',
-      (num: number) => {
+      (num: number): TestFunctionReturn => {
         return obj.includes(num) === true;
       },
       { obj }
@@ -163,7 +179,7 @@ export class TypeNumber extends TypeBase {
   not(...obj: number[]): this {
     this.test(
       'not',
-      (num: number) => {
+      (num: number): TestFunctionReturn => {
         return obj.includes(num) === false;
       },
       { obj }

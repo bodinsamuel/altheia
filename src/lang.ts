@@ -1,9 +1,9 @@
-import { LangList } from './types';
+import { LangList } from './typings/lang';
 
 const messages: LangList = {
-  forbidden: (name: string) => `${name} is not allowed`,
-  required: (name: string) => `${name} is required`,
-  confirm: (_name: string, args) =>
+  forbidden: (name: string): string => `${name} is not allowed`,
+  required: (name: string): string => `${name} is required`,
+  confirm: (_name: string, args): string =>
     `${args.comparison} must be the same as ${args.initial}`,
 };
 

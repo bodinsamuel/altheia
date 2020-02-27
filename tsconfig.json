@@ -10,11 +10,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": false,
-    "baseUrl": "./src",
     "outDir": "./lib",
     "strict": true,
     "target": "es2015"
   },
-  "include": ["./src/**/*", "src/types/index.ts"],
+  "include": ["./src/**/*", "src/types.ts"],
   "exclude": ["node_modules/**"]
 }

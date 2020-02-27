@@ -1,26 +1,22 @@
 import isPlainObject from 'lodash/isPlainObject';
 
 import LangBase from './lang';
-import Validator from './validator';
-import TypeBase from './base';
-import {
-  LangList,
-  AltheiaInstance,
-  ValidatorSchema,
-  ValidatorErrorFormatted,
-  ValidatorErrorRaw,
-} from './types';
+import { Validator } from './validator';
+import { TypeBase } from './types/base';
+import { LangList } from './typings/lang';
+import { AltheiaInstance } from './typings/instance';
+import { ValidatorErrorFormatted, ValidatorErrorRaw } from './typings/tests';
 
 // Default extractors
-import AnyValidator from './any';
-import ArrayValidator from './array';
-import BooleanValidator from './boolean';
-import DateValidator from './date';
-import FunctionValidator from './function';
-import InternetValidator from './internet';
-import NumberValidator from './number';
-import ObjectValidator from './object';
-import StringValidator from './string';
+import AnyValidator from './types/any';
+import ArrayValidator from './types/array';
+import BooleanValidator from './types/boolean';
+import DateValidator from './types/date';
+import FunctionValidator from './types/function';
+import InternetValidator from './types/internet';
+import NumberValidator from './types/number';
+import ObjectValidator from './types/object';
+import StringValidator from './types/string';
 
 const Instance = (lang?: LangList): AltheiaInstance => {
   // @ts-ignore
@@ -92,8 +88,9 @@ const Instance = (lang?: LangList): AltheiaInstance => {
 
     // nested errors
     if (result && result.errors) {
-      formatted.errors = result.errors.map((error: ValidatorErrorRaw) =>
-        inst.formatError(error.test, error.label, error.position)
+      formatted.errors = result.errors.map(
+        (error: ValidatorErrorRaw): ValidatorErrorFormatted =>
+          inst.formatError(error.test, error.label, error.position)
       );
     }
     return formatted;
