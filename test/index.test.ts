@@ -1,5 +1,5 @@
-import Alt from './../src';
-import StringValidator, { TypeString } from './../src/string';
+import Alt from '../src';
+import { TypeString } from '../src/validators';
 
 describe('Index', () => {
   describe('instance()', () => {
@@ -81,7 +81,7 @@ describe('Index', () => {
 
       expect(alt1).toHaveProperty('templates');
       expect(alt1.templates).toHaveProperty('login');
-      expect(alt1.templates.login).toBeInstanceOf(StringValidator.Class);
+      expect(alt1.templates.login).toBeInstanceOf(TypeString);
 
       expect(alt2.templates).not.toHaveProperty('login');
     });
@@ -97,7 +97,7 @@ describe('Index', () => {
 
       const back = alt1.is('login');
 
-      expect(back).toBeInstanceOf(StringValidator.Class);
+      expect(back).toBeInstanceOf(TypeString);
     });
 
     test('should get template back and not modify template', () => {
@@ -110,7 +110,7 @@ describe('Index', () => {
       );
 
       const back = (alt1.is('login') as TypeString).lowercase();
-      expect(back).toBeInstanceOf(StringValidator.Class);
+      expect(back).toBeInstanceOf(TypeString);
       expect(back.tests.length).toBe(4);
 
       expect(alt1.is('login').tests.length).toBe(3);

@@ -1,0 +1,10 @@
+export { TypeAny } from './any';
+export { TypeArray } from './array';
+export { TypeBase } from './base';
+export { TypeBoolean } from './boolean';
+export { TypeDate } from './date';
+export { TypeFunc } from './function';
+export { TypeInternet } from './internet';
+export { TypeNumber } from './number';
+export { TypeObject } from './object';
+export { TypeString } from './string';

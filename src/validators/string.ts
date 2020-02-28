@@ -1,21 +1,22 @@
-import TypeBase from './base';
-import { LangList } from './types';
+import { TypeBase } from './base';
+import { LangList } from '../types/lang';
+import { TestFunctionReturn } from '../types/tests';
 
 export const messages: LangList = {
-  'string.typeof': (name) => `${name} must be a valid string`,
-  'string.empty': (name) => `${name} can not be empty`,
-  'string.min': (name, args: { min: number }) =>
+  'string.typeof': (name): string => `${name} must be a valid string`,
+  'string.empty': (name): string => `${name} can not be empty`,
+  'string.min': (name, args: { min: number }): string =>
     `${name} must be at least ${args.min} characters long`,
-  'string.max': (name, args: { max: number }) =>
+  'string.max': (name, args: { max: number }): string =>
     `${name} must be at most ${args.max} characters long`,
-  'string.pattern': (name, args: { regex: RegExp }) =>
+  'string.pattern': (name, args: { regex: RegExp }): string =>
     `${name} must match pattern "${args.regex}"`,
-  'string.in': (name, args: { obj: string[] }) =>
+  'string.in': (name, args: { obj: string[] }): string =>
     `${name} must be one of [${args.obj}]`,
-  'string.not': (name) => `${name} contains forbidden value`,
-  'string.email': (name) => `${name} must be a valid email`,
-  'string.lowercase': (name) => `${name} must be lowercase only`,
-  'string.uppercase': (name) => `${name} must be uppercase only`,
+  'string.not': (name): string => `${name} contains forbidden value`,
+  'string.email': (name): string => `${name} must be a valid email`,
+  'string.lowercase': (name): string => `${name} must be lowercase only`,
+  'string.uppercase': (name): string => `${name} must be uppercase only`,
 };
 
 /**
@@ -32,15 +33,22 @@ export class TypeString extends TypeBase {
     this.typeof();
   }
 
+  _cast(): void {
+    throw new Error('not available for this validator');
+  }
+
   /**
    * Test to validate the type of the value
    *
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (str: any) => {
-      return typeof str === 'string';
-    });
+    this.test(
+      'typeof',
+      (str: any): TestFunctionReturn => {
+        return typeof str === 'string';
+      }
+    );
     return this;
   }
 
@@ -51,9 +59,12 @@ export class TypeString extends TypeBase {
    */
   noEmpty(): this {
     this._noEmpty = true;
-    this.test('empty', (str: string) => {
-      return str.length > 0;
-    });
+    this.test(
+      'empty',
+      (str: string): TestFunctionReturn => {
+        return str.length > 0;
+      }
+    );
     return this;
   }
 
@@ -66,7 +77,7 @@ export class TypeString extends TypeBase {
   min(min: number): this {
     this.test(
       'min',
-      (str: string) => {
+      (str: string): TestFunctionReturn => {
         return str.length >= min;
       },
       { min }
@@ -84,7 +95,7 @@ export class TypeString extends TypeBase {
   max(max: number): this {
     this.test(
       'max',
-      (str: string) => {
+      (str: string): TestFunctionReturn => {
         return str.length <= max;
       },
       { max }
@@ -102,7 +113,7 @@ export class TypeString extends TypeBase {
   pattern(regex: RegExp): this {
     this.test(
       'pattern',
-      (str: string) => {
+      (str: string): TestFunctionReturn => {
         return str.match(regex) !== null;
       },
       { regex }
@@ -120,7 +131,7 @@ export class TypeString extends TypeBase {
   in(...obj: string[]): this {
     this.test(
       'in',
-      (str: string) => {
+      (str: string): TestFunctionReturn => {
         return obj.includes(str) === true;
       },
       { obj }
@@ -138,7 +149,7 @@ export class TypeString extends TypeBase {
   not(...obj: string[]): this {
     this.test(
       'not',
-      (str: string) => {
+      (str: string): TestFunctionReturn => {
         return obj.includes(str) === false;
       },
       { obj }
@@ -153,9 +164,12 @@ export class TypeString extends TypeBase {
    * @return {this}
    */
   email(): this {
-    this.test('email', (str: string) => {
-      return str.search('@') >= 0;
-    });
+    this.test(
+      'email',
+      (str: string): TestFunctionReturn => {
+        return str.search('@') >= 0;
+      }
+    );
 
     return this;
   }
@@ -166,9 +180,12 @@ export class TypeString extends TypeBase {
    * @return {this}
    */
   lowercase(): this {
-    this.test('lowercase', (str: string) => {
-      return str.toLocaleLowerCase() === str;
-    });
+    this.test(
+      'lowercase',
+      (str: string): TestFunctionReturn => {
+        return str.toLocaleLowerCase() === str;
+      }
+    );
 
     return this;
   }
@@ -179,9 +196,12 @@ export class TypeString extends TypeBase {
    * @return {this}
    */
   uppercase(): this {
-    this.test('uppercase', (str: string) => {
-      return str.toLocaleUpperCase() === str;
-    });
+    this.test(
+      'uppercase',
+      (str: string): TestFunctionReturn => {
+        return str.toLocaleUpperCase() === str;
+      }
+    );
 
     return this;
   }

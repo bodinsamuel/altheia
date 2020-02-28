@@ -1,5 +1,6 @@
-import TypeBase from './base';
-import { LangList } from './types';
+import { TypeBase } from './base';
+import { LangList } from '../types/lang';
+import { TestFunctionReturn } from '../types/tests';
 
 /* eslint-disable */
 const iso = new RegExp(
@@ -8,11 +9,11 @@ const iso = new RegExp(
 /* eslint-enable */
 
 export const messages: LangList = {
-  'date.typeof': (name) => `${name} must be a valid date`,
-  'date.iso': (name) => `${name} must be an ISO-8601 date`,
-  'date.min': (name, { min }: { min: Date }) =>
+  'date.typeof': (name): string => `${name} must be a valid date`,
+  'date.iso': (name): string => `${name} must be an ISO-8601 date`,
+  'date.min': (name, { min }: { min: Date }): string =>
     `${name} must be at least ${min.toISOString()}`,
-  'date.max': (name, { max }: { max: Date }) =>
+  'date.max': (name, { max }: { max: Date }): string =>
     `${name} must be less than or equal to ${max.toISOString()}`,
 };
 
@@ -45,9 +46,12 @@ export class TypeDate extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (val: any) => {
-      return !isNaN(Date.parse(val));
-    });
+    this.test(
+      'typeof',
+      (val: any): TestFunctionReturn => {
+        return !isNaN(Date.parse(val));
+      }
+    );
     return this;
   }
 
@@ -57,9 +61,12 @@ export class TypeDate extends TypeBase {
    * @return {this}
    */
   iso(): this {
-    this.test('iso', (date: string) => {
-      return date.match(iso) !== null;
-    });
+    this.test(
+      'iso',
+      (date: string): TestFunctionReturn => {
+        return date.match(iso) !== null;
+      }
+    );
     return this;
   }
 
@@ -72,7 +79,7 @@ export class TypeDate extends TypeBase {
   min(min: Date): this {
     this.test(
       'min',
-      (date: string) => {
+      (date: string): TestFunctionReturn => {
         if (
           typeof min !== 'object' ||
           min.constructor.name !== 'Date' ||
@@ -96,7 +103,7 @@ export class TypeDate extends TypeBase {
   max(max: Date): this {
     this.test(
       'max',
-      (date: string) => {
+      (date: string): TestFunctionReturn => {
         if (
           typeof max !== 'object' ||
           max.constructor.name !== 'Date' ||

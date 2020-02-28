@@ -1,10 +1,11 @@
-import TypeBase from './base';
-import { LangList } from './types';
+import { TypeBase } from './base';
+import { LangList } from '../types/lang';
+import { TestFunctionReturn } from '../types/tests';
 
 export const messages: LangList = {
-  'boolean.typeof': (name) => `${name} must be a valid boolean`,
-  'boolean.true': (name) => `${name} must be true`,
-  'boolean.false': (name) => `${name} must be false`,
+  'boolean.typeof': (name): string => `${name} must be a valid boolean`,
+  'boolean.true': (name): string => `${name} must be true`,
+  'boolean.false': (name): string => `${name} must be false`,
 };
 
 /**
@@ -30,7 +31,8 @@ export class TypeBoolean extends TypeBase {
     if (typeof value === 'string') {
       if (value === 'true' || value === 'True') {
         return true;
-      } else if (value === 'false' || value === 'False') {
+      }
+      if (value === 'false' || value === 'False') {
         return false;
       }
     }
@@ -43,9 +45,12 @@ export class TypeBoolean extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test('typeof', (bool: boolean) => {
-      return typeof bool === 'boolean';
-    });
+    this.test(
+      'typeof',
+      (bool: boolean): TestFunctionReturn => {
+        return typeof bool === 'boolean';
+      }
+    );
     return this;
   }
 
@@ -55,9 +60,12 @@ export class TypeBoolean extends TypeBase {
    * @return {this}
    */
   true(): this {
-    this.test('true', (bool: boolean) => {
-      return bool === true;
-    });
+    this.test(
+      'true',
+      (bool: boolean): TestFunctionReturn => {
+        return bool === true;
+      }
+    );
     return this;
   }
 
@@ -67,9 +75,12 @@ export class TypeBoolean extends TypeBase {
    * @return {this}
    */
   false(): this {
-    this.test('false', (bool: boolean) => {
-      return bool === false;
-    });
+    this.test(
+      'false',
+      (bool: boolean): TestFunctionReturn => {
+        return bool === false;
+      }
+    );
     return this;
   }
 }

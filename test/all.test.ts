@@ -1,5 +1,5 @@
-import Alt from './../src';
-import { ValidatorErrorFormatted } from '../src/types';
+import Alt from '../src';
+import { ValidatorErrorFormatted } from '../src/types/tests';
 
 describe('All', () => {
   test('should pass', async () => {

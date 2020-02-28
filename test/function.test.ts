@@ -1,4 +1,4 @@
-import Alt from './../src';
+import Alt from '../src';
 
 describe('Function', () => {
   describe('typeof()', () => {
@@ -7,7 +7,7 @@ describe('Function', () => {
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.function().validate(function() {
+      const hasError = await Alt.function().validate(() => {
         return true;
       });
       expect(hasError).toBe(false);

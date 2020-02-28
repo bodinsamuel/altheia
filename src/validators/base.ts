@@ -1,22 +1,38 @@
+import { createTest, createTestResult } from '../utils/createTest';
+import { AltheiaInstance } from '../types/instance';
 import {
   ValidatorInternalTest,
   TestFunction,
-  AltheiaInstance,
-  ValidatorInternalTestResult,
   ValidatorTestResult,
-} from './types';
-import { createTest, createTestResult } from './utils/createTest';
+  ValidatorInternalTestResult,
+  TestFunctionReturn,
+} from '../types/tests';
+
+// Return an object and call a callback if needed
+const returnOrCallback = (
+  result: false | ValidatorTestResult,
+  callback?: (value: false | ValidatorTestResult) => void
+): false | ValidatorTestResult => {
+  if (callback) {
+    callback(result);
+  }
+  return result;
+};
 
 /**
  * All type inherit this Class
  */
-class TypeBase {
+export abstract class TypeBase {
   inst: AltheiaInstance;
+
   tests: (() => ValidatorInternalTest)[];
+
   name?: string;
 
   _required: boolean;
+
   _needCast: boolean;
+
   _noEmpty?: boolean;
 
   /**
@@ -25,6 +41,7 @@ class TypeBase {
    * @param  {Altheia} inst
    */
   constructor(inst?: AltheiaInstance) {
+    // eslint-disable-next-line global-require
     this.inst = inst || require('./index');
     this.tests = [];
 
@@ -32,10 +49,10 @@ class TypeBase {
     this._needCast = false;
   }
 
+  abstract _cast(value: any): void;
+
   /**
    * Clone this class
-   *
-   * @return {TypeBase}
    */
   clone<T extends this>(): T {
     const clone = Object.assign(Object.create(this), this) as T;
@@ -47,45 +64,35 @@ class TypeBase {
   /**
    * Add a test
    *
-   * @param  {string} name
-   * @param  {function} func
-   * @param  {Object} args
-   * @return {undefined}
+   * @param name
+   * @param func
+   * @param args
    */
   test(name: string, func: TestFunction, args = {}): void {
-    this.tests.push(() => {
-      return this.createTest({
-        type: `${this.name}.${name}`,
-        func,
-        args,
-      });
-    });
+    this.tests.push(
+      (): ValidatorInternalTest => {
+        return this.createTest({
+          type: `${this.name}.${name}`,
+          func,
+          args,
+        });
+      }
+    );
   }
 
   createTest = createTest;
+
   createTestResult = createTestResult;
 
   /**
    * Validate a value based on all tests added
    * @param  {mixed}   toTest
    * @param  {Function} callback
-   * @return {object}
    */
   async validate(
     toTest: any,
     callback?: (value: false | ValidatorTestResult) => void
   ): Promise<false | ValidatorTestResult> {
-    // Return an object and call a callback if needed
-    const returnOrCallback = (
-      result: false | ValidatorTestResult,
-      callback?: (value: false | ValidatorTestResult) => void
-    ): false | ValidatorTestResult => {
-      if (callback) {
-        callback(result);
-      }
-      return result;
-    };
-
     // Test presence early to fail/pass early
     const presence = this.presence(toTest);
     if (presence === false) {
@@ -105,18 +112,19 @@ class TypeBase {
     }
 
     if (this._needCast) {
-      // @ts-ignore
+      /* eslint-disable no-param-reassign */
       toTest = await this._cast(toTest);
+      /* eslint-enable no-param-reassign */
     }
 
     // Iterate all tests
-    for (var i = 0; i < this.tests.length; i++) {
-      let test = this.tests[i]();
+    for (let i = 0; i < this.tests.length; i++) {
+      const test = this.tests[i]();
 
       // Special condition for IF() we need to display error of deep validation
-      let internalResult: ValidatorInternalTestResult;
-
-      internalResult = this.testToTestResult(await test.func(toTest));
+      const internalResult: ValidatorInternalTestResult = this.testToTestResult(
+        await test.func(toTest)
+      );
 
       // Let test override current test type/arguments
       // Helps when you encapsulate test inside other test and want a transparent error
@@ -149,8 +157,6 @@ class TypeBase {
 
   /**
    * Force the value to be non-null
-   *
-   * @return {this}
    */
   required(): this {
     this._required = true;
@@ -159,8 +165,6 @@ class TypeBase {
 
   /**
    * Force the value to be casted before any check
-   *
-   * @return {this}
    */
   cast(): this {
     this._needCast = true;
@@ -173,12 +177,11 @@ class TypeBase {
    * @param  {string}   name
    * @param  {Function} callback
    * @param  {Function}   message
-   * @return {this}
    */
   custom(name: string, callback: TestFunction): this {
     this.test(
       `custom.${name}`,
-      async (value: any) => {
+      async (value: any): Promise<TestFunctionReturn> => {
         try {
           return await callback(value);
         } catch (e) {
@@ -194,7 +197,6 @@ class TypeBase {
    * Presence validation
    *
    * @param  {mixed} toTest
-   * @return {boolean}
    */
   presence(toTest: any): boolean {
     if (
@@ -225,7 +227,6 @@ class TypeBase {
    * @param  {function} options.test
    * @param  {function} options.then
    * @param  {function} options.otherwise
-   * @return {this}
    */
   if<T extends this>({
     test,
@@ -236,25 +237,28 @@ class TypeBase {
     then: (chain: T) => TypeBase;
     otherwise: (chain: T) => TypeBase;
   }): this {
-    this.test('if', async (str) => {
-      const clone = this.clone() as T;
-      clone.tests = [];
-
-      const hasError = await test(clone).validate(str);
-      if (!hasError) {
+    this.test(
+      'if',
+      async (str): Promise<TestFunctionReturn> => {
+        const clone = this.clone() as T;
         clone.tests = [];
-        const temp = await then(clone).validate(str);
+
+        const hasError = await test(clone).validate(str);
+        if (!hasError) {
+          clone.tests = [];
+          const temp = await then(clone).validate(str);
+          return temp && temp.result
+            ? { ...temp.result, overrideWith: temp }
+            : true;
+        }
+
+        clone.tests = [];
+        const temp = await otherwise(clone).validate(str);
         return temp && temp.result
           ? { ...temp.result, overrideWith: temp }
           : true;
       }
-
-      clone.tests = [];
-      const temp = await otherwise(clone).validate(str);
-      return temp && temp.result
-        ? { ...temp.result, overrideWith: temp }
-        : true;
-    });
+    );
     return this;
   }
 

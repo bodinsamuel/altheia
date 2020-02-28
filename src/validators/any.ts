@@ -1,15 +1,19 @@
-import Base from './base';
+import { TypeBase } from './base';
 
 /**
  * Any is just a empty class to allow chaining
  */
-export class TypeAny extends Base {
+export class TypeAny extends TypeBase {
   /**
    * Constructor
    */
   constructor() {
     super();
     this.name = 'any';
+  }
+
+  _cast(): void {
+    throw new Error('not available for this validator');
   }
 }
 
