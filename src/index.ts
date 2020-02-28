@@ -6,6 +6,7 @@ import { TypeBase } from './types/base';
 import { LangList } from './typings/lang';
 import { AltheiaInstance } from './typings/instance';
 import { ValidatorErrorFormatted, ValidatorErrorRaw } from './typings/tests';
+import { ValidatorSchema } from './typings/validator';
 
 // Default extractors
 import AnyValidator from './types/any';
@@ -19,10 +20,9 @@ import ObjectValidator from './types/object';
 import StringValidator from './types/string';
 
 const Instance = (lang?: LangList): AltheiaInstance => {
-  // @ts-ignore
-  const inst: AltheiaInstance = (schema: ValidatorSchema): Validator => {
+  const inst: AltheiaInstance = ((schema: ValidatorSchema): Validator => {
     return new Validator(schema, inst);
-  };
+  }) as AltheiaInstance;
 
   inst.langList = { ...LangBase };
   inst.templates = {};
@@ -44,7 +44,7 @@ const Instance = (lang?: LangList): AltheiaInstance => {
   };
 
   inst.lang = (key, tpl): void => {
-    if (isPlainObject(key)) {
+    if (typeof key === 'object' && isPlainObject(key)) {
       inst.langList = { ...inst.langList, ...key };
     } else if (typeof key === 'string' && tpl) {
       inst.langList[key] = tpl;

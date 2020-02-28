@@ -72,7 +72,8 @@ module.exports = {
     {
       files: ['test/*.ts'],
       rules: {
-        '@typescript-eslint/explicit-function-return-type': 0,
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/ban-ts-ignore': 'off',
       },
     },
   ],

@@ -22,7 +22,7 @@ const returnOrCallback = (
 /**
  * All type inherit this Class
  */
-export class TypeBase {
+export abstract class TypeBase {
   inst: AltheiaInstance;
 
   tests: (() => ValidatorInternalTest)[];
@@ -49,10 +49,10 @@ export class TypeBase {
     this._needCast = false;
   }
 
+  abstract _cast(value: any): void;
+
   /**
    * Clone this class
-   *
-   * @return {TypeBase}
    */
   clone<T extends this>(): T {
     const clone = Object.assign(Object.create(this), this) as T;
@@ -64,10 +64,9 @@ export class TypeBase {
   /**
    * Add a test
    *
-   * @param  {string} name
-   * @param  {function} func
-   * @param  {Object} args
-   * @return {undefined}
+   * @param name
+   * @param func
+   * @param args
    */
   test(name: string, func: TestFunction, args = {}): void {
     this.tests.push(
@@ -89,7 +88,6 @@ export class TypeBase {
    * Validate a value based on all tests added
    * @param  {mixed}   toTest
    * @param  {Function} callback
-   * @return {object}
    */
   async validate(
     toTest: any,
@@ -115,7 +113,6 @@ export class TypeBase {
 
     if (this._needCast) {
       /* eslint-disable no-param-reassign */
-      // @ts-ignore
       toTest = await this._cast(toTest);
       /* eslint-enable no-param-reassign */
     }
@@ -160,8 +157,6 @@ export class TypeBase {
 
   /**
    * Force the value to be non-null
-   *
-   * @return {this}
    */
   required(): this {
     this._required = true;
@@ -170,8 +165,6 @@ export class TypeBase {
 
   /**
    * Force the value to be casted before any check
-   *
-   * @return {this}
    */
   cast(): this {
     this._needCast = true;
@@ -184,7 +177,6 @@ export class TypeBase {
    * @param  {string}   name
    * @param  {Function} callback
    * @param  {Function}   message
-   * @return {this}
    */
   custom(name: string, callback: TestFunction): this {
     this.test(
@@ -205,7 +197,6 @@ export class TypeBase {
    * Presence validation
    *
    * @param  {mixed} toTest
-   * @return {boolean}
    */
   presence(toTest: any): boolean {
     if (
@@ -236,7 +227,6 @@ export class TypeBase {
    * @param  {function} options.test
    * @param  {function} options.then
    * @param  {function} options.otherwise
-   * @return {this}
    */
   if<T extends this>({
     test,
