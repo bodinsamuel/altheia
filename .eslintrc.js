@@ -58,6 +58,8 @@ module.exports = {
 
     // ---- import
     'import/extensions': ['error', 'never'],
+    'import/prefer-default-export': 'off',
+    'import/no-cycle': 'off',
 
     // ---- Disabled
     'no-await-in-loop': 'off',
@@ -66,7 +68,6 @@ module.exports = {
     'no-restricted-globals': 'off',
     'no-continue': 'off',
     'class-methods-use-this': 'off',
-    'import/no-cycle': 'off',
   },
   overrides: [
     {
