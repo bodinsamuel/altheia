@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/bodinsamuel/altheia#readme",
   "engines": {
-    "node": ">= 8",
+    "node": ">= 10",
     "yarn": "^1.19.1"
   },
   "pre-commit": [
