@@ -1,4 +1,4 @@
-import { LangList } from './typings/lang';
+import { LangList } from './types/lang';
 
 const messages: LangList = {
   forbidden: (name: string): string => `${name} is not allowed`,

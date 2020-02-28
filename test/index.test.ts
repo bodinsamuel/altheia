@@ -1,5 +1,5 @@
 import Alt from '../src';
-import { TypeString } from '../src/types';
+import { TypeString } from '../src/validators';
 
 describe('Index', () => {
   describe('instance()', () => {

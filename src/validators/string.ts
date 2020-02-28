@@ -1,6 +1,6 @@
 import { TypeBase } from './base';
-import { LangList } from '../typings/lang';
-import { TestFunctionReturn } from '../typings/tests';
+import { LangList } from '../types/lang';
+import { TestFunctionReturn } from '../types/tests';
 
 export const messages: LangList = {
   'string.typeof': (name): string => `${name} must be a valid string`,
@@ -31,6 +31,10 @@ export class TypeString extends TypeBase {
     this.name = 'string';
     this._noEmpty = false;
     this.typeof();
+  }
+
+  _cast(): void {
+    throw new Error('not available for this validator');
   }
 
   /**

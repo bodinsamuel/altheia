@@ -2,22 +2,22 @@ import isPlainObject from 'lodash/isPlainObject';
 
 import LangBase from './lang';
 import { Validator } from './validator';
-import { TypeBase } from './types/base';
-import { LangList } from './typings/lang';
-import { AltheiaInstance } from './typings/instance';
-import { ValidatorErrorFormatted, ValidatorErrorRaw } from './typings/tests';
-import { ValidatorSchema } from './typings/validator';
+import { TypeBase } from './validators/base';
+import { LangList } from './types/lang';
+import { AltheiaInstance } from './types/instance';
+import { ValidatorErrorFormatted, ValidatorErrorRaw } from './types/tests';
+import { ValidatorSchema } from './types/validator';
 
 // Default extractors
-import AnyValidator from './types/any';
-import ArrayValidator from './types/array';
-import BooleanValidator from './types/boolean';
-import DateValidator from './types/date';
-import FunctionValidator from './types/function';
-import InternetValidator from './types/internet';
-import NumberValidator from './types/number';
-import ObjectValidator from './types/object';
-import StringValidator from './types/string';
+import AnyValidator from './validators/any';
+import ArrayValidator from './validators/array';
+import BooleanValidator from './validators/boolean';
+import DateValidator from './validators/date';
+import FunctionValidator from './validators/function';
+import InternetValidator from './validators/internet';
+import NumberValidator from './validators/number';
+import ObjectValidator from './validators/object';
+import StringValidator from './validators/string';
 
 const Instance = (lang?: LangList): AltheiaInstance => {
   const inst: AltheiaInstance = ((schema: ValidatorSchema): Validator => {

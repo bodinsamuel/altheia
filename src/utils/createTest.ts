@@ -3,7 +3,7 @@ import {
   ValidatorInternalTest,
   ValidatorInternalTestResult,
   ValidatorTestResult,
-} from '../typings/tests';
+} from '../types/tests';
 
 /**
  * Return a test default object

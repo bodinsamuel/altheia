@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import Alt from '../src';
-import { ValidatorTestResult } from '../src/typings/tests';
+import { ValidatorTestResult } from '../src/types/tests';
 
 const timeoutSuccess = (mark): (() => Promise<true>) => {
   return () => {

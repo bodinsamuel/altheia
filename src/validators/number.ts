@@ -1,6 +1,6 @@
 import { TypeBase } from './base';
-import { LangList } from '../typings/lang';
-import { TestFunctionReturn } from '../typings/tests';
+import { LangList } from '../types/lang';
+import { TestFunctionReturn } from '../types/tests';
 
 export const messages: LangList = {
   'number.typeof': (name): string => `${name} must be a valid number`,

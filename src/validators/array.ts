@@ -1,7 +1,7 @@
 import { TypeBase } from './base';
 import arrayDiff from '../utils/arraydiff';
-import { LangList } from '../typings/lang';
-import { TestFunctionReturn, ValidatorErrorRaw } from '../typings/tests';
+import { LangList } from '../types/lang';
+import { TestFunctionReturn, ValidatorErrorRaw } from '../types/tests';
 
 export const messages: LangList = {
   'array.typeof': (name): string => `${name} must be a valid array`,
@@ -29,6 +29,10 @@ export class TypeArray extends TypeBase {
     super();
     this.name = 'array';
     this.typeof();
+  }
+
+  _cast(): void {
+    throw new Error('not available for this validator');
   }
 
   /**

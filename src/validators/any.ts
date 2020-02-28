@@ -11,6 +11,10 @@ export class TypeAny extends TypeBase {
     super();
     this.name = 'any';
   }
+
+  _cast(): void {
+    throw new Error('not available for this validator');
+  }
 }
 
 const def = {

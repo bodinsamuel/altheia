@@ -25,6 +25,9 @@ script:
 
 jobs:
   include:
+    - stage: Build
+      node_js: node
+      script: yarn build
     - stage: Produce Coverage
       node_js: node
       script: yarn coveralls

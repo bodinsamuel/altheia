@@ -1,20 +1,20 @@
 import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 
-import { TypeObject, TypeBase } from './types';
+import { TypeObject, TypeBase } from './validators';
 import { createTest, createTestResult } from './utils/createTest';
 
 import {
   ValidatorErrorFormatted,
   ValidatorErrorRaw,
   ValidatorTestResult,
-} from './typings/tests';
-import { AltheiaInstance } from './typings/instance';
+} from './types/tests';
+import { AltheiaInstance } from './types/instance';
 import {
   ValidatorConfirm,
   ValidatorOptions,
   ValidatorSchema,
-} from './typings/validator';
+} from './types/validator';
 
 export type ValidatorResult = false | ValidatorErrorFormatted[];
 export type ValidatorCallback = (errors: ValidatorResult) => void;

@@ -1,8 +1,8 @@
 import url from 'url';
 import { TypeBase } from './base';
 import Luhn from '../utils/luhn';
-import { LangList } from '../typings/lang';
-import { TestFunctionReturn } from '../typings/tests';
+import { LangList } from '../types/lang';
+import { TestFunctionReturn } from '../types/tests';
 
 // eslint-disable-next-line
 const hostname = new RegExp(
@@ -42,6 +42,10 @@ export class TypeInternet extends TypeBase {
     super();
     this.name = 'internet';
     this.typeof();
+  }
+
+  _cast(): void {
+    throw new Error('not available for this validator');
   }
 
   /**

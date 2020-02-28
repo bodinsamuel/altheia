@@ -1,12 +1,12 @@
 import { createTest, createTestResult } from '../utils/createTest';
-import { AltheiaInstance } from '../typings/instance';
+import { AltheiaInstance } from '../types/instance';
 import {
   ValidatorInternalTest,
   TestFunction,
   ValidatorTestResult,
   ValidatorInternalTestResult,
   TestFunctionReturn,
-} from '../typings/tests';
+} from '../types/tests';
 
 // Return an object and call a callback if needed
 const returnOrCallback = (

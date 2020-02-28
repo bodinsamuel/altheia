@@ -1,5 +1,5 @@
 import Alt from '../src';
-import { ValidatorTestResult } from '../src/typings/tests';
+import { ValidatorTestResult } from '../src/types/tests';
 
 describe('String', () => {
   describe('typeof()', () => {
