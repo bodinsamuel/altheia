@@ -107,7 +107,7 @@ Array [
       },
     ],
     "label": "object",
-    "message": "object has not a valid schema",
+    "message": "object does not match its schema",
     "type": "object.schema",
   },
   Object {
@@ -135,7 +135,7 @@ Array [
           },
         ],
         "label": "item",
-        "message": "item has not a valid schema",
+        "message": "item does not match its schema",
         "position": 0,
         "type": "object.schema",
       },

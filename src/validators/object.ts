@@ -11,7 +11,7 @@ export const messages: LangList = {
   'object.in': (name, args: { in: string[] }): string =>
     `${name} must only contains these keys [${args.in}]`,
   'object.not': (name): string => `${name} contains forbidden value`,
-  'object.schema': (name): string => `${name} has not a valid schema`,
+  'object.schema': (name): string => `${name} does not match its schema`,
   'object.oneOf': (
     name,
     args: { keys: string[] },

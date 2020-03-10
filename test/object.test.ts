@@ -191,7 +191,7 @@ describe('Object', () => {
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.schema',
-        message: 'value has not a valid schema',
+        message: 'value does not match its schema',
         errors: [
           {
             label: 'foo',
@@ -229,7 +229,7 @@ describe('Object', () => {
         {
           label: 'data',
           type: 'object.schema',
-          message: 'data has not a valid schema',
+          message: 'data does not match its schema',
           errors: [
             {
               label: 'foo',
