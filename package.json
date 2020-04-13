@@ -71,7 +71,7 @@
     "husky": "4.2.3",
     "jest": "25.1.0",
     "lint-staged": "^10.0.8",
-    "prettier": "1.19.1",
+    "prettier": "2.0.4",
     "rollup": "2.0.6",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
