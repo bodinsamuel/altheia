@@ -59,7 +59,7 @@
     "@codechecks/client": "^0.1.10",
     "@types/jest": "25.1.4",
     "@types/lodash": "4.14.149",
-    "@types/node": "13.9.1",
+    "@types/node": "13.13.0",
     "@typescript-eslint/eslint-plugin": "2.23.0",
     "@typescript-eslint/parser": "2.23.0",
     "coveralls": "^3.0.2",
