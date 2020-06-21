@@ -77,5 +77,11 @@ module.exports = {
         '@typescript-eslint/ban-ts-ignore': 'off',
       },
     },
+    {
+      files: ['deno/**/*.ts'],
+      rules: {
+        'import/extensions': 'off',
+      }
+    }
   ],
 };

@@ -1,0 +1,10 @@
+export { TypeAny } from './any.ts';
+export { TypeArray } from './array.ts';
+export { TypeBase } from './base.ts';
+export { TypeBoolean } from './boolean.ts';
+export { TypeDate } from './date.ts';
+export { TypeFunc } from './function.ts';
+export { TypeInternet } from './internet.ts';
+export { TypeNumber } from './number.ts';
+export { TypeObject } from './object.ts';
+export { TypeString } from './string.ts';
