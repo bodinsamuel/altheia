@@ -181,11 +181,40 @@ alt.string().required();
 > Execute whatever you want, can be sync/async. The name parameter is there to identify this test if you want to add a `lang()`
 
 ```javascript
+// Basic
 alt.string().custom('my', (test) => {
   return test === 'foobar';
 });
 
 alt.lang('string.custom.my', () => 'my custom test failed');
+```
+
+```javascript
+// With more complex validation
+alt.string().custom('fooBar', (test) => {
+  const start = test.startsWith('foo');
+  if (!start) {
+    return {
+      valid: start,
+      error: 'wrongStart',
+    }
+  }
+
+  const end = test.endsWith('bar');
+  return {
+    valid: end,
+    error: !end ? 'wrongEnd' : false,
+  }
+});
+
+alt.lang('string.custom.fooBar', (
+    name,
+    args,
+    result: { error: string }
+) => {
+  if (result.error === 'wrongStart') return 'This string should start with "foo"';
+  if (result.error === 'wrongEnd') return 'This string should end with "bar"';
+});
 ```
 
 ### `if({ test: func, then: func, otherwise: func })`

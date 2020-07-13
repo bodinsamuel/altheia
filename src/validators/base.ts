@@ -198,7 +198,7 @@ export abstract class TypeBase {
    *
    * @param  {mixed} toTest
    */
-  presence(toTest: any): boolean {
+  private presence(toTest: any): boolean {
     if (
       toTest === null ||
       typeof toTest === 'undefined' ||
