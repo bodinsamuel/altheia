@@ -250,15 +250,14 @@ export class TypeObject extends TypeBase {
     this.test(
       'allOf',
       (obj: object): TestFunctionReturn => {
-        return (
-          Object.keys(obj).reduce((acc, k): number => {
-            if (keys.includes(k)) {
-              // eslint-disable-next-line no-param-reassign
-              acc += 1;
-            }
-            return acc;
-          }, 0) === keys.length
-        );
+        const count = Object.keys(obj).reduce((acc, k): number => {
+          if (keys.includes(k)) {
+            // eslint-disable-next-line no-param-reassign
+            acc += 1;
+          }
+          return acc;
+        }, 0);
+        return count === keys.length || count === 0;
       },
       { keys }
     );

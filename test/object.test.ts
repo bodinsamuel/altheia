@@ -339,17 +339,17 @@ describe('Object', () => {
         .allOf('a', 'b', 'c')
         .validate({ a: 1, c: 3 });
       expect(hasError).toBeTruthy();
-    });
-    test('should not pass: none', async () => {
-      const hasError = await Alt.object()
-        .allOf('a', 'b', 'c')
-        .validate({ z: 1 });
-      expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
         type: 'object.allOf',
         message: 'value must contain either none or all of these keys [a,b,c]',
       });
+    });
+    test('should pass: none', async () => {
+      const hasError = await Alt.object()
+        .allOf('a', 'b', 'c')
+        .validate({ z: 1 });
+      expect(hasError).toBe(false);
     });
   });
 
