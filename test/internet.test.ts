@@ -21,31 +21,19 @@ describe('String', () => {
 
   describe('url()', () => {
     test('should pass', async () => {
-      const hasError = await alt
-        .internet()
-        .url()
-        .validate('http://hello.com');
+      const hasError = await alt.internet().url().validate('http://hello.com');
       expect(hasError).toBe(false);
     });
     test('should pass: https', async () => {
-      const hasError = await alt
-        .internet()
-        .url()
-        .validate('https://hello.com');
+      const hasError = await alt.internet().url().validate('https://hello.com');
       expect(hasError).toBe(false);
     });
     test('should not pass: hostname', async () => {
-      const hasError = await alt
-        .internet()
-        .url()
-        .validate('localhost.com');
+      const hasError = await alt.internet().url().validate('localhost.com');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: relative', async () => {
-      const hasError = await alt
-        .internet()
-        .url()
-        .validate('//hello.com');
+      const hasError = await alt.internet().url().validate('//hello.com');
       expect(hasError).toBeTruthy();
       expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -54,10 +42,7 @@ describe('String', () => {
       });
     });
     test('should not pass: string', async () => {
-      const hasError = await alt
-        .internet()
-        .url()
-        .validate('localhost');
+      const hasError = await alt.internet().url().validate('localhost');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: javascript', async () => {
@@ -73,31 +58,19 @@ describe('String', () => {
 
   describe('hostname()', () => {
     test('should pass', async () => {
-      const hasError = await alt
-        .internet()
-        .hostname()
-        .validate('hello.com');
+      const hasError = await alt.internet().hostname().validate('hello.com');
       expect(hasError).toBe(false);
     });
     test('should pass: string', async () => {
-      const hasError = await alt
-        .internet()
-        .hostname()
-        .validate('hello');
+      const hasError = await alt.internet().hostname().validate('hello');
       expect(hasError).toBe(false);
     });
     test('should pass: subdomain, tld', async () => {
-      const hasError = await alt
-        .internet()
-        .hostname()
-        .validate('foo.hello.io');
+      const hasError = await alt.internet().hostname().validate('foo.hello.io');
       expect(hasError).toBe(false);
     });
     test('should pass: ip', async () => {
-      const hasError = await alt
-        .internet()
-        .hostname()
-        .validate('10.1.100.20');
+      const hasError = await alt.internet().hostname().validate('10.1.100.20');
       expect(hasError).toBe(false);
     });
     test('should not pass: port', async () => {
@@ -130,24 +103,15 @@ describe('String', () => {
 
   describe('hex()', () => {
     test('should pass: upper', async () => {
-      const hasError = await alt
-        .internet()
-        .hex()
-        .validate('123456789AbCdEf');
+      const hasError = await alt.internet().hex().validate('123456789AbCdEf');
       expect(hasError).toBe(false);
     });
     test('should pass: lower', async () => {
-      const hasError = await alt
-        .internet()
-        .hex()
-        .validate('123456789abcdef');
+      const hasError = await alt.internet().hex().validate('123456789abcdef');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await alt
-        .internet()
-        .hex()
-        .validate('123afg');
+      const hasError = await alt.internet().hex().validate('123afg');
       expect(hasError).toBeTruthy();
       expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -183,10 +147,7 @@ describe('String', () => {
         '4111111111111111',
       ];
       for (let i = 0; i < tests.length; i++) {
-        const hasError = await alt
-          .internet()
-          .creditCard()
-          .validate(tests[i]);
+        const hasError = await alt.internet().creditCard().validate(tests[i]);
         expect(hasError).toBe(false);
       }
     });
@@ -205,17 +166,11 @@ describe('String', () => {
       expect(hasError).toBe(false);
     });
     test('should not pass: string int', async () => {
-      const hasError = await alt
-        .internet()
-        .creditCard()
-        .validate('2221');
+      const hasError = await alt.internet().creditCard().validate('2221');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: string', async () => {
-      const hasError = await alt
-        .internet()
-        .creditCard()
-        .validate('foobar');
+      const hasError = await alt.internet().creditCard().validate('foobar');
       expect(hasError).toBeTruthy();
       expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -238,10 +193,7 @@ describe('String', () => {
         'b4b2fb69c6244e5eb0698e0c6ec66618',
       ];
       for (let i = 0; i < tests.length; i++) {
-        const hasError = await alt
-          .internet()
-          .uuidv4()
-          .validate(tests[i]);
+        const hasError = await alt.internet().uuidv4().validate(tests[i]);
         expect(hasError).toBe(false);
       }
     });
@@ -255,10 +207,7 @@ describe('String', () => {
         'dfksdjfldskjf',
       ];
       for (let i = 0; i < tests.length; i++) {
-        const hasError = await alt
-          .internet()
-          .uuidv4()
-          .validate(tests[i]);
+        const hasError = await alt.internet().uuidv4().validate(tests[i]);
         expect(hasError).toBeTruthy();
         expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
           label: 'value',
@@ -271,10 +220,7 @@ describe('String', () => {
 
   describe('ipv4', () => {
     test('should pass', async () => {
-      const hasError = await alt
-        .internet()
-        .ipv4()
-        .validate('192.168.0.1');
+      const hasError = await alt.internet().ipv4().validate('192.168.0.1');
       expect(hasError).toBe(false);
     });
     test('should not pass: ipv6', async () => {
@@ -285,17 +231,11 @@ describe('String', () => {
       expect(hasError).toBeTruthy();
     });
     test('should not pass: float', async () => {
-      const hasError = await alt
-        .internet()
-        .ipv4()
-        .validate(192.168);
+      const hasError = await alt.internet().ipv4().validate(192.168);
       expect(hasError).toBeTruthy();
     });
     test('should not pass', async () => {
-      const hasError = await alt
-        .internet()
-        .ipv4()
-        .validate('foobar');
+      const hasError = await alt.internet().ipv4().validate('foobar');
       expect(hasError).toBeTruthy();
       expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -321,24 +261,15 @@ describe('String', () => {
       expect(hasError).toBe(false);
     });
     test('should not pass: ipv4', async () => {
-      const hasError = await alt
-        .internet()
-        .ipv6()
-        .validate('192.168.0.1');
+      const hasError = await alt.internet().ipv6().validate('192.168.0.1');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: float', async () => {
-      const hasError = await alt
-        .internet()
-        .ipv6()
-        .validate(192.168);
+      const hasError = await alt.internet().ipv6().validate(192.168);
       expect(hasError).toBeTruthy();
     });
     test('should not pass', async () => {
-      const hasError = await alt
-        .internet()
-        .ipv6()
-        .validate('foobar');
+      const hasError = await alt.internet().ipv6().validate('foobar');
       expect(hasError).toBeTruthy();
       expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -350,10 +281,7 @@ describe('String', () => {
 
   describe('ip', () => {
     test('should pass', async () => {
-      const hasError = await alt
-        .internet()
-        .ip()
-        .validate('192.168.0.1');
+      const hasError = await alt.internet().ip().validate('192.168.0.1');
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
@@ -364,17 +292,11 @@ describe('String', () => {
       expect(hasError).toBe(false);
     });
     test('should not pass: float', async () => {
-      const hasError = await alt
-        .internet()
-        .ip()
-        .validate(192.168);
+      const hasError = await alt.internet().ip().validate(192.168);
       expect(hasError).toBeTruthy();
     });
     test('should not pass', async () => {
-      const hasError = await alt
-        .internet()
-        .ip()
-        .validate('foobar');
+      const hasError = await alt.internet().ip().validate('foobar');
       expect(hasError).toBeTruthy();
       expect(alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',

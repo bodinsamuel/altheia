@@ -34,9 +34,7 @@ describe('Function', () => {
       expect(hasError).toBeTruthy();
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.function()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.function().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
   });

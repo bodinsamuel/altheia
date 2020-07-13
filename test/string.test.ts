@@ -35,9 +35,7 @@ describe('String', () => {
       expect(hasError).toBe(false);
     });
     test('should not pass: empty string with flag', async () => {
-      const hasError = await Alt.string()
-        .noEmpty()
-        .validate('');
+      const hasError = await Alt.string().noEmpty().validate('');
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -49,15 +47,11 @@ describe('String', () => {
 
   describe('min()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .min(2)
-        .validate('foobar');
+      const hasError = await Alt.string().min(2).validate('foobar');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.string()
-        .min(2)
-        .validate('a');
+      const hasError = await Alt.string().min(2).validate('a');
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -69,15 +63,11 @@ describe('String', () => {
 
   describe('max()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .max(2)
-        .validate('a');
+      const hasError = await Alt.string().max(2).validate('a');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.string()
-        .max(2)
-        .validate('foobar');
+      const hasError = await Alt.string().max(2).validate('foobar');
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -109,9 +99,7 @@ describe('String', () => {
 
   describe('in()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .in('foobar')
-        .validate('foobar');
+      const hasError = await Alt.string().in('foobar').validate('foobar');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
@@ -129,15 +117,11 @@ describe('String', () => {
 
   describe('not()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .not('barfoo')
-        .validate('foobar');
+      const hasError = await Alt.string().not('barfoo').validate('foobar');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.string()
-        .not('foobar')
-        .validate('foobar');
+      const hasError = await Alt.string().not('foobar').validate('foobar');
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -149,15 +133,11 @@ describe('String', () => {
 
   describe('email()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .email()
-        .validate('foo@bar');
+      const hasError = await Alt.string().email().validate('foo@bar');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.string()
-        .email()
-        .validate('foobar');
+      const hasError = await Alt.string().email().validate('foobar');
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -169,15 +149,11 @@ describe('String', () => {
 
   describe('lowercase()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .lowercase()
-        .validate('foobar');
+      const hasError = await Alt.string().lowercase().validate('foobar');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.string()
-        .lowercase()
-        .validate('fooBar');
+      const hasError = await Alt.string().lowercase().validate('fooBar');
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -189,15 +165,11 @@ describe('String', () => {
 
   describe('uppercase()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .uppercase()
-        .validate('FOOBAR');
+      const hasError = await Alt.string().uppercase().validate('FOOBAR');
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.string()
-        .uppercase()
-        .validate('FOObAR');
+      const hasError = await Alt.string().uppercase().validate('FOObAR');
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',

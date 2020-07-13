@@ -35,64 +35,45 @@ describe('Boolean', () => {
       expect(hasError).toBeTruthy();
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.boolean()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.boolean().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
   });
 
   describe('cast()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.boolean()
-        .cast()
-        .validate('false');
+      const hasError = await Alt.boolean().cast().validate('false');
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.boolean()
-        .cast()
-        .validate('False');
+      const hasError = await Alt.boolean().cast().validate('False');
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.boolean()
-        .cast()
-        .validate('true');
+      const hasError = await Alt.boolean().cast().validate('true');
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.boolean()
-        .cast()
-        .validate('True');
+      const hasError = await Alt.boolean().cast().validate('True');
       expect(hasError).toBe(false);
     });
     test('should not pass: object', async () => {
-      const hasError = await Alt.boolean()
-        .cast()
-        .validate({});
+      const hasError = await Alt.boolean().cast().validate({});
       expect(hasError).toBeTruthy();
     });
     test('should not pass: empty string', async () => {
-      const hasError = await Alt.boolean()
-        .required()
-        .cast()
-        .validate('');
+      const hasError = await Alt.boolean().required().cast().validate('');
       expect(hasError).toBeTruthy();
     });
   });
 
   describe('false()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.boolean()
-        .false()
-        .validate(false);
+      const hasError = await Alt.boolean().false().validate(false);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.boolean()
-        .false()
-        .validate(true);
+      const hasError = await Alt.boolean().false().validate(true);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -104,15 +85,11 @@ describe('Boolean', () => {
 
   describe('true()', () => {
     test('should not pass', async () => {
-      const hasError = await Alt.boolean()
-        .true()
-        .validate(true);
+      const hasError = await Alt.boolean().true().validate(true);
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.boolean()
-        .true()
-        .validate(false);
+      const hasError = await Alt.boolean().true().validate(false);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',

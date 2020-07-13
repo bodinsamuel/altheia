@@ -197,22 +197,19 @@ alt.string().custom('fooBar', (test) => {
     return {
       valid: start,
       error: 'wrongStart',
-    }
+    };
   }
 
   const end = test.endsWith('bar');
   return {
     valid: end,
     error: !end ? 'wrongEnd' : false,
-  }
+  };
 });
 
-alt.lang('string.custom.fooBar', (
-    name,
-    args,
-    result: { error: string }
-) => {
-  if (result.error === 'wrongStart') return 'This string should start with "foo"';
+alt.lang('string.custom.fooBar', (name, args, result: { error: string }) => {
+  if (result.error === 'wrongStart')
+    return 'This string should start with "foo"';
   if (result.error === 'wrongEnd') return 'This string should end with "bar"';
 });
 ```
@@ -257,10 +254,7 @@ const hasError = await Api.string().validate(1);
 Any inherit global methods and that's it. It allow chaining without knowing the type.
 
 ```javascript
-alt
-  .any()
-  .required()
-  .custom();
+alt.any().required().custom();
 ```
 
 ---
@@ -273,10 +267,7 @@ alt
 > Altheia does make a **difference** between `null/undefined` and `""`.
 
 ```javascript
-alt
-  .string()
-  .noEmpty()
-  .validate('');
+alt.string().noEmpty().validate('');
 ```
 
 ### string().`min(:int)`
@@ -352,10 +343,7 @@ alt.string().uppercase();
 > Try to cast value to a number. This will not modify the original value.
 
 ```javascript
-alt
-  .number()
-  .cast()
-  .validate('1');
+alt.number().cast().validate('1');
 ```
 
 ### number().`min(value: int)`
@@ -563,14 +551,8 @@ alt.array().oneOf(alt.string(), alt.number());
 > Try to cast value to a boolean. Use javascript `Boolean(value)`.
 
 ```javascript
-alt
-  .boolean()
-  .cast()
-  .validate('true');
-alt
-  .boolean()
-  .cast()
-  .validate('false');
+alt.boolean().cast().validate('true');
+alt.boolean().cast().validate('false');
 ```
 
 ### boolean().`true()`

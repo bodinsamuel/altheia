@@ -34,15 +34,11 @@ describe('Object', () => {
 
   describe('in()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.object()
-        .in('foobar')
-        .validate({ foobar: 1 });
+      const hasError = await Alt.object().in('foobar').validate({ foobar: 1 });
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.object()
-        .in('foo', 'bar')
-        .validate({ foo: 1 });
+      const hasError = await Alt.object().in('foo', 'bar').validate({ foo: 1 });
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
@@ -58,9 +54,7 @@ describe('Object', () => {
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.object()
-        .in('foobar')
-        .validate({ barfoo: 1 });
+      const hasError = await Alt.object().in('foobar').validate({ barfoo: 1 });
       expect(hasError).toBeTruthy();
     });
     test('should not pass', async () => {
@@ -103,9 +97,7 @@ describe('Object', () => {
 
   describe('not()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.object()
-        .not('foobar')
-        .validate({ barfoo: 1 });
+      const hasError = await Alt.object().not('foobar').validate({ barfoo: 1 });
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
@@ -121,9 +113,7 @@ describe('Object', () => {
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.object()
-        .not('foobar')
-        .validate({ foobar: 1 });
+      const hasError = await Alt.object().not('foobar').validate({ foobar: 1 });
       expect(hasError).toBeTruthy();
     });
     test('should not pass', async () => {
@@ -275,16 +265,12 @@ describe('Object', () => {
 
   describe('oneOf()', () => {
     test('should pass: a', async () => {
-      const hasError = await Alt.object()
-        .oneOf('a', 'b')
-        .validate({ a: 1 });
+      const hasError = await Alt.object().oneOf('a', 'b').validate({ a: 1 });
       expect(hasError).toBe(false);
     });
 
     test('should pass: b', async () => {
-      const hasError = await Alt.object()
-        .oneOf('a', 'b')
-        .validate({ b: 1 });
+      const hasError = await Alt.object().oneOf('a', 'b').validate({ b: 1 });
       expect(hasError).toBe(false);
     });
 
@@ -308,16 +294,12 @@ describe('Object', () => {
     });
 
     test('should pass: none presents, without flag', async () => {
-      const hasError = await Alt.object()
-        .oneOf('a', 'b')
-        .validate({});
+      const hasError = await Alt.object().oneOf('a', 'b').validate({});
       expect(hasError).toBe(false);
     });
 
     test('should not pass: none presents, with flag', async () => {
-      const hasError = await Alt.object()
-        .oneOf(true, 'a', 'b')
-        .validate({});
+      const hasError = await Alt.object().oneOf(true, 'a', 'b').validate({});
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -381,33 +363,23 @@ describe('Object', () => {
 
   describe('required()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.object()
-        .required()
-        .validate({});
+      const hasError = await Alt.object().required().validate({});
       expect(hasError).toBe(false);
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.object()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.object().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {
-      const hasError = await Alt.object()
-        .required()
-        .validate(null);
+      const hasError = await Alt.object().required().validate(null);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: empty string', async () => {
-      const hasError = await Alt.object()
-        .required()
-        .validate('');
+      const hasError = await Alt.object().required().validate('');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.object()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.object().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
   });

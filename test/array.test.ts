@@ -38,15 +38,11 @@ describe('String', () => {
 
   describe('min()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array()
-        .min(2)
-        .validate([1, 2, 3]);
+      const hasError = await Alt.array().min(2).validate([1, 2, 3]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array()
-        .min(2)
-        .validate([1]);
+      const hasError = await Alt.array().min(2).validate([1]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -58,15 +54,11 @@ describe('String', () => {
 
   describe('max()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array()
-        .max(2)
-        .validate([1, 2]);
+      const hasError = await Alt.array().max(2).validate([1, 2]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array()
-        .max(2)
-        .validate([1, 2, 3, 4]);
+      const hasError = await Alt.array().max(2).validate([1, 2, 3, 4]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -78,21 +70,15 @@ describe('String', () => {
 
   describe('in()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array()
-        .in(1, 2)
-        .validate([1, 2]);
+      const hasError = await Alt.array().in(1, 2).validate([1, 2]);
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.array()
-        .in([1, 2])
-        .validate([1, 2]);
+      const hasError = await Alt.array().in([1, 2]).validate([1, 2]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array()
-        .in(1, 2)
-        .validate([1, 2, 3]);
+      const hasError = await Alt.array().in(1, 2).validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -104,21 +90,15 @@ describe('String', () => {
 
   describe('not()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array()
-        .not(3)
-        .validate([1, 2, 4]);
+      const hasError = await Alt.array().not(3).validate([1, 2, 4]);
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.array()
-        .not(3, 5, 6)
-        .validate([1, 2, 4]);
+      const hasError = await Alt.array().not(3, 5, 6).validate([1, 2, 4]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array()
-        .not(3)
-        .validate([1, 2, 3]);
+      const hasError = await Alt.array().not(3).validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -127,9 +107,7 @@ describe('String', () => {
       });
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array()
-        .not([1, 2, 3])
-        .validate([1, 2, 3]);
+      const hasError = await Alt.array().not([1, 2, 3]).validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -138,9 +116,7 @@ describe('String', () => {
       });
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array()
-        .not(3, 4, 5)
-        .validate([1, 2, 3]);
+      const hasError = await Alt.array().not(3, 4, 5).validate([1, 2, 3]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -152,15 +128,11 @@ describe('String', () => {
 
   describe('not()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.array()
-        .unique()
-        .validate([1, 2, 4]);
+      const hasError = await Alt.array().unique().validate([1, 2, 4]);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.array()
-        .unique()
-        .validate([1, 2, 2]);
+      const hasError = await Alt.array().unique().validate([1, 2, 2]);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',

@@ -46,42 +46,30 @@ describe('Number', () => {
 
   describe('cast()', () => {
     test('should pass: string', async () => {
-      const hasError = await Alt.number()
-        .cast()
-        .validate('1');
+      const hasError = await Alt.number().cast().validate('1');
       expect(hasError).toBe(false);
     });
     test('should not pass: string', async () => {
-      const hasError = await Alt.number()
-        .cast()
-        .validate('foobar');
+      const hasError = await Alt.number().cast().validate('foobar');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: obj', async () => {
-      const hasError = await Alt.number()
-        .cast()
-        .validate({});
+      const hasError = await Alt.number().cast().validate({});
       expect(hasError).toBeTruthy();
     });
   });
 
   describe('min()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .min(2)
-        .validate(2);
+      const hasError = await Alt.number().min(2).validate(2);
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .min(2)
-        .validate(3);
+      const hasError = await Alt.number().min(2).validate(3);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .min(2)
-        .validate(1);
+      const hasError = await Alt.number().min(2).validate(1);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -93,21 +81,15 @@ describe('Number', () => {
 
   describe('max()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .max(20)
-        .validate(20);
+      const hasError = await Alt.number().max(20).validate(20);
       expect(hasError).toBe(false);
     });
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .max(20)
-        .validate(18);
+      const hasError = await Alt.number().max(20).validate(18);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .max(20)
-        .validate(21);
+      const hasError = await Alt.number().max(20).validate(21);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -119,15 +101,11 @@ describe('Number', () => {
 
   describe('integer()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .integer()
-        .validate(1);
+      const hasError = await Alt.number().integer().validate(1);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .integer()
-        .validate(1.1);
+      const hasError = await Alt.number().integer().validate(1.1);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -139,15 +117,11 @@ describe('Number', () => {
 
   describe('unsigned()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .unsigned()
-        .validate(0);
+      const hasError = await Alt.number().unsigned().validate(0);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .unsigned()
-        .validate(-1);
+      const hasError = await Alt.number().unsigned().validate(-1);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -159,15 +133,11 @@ describe('Number', () => {
 
   describe('positive()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .positive()
-        .validate(1);
+      const hasError = await Alt.number().positive().validate(1);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .positive()
-        .validate(0);
+      const hasError = await Alt.number().positive().validate(0);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -179,15 +149,11 @@ describe('Number', () => {
 
   describe('negative()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .negative()
-        .validate(-1);
+      const hasError = await Alt.number().negative().validate(-1);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .negative()
-        .validate(1);
+      const hasError = await Alt.number().negative().validate(1);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -199,15 +165,11 @@ describe('Number', () => {
 
   describe('in()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .in(1)
-        .validate(1);
+      const hasError = await Alt.number().in(1).validate(1);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .in(1, 2)
-        .validate(3);
+      const hasError = await Alt.number().in(1, 2).validate(3);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -219,15 +181,11 @@ describe('Number', () => {
 
   describe('not()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .not(1)
-        .validate(2);
+      const hasError = await Alt.number().not(1).validate(2);
       expect(hasError).toBe(false);
     });
     test('should not pass', async () => {
-      const hasError = await Alt.number()
-        .not(1)
-        .validate(1);
+      const hasError = await Alt.number().not(1).validate(1);
       expect(hasError).toBeTruthy();
       expect(Alt.formatError(hasError as ValidatorTestResult)).toEqual({
         label: 'value',
@@ -239,45 +197,31 @@ describe('Number', () => {
 
   describe('required()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.number()
-        .required()
-        .validate(1);
+      const hasError = await Alt.number().required().validate(1);
       expect(hasError).toBe(false);
     });
     test('should pass: 0', async () => {
-      const hasError = await Alt.number()
-        .required()
-        .validate(0);
+      const hasError = await Alt.number().required().validate(0);
       expect(hasError).toBe(false);
     });
     test('should pass: -1', async () => {
-      const hasError = await Alt.number()
-        .required()
-        .validate(-1);
+      const hasError = await Alt.number().required().validate(-1);
       expect(hasError).toBe(false);
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.number()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.number().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {
-      const hasError = await Alt.number()
-        .required()
-        .validate(null);
+      const hasError = await Alt.number().required().validate(null);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: empty string', async () => {
-      const hasError = await Alt.number()
-        .required()
-        .validate('');
+      const hasError = await Alt.number().required().validate('');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.number()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.number().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
   });

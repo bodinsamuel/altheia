@@ -72,12 +72,7 @@ describe('Index', () => {
     test('should add a template in the instance', () => {
       const alt1 = Alt.instance();
       const alt2 = Alt.instance();
-      alt1.template(
-        'login',
-        Alt.string()
-          .min(6)
-          .max(10)
-      );
+      alt1.template('login', Alt.string().min(6).max(10));
 
       expect(alt1).toHaveProperty('templates');
       expect(alt1.templates).toHaveProperty('login');
@@ -88,12 +83,7 @@ describe('Index', () => {
 
     test('should get template back', () => {
       const alt1 = Alt.instance();
-      alt1.template(
-        'login',
-        Alt.string()
-          .min(6)
-          .max(10)
-      );
+      alt1.template('login', Alt.string().min(6).max(10));
 
       const back = alt1.is('login');
 
@@ -102,12 +92,7 @@ describe('Index', () => {
 
     test('should get template back and not modify template', () => {
       const alt1 = Alt.instance();
-      alt1.template(
-        'login',
-        Alt.string()
-          .min(6)
-          .max(10)
-      );
+      alt1.template('login', Alt.string().min(6).max(10));
 
       const back = (alt1.is('login') as TypeString).lowercase();
       expect(back).toBeInstanceOf(TypeString);

@@ -107,33 +107,23 @@ describe('Base', () => {
 
   describe('required()', () => {
     test('should pass', async () => {
-      const hasError = await Alt.string()
-        .required()
-        .validate('foobar');
+      const hasError = await Alt.string().required().validate('foobar');
       expect(hasError).toBe(false);
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.string()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.string().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: null', async () => {
-      const hasError = await Alt.string()
-        .required()
-        .validate(null);
+      const hasError = await Alt.string().required().validate(null);
       expect(hasError).toBeTruthy();
     });
     test('should not pass: empty string', async () => {
-      const hasError = await Alt.string()
-        .required()
-        .validate('');
+      const hasError = await Alt.string().required().validate('');
       expect(hasError).toBeTruthy();
     });
     test('should not pass: undefined', async () => {
-      const hasError = await Alt.string()
-        .required()
-        .validate(undefined);
+      const hasError = await Alt.string().required().validate(undefined);
       expect(hasError).toBeTruthy();
     });
   });
