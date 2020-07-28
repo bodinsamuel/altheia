@@ -39,10 +39,10 @@ yarn add altheia-async-data-validator
 ```javascript
 import alt from 'altheia-async-data-validator'
 
-alt.lang('string.min', (name, args) => `This ${name} is too short`});
+alt.lang('string.min', (name, args) => `This ${name} is too short`);
 alt.template('login', alt.string().min(3).not('admin'));
 
-const errors = await Alt({
+const errors = await alt({
     login: alt.is('login'),
     email: alt.string()
         .email()

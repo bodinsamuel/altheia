@@ -10,7 +10,7 @@
 
 ## 👯‍ Creating Instance
 
-To keep reuse validation accros your project, you can create an instance of altheia. All your custom check, templates, lang will follow the instance without modifying the global object.
+To keep reuse validation across your project, you can create an instance of altheia. All your custom check, templates, lang will follow the instance without modifying the global object.
 
 ```javascript
 const copy = alt.instance();
@@ -33,14 +33,14 @@ const errors = await alt({
 Alternative with callbacks
 
 ```javascript
-Alt.string().validate(1, (errors) => {});
+alt.string().validate(1, (errors) => {});
 
-Alt({
-  login: Alt.string(),
+alt({
+  login: alt.string(),
 }).validate({ login: 'foobar' }, (errors) => {});
 ```
 
-This mean you can chain simple check and your database check. Something we used to do in 2 steps in api now can be done seamlessly, for example:
+This mean you can chain a simple check and your database check. Something we used to do in 2 steps in api now can be done seamlessly, for example:
 
 ```javascript
 const newUser = { login: 'admin' };
@@ -57,19 +57,19 @@ const errors = await alt({
 
 ## 💪🏻 Custom check
 
-One thing that all validators miss is... the very custom validation you need for your project. You always want something very precise that will be useful only for you and that does not belongs in the main library. But you don't want to spend hours forking a library or configuring json schema...
+One thing that all validators miss is... the very custom validation you need for your project. You always want something very precise that will be useful only for you and that does not belong in the main library. But you don't want to spend hours forking a library or configuring json schema...
 
 We got you covered with `custom()` validation. We provide the interface, you code:
 
 ```javascript
-Alt.string().custom('wait', async (test) => {
+alt.string().custom('wait', async (test) => {
   return await checkMySuperCustomData(test);
 });
 ```
 
 ## 🗯 Language and Translation
 
-Altheia provides default english error message. If you want to change those, you can easily override language strings by creating a new instance with an object that will be merge with default and/or calling `lang()` to add a new entry on the fly.
+Altheia provides English error messages by default. If you want to change those, you can easily override language strings by creating a new instance with an object that will be merge with default and/or calling `lang()` to add a new entry on the fly.
 
 ```javascript
 const copy = alt.instance({
@@ -78,14 +78,14 @@ const copy = alt.instance({
 ```
 
 ```javascript
-copy.lang('string.min', (name, args) => `This ${name} is not long enough`});
+copy.lang('string.min', (name, args) => `This ${name} is not long enough`);
 ```
 
 ## 🎨 Templates
 
-When you are manipulating a large API, you can feel you are writing the same validation hover and hover. Templates are a very easy way to reduce redundancy in your code and sync all your schemas, while being very light to use.
+When you are manipulating a large API, you can feel you are writing the same validation over and over. Templates are a very easy way to reduce redundancy in your code and sync all your schemas, while being very light to use.
 
-Combined with Instance and Plugins, you can have a master file that import Altheia and declare all your basic input. Then import it everywhere you want.
+Combined with Instance and Plugins, you can have a master file that import Altheia and declare all your basic inputs. Then import it everywhere you want.
 
 ```javascript
 /*** --- myaltheia.ts **/
@@ -106,10 +106,10 @@ alt({
 
 ## 👾 Plugins
 
-In Altheia everything is a plugin. That means even the basic validators are actually plugins. You can easily extends the core of Altheia this way.
+In Altheia everything is a plugin. That means even the basic validators are actually plugins. You can easily extend the core of Altheia this way.
 
 ```javascript
-const copy = Alt.instance();
+const copy = alt.instance();
 
 copy.use({
   messages: {

@@ -4,9 +4,9 @@ Online version: [github.io/altheia/](https://bodinsamuel.github.io/altheia/)
 
 ## 🤓 Why?
 
-After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aim at being very lightweight, simple to use and allow to check anything from standard schema to very custom ones.
+After searching for a long time a simple data validator that allow async validation, I decided to implement one. Heavily inspired from Joi, it aims at being very lightweight, simple to use and allow checking anything from a standard schema to very custom ones.
 
-The goal of this library is to validate json -- for example in express middleware -- and complexe javascript object.
+The goal of this library is to validate json -- for example in express middleware -- and complex javascript object.
 
 - 💅 **Easy to customize.** Use builtin or create your own validation.
 - ⚡️**Async.** Call any resources asynchronously to do check your data (e.g: database, xhr...)
@@ -30,10 +30,10 @@ One simple step, import the library
 ```javascript
 import alt from 'altheia-async-data-validator';
 // or
-const alt = require('altheia-async-data-validator');
+const alt = require('altheia-async-data-validator').default;
 ```
 
-Typescript definitions are builtin the library, no need to install an other package.
+Typescript definitions are builtin the library, no need to install another package.
 
 ## Core Concepts
 

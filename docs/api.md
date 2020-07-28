@@ -3,10 +3,14 @@
 To start using Altheia, require the package this way:
 
 ```js
+// TS
 import alt from 'altheia-async-data-validator';
+
+// js
+const alt = require('altheia-async-data-validator').default
 ```
 
-This documentation presents all available methods but you can also refer to the **Typescript definitions** in your IDE.
+This documentation presents all available methods, but you can also refer to the **Typescript definitions** in your IDE.
 
 - [Main](#main)
   - [`validate()`](#validatebody-object-callbackfunc)
@@ -103,7 +107,7 @@ const hasError = await alt(...).body({
 
 ### `clone()`
 
-> Once a Validator has been validated, it carry on the results. You can clone it to clean the class and validate an other body. It's ligth, it simply pass the schema reference without copying the results.
+> Once a Validator has been validated, it carry on the results. You can clone it to clean the class and validate another body. It's light, it simply passes the schema reference without copying the results.
 
 ```javascript
 const schema = alt({
@@ -132,7 +136,7 @@ alt({
 
 ### `confirm(key1: string, key2: string)`
 
-> Because a single value validation can not share any context with one another -- because everything is async -- confirmation is being done after in the global schema validation.
+> Because a single value validation cannot share any context with one another -- because everything is async -- confirmation is being done after in the global schema validation.
 
 ```javascript
 alt({
@@ -157,7 +161,7 @@ alt.lang('string.min', () => `not good`);
 
 ```javascript
 alt.use({
-    messages: { ...}
+    messages: { ... }
     Class: class foobar extends alt.Base {}
 });
 ```
@@ -240,9 +244,9 @@ alt.any().if({
 > You can await or pass callback
 
 ```javascript
-const hasError = await Api.string().validate(1);
+const hasError = await alt.string().validate(1);
 //=> :false if no error
-//=> :object if not
+//=> :ValidatorTestResult if not
 ```
 
 ---
@@ -251,7 +255,7 @@ const hasError = await Api.string().validate(1);
 
 > Any plugins is loaded by default since v3.0.0
 
-Any inherit global methods and that's it. It allow chaining without knowing the type.
+Any inherits global methods and that's it. It allows chaining without knowing the type.
 
 ```javascript
 alt.any().required().custom();
@@ -280,7 +284,7 @@ alt.string().min(1);
 
 ### string().`max(:int)`
 
-> Force a string to have lenght of equal or less to the value passed.
+> Force a string to have length of equal or less to the value passed.
 
 ```javascript
 alt.string().max(5);
@@ -404,7 +408,7 @@ alt.number().in(67, 35);
 
 ### number().`not(...value)`
 
-> Force a number to be different to all of the values passed in the set.
+> Force a number to be different to all the values passed in the set.
 
 ```javascript
 alt.number().not(42, 157);
@@ -442,7 +446,7 @@ alt.object().not('foo', 'bar');
 
 > Check an object with the passed schema. It will help you check nested object without effort. Because schema need to be instance of Altheia, you can do whatever you want without restriction.
 
-Accept an optionnal second param:
+Accept an optional second param:
 
 - `returnErrors: boolean` => `false` will not display nested errors.
 
@@ -460,7 +464,7 @@ alt.object().schema(
 
 > Force any keys, to be the only one present in the object (**exclusive relationships**)
 
-Accept an optionnal second param:
+Accept an optional second param:
 
 - `{ oneIsRequired: boolean }` => `true` will return an error if none match, `false` (default) will not throw an error if none match.
 
@@ -496,7 +500,7 @@ alt.object().anyOf('a', 'b', 'c');
 
 ### array().`min(value: int)`
 
-> Force an array to contains at least a number of items equal to the value passed.
+> Force an array to contain at least a number of items equal to the value passed.
 
 ```javascript
 alt.array().min(5);
@@ -504,7 +508,7 @@ alt.array().min(5);
 
 ### array().`max(value: int)`
 
-> Force an array to contains at most a number of items equal to the value passed.
+> Force an array to contain at most a number of items equal to the value passed.
 
 ```javascript
 alt.array().max(10);
@@ -671,7 +675,7 @@ alt.internet().ipv6();
 
 ## Function
 
-There is no method right now, it will only check if the value is valid function.
+There is no method right now, it will only check if the value is a valid function.
 
 ```javascript
 alt.function();

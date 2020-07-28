@@ -1,7 +1,7 @@
 
 - Plugins / extend capability
 - export as standalone lib
-- test in browserg
+- test in browser
 
 ```
 number
