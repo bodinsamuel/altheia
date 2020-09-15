@@ -5136,10 +5136,10 @@ type-fest@^0.8.1:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
-typecov@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/typecov/-/typecov-0.2.2.tgz#553bd2fdaafc8562e5b514f3489f335d76883ae9"
-  integrity sha512-iyvO3t8jEPIhGvPQmumt7G0eU5pXfx+9zC0/ZIubWW1fkub2aTos5KJ1Rhm7okgmL3e7O4xkwHwR5mBzCI06fQ==
+typecov@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/typecov/-/typecov-0.2.3.tgz#350daa72bbed73ae8c95c64253206a7191cd9b7e"
+  integrity sha512-BE+nnnDoXSyieH09CmNzwU+tu9TNf+RUB4OsM3hC7TxrW1WI0vUOex3bm2rcf4L07qkP5/CokcWidWEFD3PNUA==
   dependencies:
     lodash "^4.17.11"
     type-coverage-core "^2.2.0"

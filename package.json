@@ -78,7 +78,7 @@
     "rollup-plugin-terser": "6.1.0",
     "rollup-plugin-typescript2": "0.26.0",
     "ts-jest": "25.5.1",
-    "typecov": "0.2.2",
+    "typecov": "0.2.3",
     "typescript": "3.9.7",
     "uglifyjs-webpack-plugin": "^2.1.3"
   },
