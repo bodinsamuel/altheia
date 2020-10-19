@@ -72,7 +72,7 @@
     "jest": "25.5.4",
     "lint-staged": "^10.0.8",
     "prettier": "2.0.5",
-    "rollup": "2.21.0",
+    "rollup": "2.32.0",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-terser": "6.1.0",
