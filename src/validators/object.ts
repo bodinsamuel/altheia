@@ -87,7 +87,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'in',
-      (obj: object): TestFunctionReturn => {
+      (obj: Record<string, unknown>): TestFunctionReturn => {
         const diff = arrayDiff<string>(Object.keys(obj), only);
         if (diff.length <= 0) {
           return true;
@@ -137,7 +137,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'not',
-      (obj: object): TestFunctionReturn => {
+      (obj: Record<string, unknown>): TestFunctionReturn => {
         const diff = arrayDiff(only, Object.keys(obj));
         return diff.length === only.length;
       },
@@ -162,7 +162,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'schema',
-      async (obj: object): Promise<TestFunctionReturn> => {
+      async (obj: Record<string, unknown>): Promise<TestFunctionReturn> => {
         const clone = schema.clone();
         const hasError = await clone.body(obj).validate();
         return {
@@ -204,7 +204,7 @@ export class TypeObject extends TypeBase {
 
     this.test(
       'oneOf',
-      (obj: object): TestFunctionReturn => {
+      (obj: Record<string, unknown>): TestFunctionReturn => {
         const presence: { a: null | string; b: null | string } = {
           a: null,
           b: null,
@@ -249,7 +249,7 @@ export class TypeObject extends TypeBase {
   allOf(...keys: string[]): this {
     this.test(
       'allOf',
-      (obj: object): TestFunctionReturn => {
+      (obj: Record<string, unknown>): TestFunctionReturn => {
         const count = Object.keys(obj).reduce((acc, k): number => {
           if (keys.includes(k)) {
             // eslint-disable-next-line no-param-reassign
@@ -273,7 +273,7 @@ export class TypeObject extends TypeBase {
   anyOf(...keys: string[]): this {
     this.test(
       'anyOf',
-      (obj: object): TestFunctionReturn => {
+      (obj: Record<string, unknown>): TestFunctionReturn => {
         return (
           Object.keys(obj).reduce((acc, k): number => {
             if (keys.includes(k)) {

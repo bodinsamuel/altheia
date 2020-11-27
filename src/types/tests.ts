@@ -1,3 +1,10 @@
+/* eslint-disable no-use-before-define */
+export type TestFunctionReturn = boolean | ValidatorInternalTestResult;
+
+export type TestFunction = (
+  params: any
+) => Promise<TestFunctionReturn> | TestFunctionReturn;
+
 export interface ValidatorTestResult {
   valid: boolean;
   type: string;
@@ -19,12 +26,6 @@ export interface ValidatorErrorFormatted {
   position?: number;
   errors?: ValidatorErrorFormatted[];
 }
-
-export type TestFunction = (
-  params: any
-) => Promise<TestFunctionReturn> | TestFunctionReturn;
-
-export type TestFunctionReturn = boolean | ValidatorInternalTestResult;
 
 // ---------- Tests Private
 export interface ValidatorInternalTest {

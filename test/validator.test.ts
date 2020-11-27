@@ -71,7 +71,7 @@ describe('Validator', () => {
     });
     test('should throw error on bad params', async () => {
       expect(() => {
-        // @ts-ignore
+        // @ts-expect-error on purpose
         Alt(true);
       }).toThrow('schema should be object');
     });
@@ -80,7 +80,7 @@ describe('Validator', () => {
   describe('options()', () => {
     test('should throw error on bad params', async () => {
       expect(() => {
-        // @ts-ignore
+        // @ts-expect-error on purpose
         Alt({}).options(true);
       }).toThrow('schema should be object');
     });
@@ -380,7 +380,7 @@ describe('Validator', () => {
         .body({ login: 'foobA', password: 'foob' })
         .validate();
       expect(hasError).toBeTruthy();
-      // @ts-ignore
+      // @ts-expect-error on purpose
       expect(hasError.length).toBe(2);
 
       expect(hasError[0]).toEqual({

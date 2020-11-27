@@ -84,7 +84,7 @@ describe('Date', () => {
     });
     test('should not pass invalid date', async () => {
       const hasError = await Alt.date()
-        // @ts-ignore
+        // @ts-expect-error on purpose
         .min('2016-05-15')
         .validate('2017-05-15');
       expect(hasError).toBeTruthy();
@@ -111,7 +111,7 @@ describe('Date', () => {
     });
     test('should not pass invalid date', async () => {
       const hasError = await Alt.date()
-        // @ts-ignore
+        // @ts-expect-error on purpose
         .max('2018-05-15')
         .validate('2017-05-15');
       expect(hasError).toBeTruthy();

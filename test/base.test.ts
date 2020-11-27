@@ -54,7 +54,7 @@ describe('Base', () => {
       let error;
       try {
         await Alt.string()
-          // @ts-ignore
+          // @ts-expect-error on purpose
           .custom('dfd', () => {
             return 'nope';
           })
@@ -73,7 +73,7 @@ describe('Base', () => {
       let error;
       try {
         await Alt.string()
-          // @ts-ignore
+          // @ts-expect-error on purpose
           .custom('dfd', () => {
             return { foo: 'bar' };
           })

@@ -141,7 +141,7 @@ describe('Object', () => {
       try {
         await Alt.object()
           .schema({
-            // @ts-ignore
+            // @ts-expect-error on purpose
             schema: Alt({
               foo: Alt.string(),
             }).options({ required: true }),
@@ -195,7 +195,7 @@ describe('Object', () => {
     test('should fail not valid schema', async () => {
       expect(() => {
         Alt.object().schema({
-          // @ts-ignore
+          // @ts-expect-error on purpose
           schema: {},
         });
       }).toThrow();
@@ -233,7 +233,7 @@ describe('Object', () => {
 
     test('should fail bad parameter schema', async () => {
       expect(() => {
-        // @ts-ignore
+        // @ts-expect-error on purpose
         Alt.object().schema(new Error());
       }).toThrow(
         'schema should be an instance of altheia validator "Alt({ ... })"'
@@ -245,7 +245,7 @@ describe('Object', () => {
       try {
         await Alt({
           data: Alt.object().schema({
-            // @ts-ignore
+            // @ts-expect-error on purpose
             foo: Alt.number(),
           }),
         })
