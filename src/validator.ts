@@ -155,12 +155,15 @@ export class Validator {
    * @param  {function} callback
    * @return {false | ValidatorErrorFormatted[]} Test resutls
    */
+
+  async validate(): Promise<ValidatorResult>;
+
+  async validate(callback: ValidatorCallback): Promise<ValidatorResult>;
+
   async validate(
-    body: any,
+    body: Record<string, unknown>,
     callback?: ValidatorCallback
   ): Promise<ValidatorResult>;
-
-  async validate(callback?: ValidatorCallback): Promise<ValidatorResult>;
 
   async validate(...params: any | ValidatorCallback): Promise<ValidatorResult> {
     if (this.validated) {
