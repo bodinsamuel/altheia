@@ -10,7 +10,9 @@
     "schema",
     "valid",
     "assert",
-    "data"
+    "data",
+    "json",
+    "joi"
   ],
   "files": [
     "lib"
