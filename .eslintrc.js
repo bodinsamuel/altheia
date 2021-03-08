@@ -25,7 +25,7 @@ module.exports = {
   extends: [
     'airbnb-base',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
+    'prettier',
     'plugin:prettier/recommended',
   ],
 
@@ -81,7 +81,7 @@ module.exports = {
       files: ['deno/**/*.ts'],
       rules: {
         'import/extensions': 'off',
-      }
-    }
+      },
+    },
   ],
 };
