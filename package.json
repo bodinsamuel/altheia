@@ -60,7 +60,7 @@
     "@codechecks/client": "^0.1.10",
     "@types/jest": "26.0.23",
     "@types/lodash": "4.14.168",
-    "@types/node": "15.0.1",
+    "@types/node": "15.12.1",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@typescript-eslint/parser": "4.22.0",
     "coveralls": "^3.0.2",
