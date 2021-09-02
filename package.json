@@ -22,7 +22,6 @@
   "scripts": {
     "lint": "eslint \"src/**\" \"test/**\"",
     "test": "jest test/",
-    "coveralls": "jest --coverage test/ && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "build": "rm -rf dist/ lib/ && yarn tsc"
   },
   "lint-staged": {
@@ -57,13 +56,12 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@codechecks/client": "^0.1.10",
+    "@codechecks/client": "^0.1.11",
     "@types/jest": "26.0.23",
     "@types/lodash": "4.14.168",
     "@types/node": "15.0.1",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@typescript-eslint/parser": "4.22.0",
-    "coveralls": "^3.0.2",
     "eslint": "7.25.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "^8.1.0",
@@ -74,11 +72,6 @@
     "jest": "26.6.3",
     "lint-staged": "^10.5.4",
     "prettier": "2.2.1",
-    "rollup": "2.46.0",
-    "rollup-plugin-commonjs": "10.1.0",
-    "rollup-plugin-node-resolve": "5.2.0",
-    "rollup-plugin-terser": "7.0.2",
-    "rollup-plugin-typescript2": "0.30.0",
     "ts-jest": "26.5.6",
     "typecov": "0.2.3",
     "typescript": "4.2.4",
