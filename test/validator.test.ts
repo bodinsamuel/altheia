@@ -347,8 +347,8 @@ describe('Validator', () => {
       expect(hasError).toBe(false);
     });
 
-    test('Should validate with a body and a callback', async (done) => {
-      await Alt({
+    test('Should validate with a body and a callback', (done) => {
+      Alt({
         login: Alt.string().required(),
       }).validate({ login: 'foobar' }, (errors) => {
         expect(errors).toBe(false);
@@ -506,7 +506,7 @@ describe('Validator', () => {
 });
 
 describe('Reuse', () => {
-  test('should not be reusable', async (done) => {
+  test('should not be reusable', async () => {
     const schema = Alt({
       foo: Alt.string(),
     });
@@ -515,13 +515,16 @@ describe('Reuse', () => {
     expect(schema._errors).toHaveLength(1);
     expect(schema._errorsRaw).toHaveLength(1);
 
+    let err;
     try {
       await schema.body({ foo: 'bar' }).validate();
     } catch (e) {
-      expect(e.message).toBe(
-        'Already validated, please use .clone() to validate a different body'
-      );
-      done();
+      err = e;
     }
+    expect(err).toEqual(
+      new Error(
+        'Already validated, please use .clone() to validate a different body'
+      )
+    );
   });
 });

@@ -254,7 +254,7 @@ describe('Base', () => {
   });
 
   describe('test()', () => {
-    test('should be reusable', async (done) => {
+    test('should be reusable', async () => {
       const schema = Alt.string().in('hello');
 
       const hasError1 = await schema.validate('good morning');
@@ -263,8 +263,6 @@ describe('Base', () => {
       const hasError2 = await schema.validate('hello');
       expect(hasError2).toBe(false);
       expect((hasError1 as ValidatorTestResult).valid).toBe(false);
-
-      done();
     });
   });
 });
