@@ -1,6 +1,6 @@
 # Altheia
 
-[![Build Status](https://travis-ci.org/bodinsamuel/altheia.svg?branch=master)](https://travis-ci.org/bodinsamuel/altheia) [![Coverage Status](https://coveralls.io/repos/github/bodinsamuel/altheia/badge.svg?branch=master)](https://coveralls.io/github/bodinsamuel/altheia?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/bodinsamuel/altheia/badge.svg?branch=master)](https://coveralls.io/github/bodinsamuel/altheia?branch=master)
 
 A very simple, fast and customizable async data validator, inspired by Joi .
 
