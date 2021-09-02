@@ -1,7 +1,5 @@
 # Altheia
 
-[![Coverage Status](https://coveralls.io/repos/github/bodinsamuel/altheia/badge.svg?branch=master)](https://coveralls.io/github/bodinsamuel/altheia?branch=master)
-
 A very simple, fast and customizable async data validator, inspired by Joi .
 
 ```javascript

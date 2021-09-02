@@ -22,7 +22,6 @@
   "scripts": {
     "lint": "eslint \"src/**\" \"test/**\"",
     "test": "jest test/",
-    "coveralls": "jest --coverage test/ && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "build": "rm -rf dist/ lib/ && yarn tsc"
   },
   "lint-staged": {
@@ -63,7 +62,6 @@
     "@types/node": "15.0.1",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@typescript-eslint/parser": "4.22.0",
-    "coveralls": "^3.0.2",
     "eslint": "7.25.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "^8.1.0",

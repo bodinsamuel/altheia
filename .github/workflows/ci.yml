@@ -27,6 +27,7 @@ jobs:
 
     - name: Install
       run:  yarn install --frozen-lockfile
+
     - name: Lint
       run:  yarn lint
 
@@ -35,9 +36,6 @@ jobs:
 
     - name: Test
       run:  yarn test
-
-    - name: Coverage
-      run:  yarn coveralls
 
     - name: Codechecks
       run:  yarn codechecks
