@@ -29,12 +29,9 @@ export class TypeFunc extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test(
-      'typeof',
-      (str: any): TestFunctionReturn => {
-        return typeof str === 'function';
-      }
-    );
+    this.test('typeof', (str: any): TestFunctionReturn => {
+      return typeof str === 'function';
+    });
     return this;
   }
 }

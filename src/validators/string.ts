@@ -43,12 +43,9 @@ export class TypeString extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test(
-      'typeof',
-      (str: any): TestFunctionReturn => {
-        return typeof str === 'string';
-      }
-    );
+    this.test('typeof', (str: any): TestFunctionReturn => {
+      return typeof str === 'string';
+    });
     return this;
   }
 
@@ -59,12 +56,9 @@ export class TypeString extends TypeBase {
    */
   noEmpty(): this {
     this._noEmpty = true;
-    this.test(
-      'empty',
-      (str: string): TestFunctionReturn => {
-        return str.length > 0;
-      }
-    );
+    this.test('empty', (str: string): TestFunctionReturn => {
+      return str.length > 0;
+    });
     return this;
   }
 
@@ -164,12 +158,9 @@ export class TypeString extends TypeBase {
    * @return {this}
    */
   email(): this {
-    this.test(
-      'email',
-      (str: string): TestFunctionReturn => {
-        return str.search('@') >= 0;
-      }
-    );
+    this.test('email', (str: string): TestFunctionReturn => {
+      return str.search('@') >= 0;
+    });
 
     return this;
   }
@@ -180,12 +171,9 @@ export class TypeString extends TypeBase {
    * @return {this}
    */
   lowercase(): this {
-    this.test(
-      'lowercase',
-      (str: string): TestFunctionReturn => {
-        return str.toLocaleLowerCase() === str;
-      }
-    );
+    this.test('lowercase', (str: string): TestFunctionReturn => {
+      return str.toLocaleLowerCase() === str;
+    });
 
     return this;
   }
@@ -196,12 +184,9 @@ export class TypeString extends TypeBase {
    * @return {this}
    */
   uppercase(): this {
-    this.test(
-      'uppercase',
-      (str: string): TestFunctionReturn => {
-        return str.toLocaleUpperCase() === str;
-      }
-    );
+    this.test('uppercase', (str: string): TestFunctionReturn => {
+      return str.toLocaleUpperCase() === str;
+    });
 
     return this;
   }

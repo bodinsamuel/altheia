@@ -41,12 +41,9 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test(
-      'typeof',
-      (val: any): TestFunctionReturn => {
-        return Array.isArray(val);
-      }
-    );
+    this.test('typeof', (val: any): TestFunctionReturn => {
+      return Array.isArray(val);
+    });
     return this;
   }
 
@@ -100,7 +97,7 @@ export class TypeArray extends TypeBase {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = (array[0] as unknown) as any[];
+      only = array[0] as unknown as any[];
     }
 
     this.test(
@@ -128,7 +125,7 @@ export class TypeArray extends TypeBase {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = (array[0] as unknown) as any[];
+      only = array[0] as unknown as any[];
     }
 
     this.test(
@@ -148,13 +145,10 @@ export class TypeArray extends TypeBase {
    * @return {this}
    */
   unique(): this {
-    this.test(
-      'unique',
-      (arr: any[]): TestFunctionReturn => {
-        const a = new Set(arr);
-        return a.size === arr.length;
-      }
-    );
+    this.test('unique', (arr: any[]): TestFunctionReturn => {
+      const a = new Set(arr);
+      return a.size === arr.length;
+    });
 
     return this;
   }
@@ -172,44 +166,42 @@ export class TypeArray extends TypeBase {
         const errors: ValidatorErrorRaw[] = [];
 
         await Promise.all(
-          arr.map(
-            async (value: any, index: number): Promise<void> => {
-              let error: ValidatorErrorRaw | undefined;
+          arr.map(async (value: any, index: number): Promise<void> => {
+            let error: ValidatorErrorRaw | undefined;
 
-              const label = 'item';
-              for (let i = 0; i < templates.length; i++) {
-                const test = await templates[i].required().validate(value);
-                if (test) {
-                  error = { label, test, position: index };
-                } else {
-                  // early break if one template matched (returned no error)
-                  return;
-                }
-              }
-
-              // Help typescript understand we have error here
-              if (!error) {
+            const label = 'item';
+            for (let i = 0; i < templates.length; i++) {
+              const test = await templates[i].required().validate(value);
+              if (test) {
+                error = { label, test, position: index };
+              } else {
+                // early break if one template matched (returned no error)
                 return;
               }
-
-              // if multiples templates, return a generic message
-              if (templates.length > 1) {
-                error = {
-                  label,
-                  test: this.createTestResult(
-                    this.createTest({
-                      type: 'array.itemInvalid',
-                    }),
-                    false
-                  ),
-                  position: index,
-                };
-                errors.push(error);
-              } else {
-                errors.push(error);
-              }
             }
-          )
+
+            // Help typescript understand we have error here
+            if (!error) {
+              return;
+            }
+
+            // if multiples templates, return a generic message
+            if (templates.length > 1) {
+              error = {
+                label,
+                test: this.createTestResult(
+                  this.createTest({
+                    type: 'array.itemInvalid',
+                  }),
+                  false
+                ),
+                position: index,
+              };
+              errors.push(error);
+            } else {
+              errors.push(error);
+            }
+          })
         );
 
         return {

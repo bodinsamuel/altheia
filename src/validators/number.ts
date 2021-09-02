@@ -49,12 +49,9 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test(
-      'typeof',
-      (val: any): TestFunctionReturn => {
-        return typeof val === 'number' && !isNaN(val) && isFinite(val);
-      }
-    );
+    this.test('typeof', (val: any): TestFunctionReturn => {
+      return typeof val === 'number' && !isNaN(val) && isFinite(val);
+    });
     return this;
   }
 
@@ -98,12 +95,9 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   integer(): this {
-    this.test(
-      'integer',
-      (num: number): TestFunctionReturn => {
-        return Number.isSafeInteger(num) === true;
-      }
-    );
+    this.test('integer', (num: number): TestFunctionReturn => {
+      return Number.isSafeInteger(num) === true;
+    });
     return this;
   }
 
@@ -113,12 +107,9 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   unsigned(): this {
-    this.test(
-      'unsigned',
-      (num: number): TestFunctionReturn => {
-        return num >= 0;
-      }
-    );
+    this.test('unsigned', (num: number): TestFunctionReturn => {
+      return num >= 0;
+    });
     return this;
   }
 
@@ -128,12 +119,9 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   positive(): this {
-    this.test(
-      'positive',
-      (num: number): TestFunctionReturn => {
-        return num > 0;
-      }
-    );
+    this.test('positive', (num: number): TestFunctionReturn => {
+      return num > 0;
+    });
     return this;
   }
 
@@ -143,12 +131,9 @@ export class TypeNumber extends TypeBase {
    * @return {this}
    */
   negative(): this {
-    this.test(
-      'negative',
-      (num: number): TestFunctionReturn => {
-        return num < 0;
-      }
-    );
+    this.test('negative', (num: number): TestFunctionReturn => {
+      return num < 0;
+    });
     return this;
   }
 
