@@ -1,5 +1,7 @@
 # Altheia
 
+[![CI](https://github.com/bodinsamuel/altheia/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/bodinsamuel/altheia/actions/workflows/ci.yml)
+
 A very simple, fast and customizable async data validator, inspired by Joi .
 
 ```javascript
