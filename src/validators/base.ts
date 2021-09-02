@@ -69,15 +69,13 @@ export abstract class TypeBase {
    * @param args
    */
   test(name: string, func: TestFunction, args = {}): void {
-    this.tests.push(
-      (): ValidatorInternalTest => {
-        return this.createTest({
-          type: `${this.name}.${name}`,
-          func,
-          args,
-        });
-      }
-    );
+    this.tests.push((): ValidatorInternalTest => {
+      return this.createTest({
+        type: `${this.name}.${name}`,
+        func,
+        args,
+      });
+    });
   }
 
   createTest = createTest;
@@ -237,28 +235,25 @@ export abstract class TypeBase {
     then: (chain: T) => TypeBase;
     otherwise: (chain: T) => TypeBase;
   }): this {
-    this.test(
-      'if',
-      async (str): Promise<TestFunctionReturn> => {
-        const clone = this.clone() as T;
-        clone.tests = [];
+    this.test('if', async (str): Promise<TestFunctionReturn> => {
+      const clone = this.clone() as T;
+      clone.tests = [];
 
-        const hasError = await test(clone).validate(str);
-        if (!hasError) {
-          clone.tests = [];
-          const temp = await then(clone).validate(str);
-          return temp && temp.result
-            ? { ...temp.result, overrideWith: temp }
-            : true;
-        }
-
+      const hasError = await test(clone).validate(str);
+      if (!hasError) {
         clone.tests = [];
-        const temp = await otherwise(clone).validate(str);
+        const temp = await then(clone).validate(str);
         return temp && temp.result
           ? { ...temp.result, overrideWith: temp }
           : true;
       }
-    );
+
+      clone.tests = [];
+      const temp = await otherwise(clone).validate(str);
+      return temp && temp.result
+        ? { ...temp.result, overrideWith: temp }
+        : true;
+    });
     return this;
   }
 

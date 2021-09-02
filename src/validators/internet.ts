@@ -54,12 +54,9 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test(
-      'typeof',
-      (val: any): TestFunctionReturn => {
-        return typeof val === 'string';
-      }
-    );
+    this.test('typeof', (val: any): TestFunctionReturn => {
+      return typeof val === 'string';
+    });
     return this;
   }
 
@@ -69,23 +66,20 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   url(): this {
-    this.test(
-      'url',
-      (str: string): TestFunctionReturn => {
-        try {
-          // eslint-disable-next-line
+    this.test('url', (str: string): TestFunctionReturn => {
+      try {
+        // eslint-disable-next-line
           if (str.search('javascript:') === 0) {
-            return false;
-          }
-
-          // eslint-disable-next-line
-          new url.URL(str);
-          return true;
-        } catch (e) {
           return false;
         }
+
+        // eslint-disable-next-line
+          new url.URL(str);
+        return true;
+      } catch (e) {
+        return false;
       }
-    );
+    });
     return this;
   }
 
@@ -95,12 +89,9 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   hostname(): this {
-    this.test(
-      'hostname',
-      (str: string): TestFunctionReturn => {
-        return str.match(hostname) !== null;
-      }
-    );
+    this.test('hostname', (str: string): TestFunctionReturn => {
+      return str.match(hostname) !== null;
+    });
     return this;
   }
 
@@ -110,12 +101,9 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   hex(): this {
-    this.test(
-      'hex',
-      (str: string): TestFunctionReturn => {
-        return str.match(/^[a-f0-9]+$/i) !== null;
-      }
-    );
+    this.test('hex', (str: string): TestFunctionReturn => {
+      return str.match(/^[a-f0-9]+$/i) !== null;
+    });
     return this;
   }
 
@@ -125,20 +113,17 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   creditCard(): this {
-    this.test(
-      'creditCard',
-      (str: string): TestFunctionReturn => {
-        if (/[^0-9-\s]+/.test(str)) {
-          return false;
-        }
-
-        const cc = str.replace(/\D/g, '');
-        if (cc.length < 13) {
-          return false;
-        }
-        return Luhn(cc) === true;
+    this.test('creditCard', (str: string): TestFunctionReturn => {
+      if (/[^0-9-\s]+/.test(str)) {
+        return false;
       }
-    );
+
+      const cc = str.replace(/\D/g, '');
+      if (cc.length < 13) {
+        return false;
+      }
+      return Luhn(cc) === true;
+    });
     return this;
   }
 
@@ -148,15 +133,12 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   uuidv4(): this {
-    this.test(
-      'uuidv4',
-      (str: string): TestFunctionReturn => {
-        if (str.length < 32) {
-          return false;
-        }
-        return uuidv4.test(str);
+    this.test('uuidv4', (str: string): TestFunctionReturn => {
+      if (str.length < 32) {
+        return false;
       }
-    );
+      return uuidv4.test(str);
+    });
     return this;
   }
 
@@ -166,12 +148,9 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   ip(): this {
-    this.test(
-      'ip',
-      (str: string): TestFunctionReturn => {
-        return ipv4.test(str) || ipv6.test(str);
-      }
-    );
+    this.test('ip', (str: string): TestFunctionReturn => {
+      return ipv4.test(str) || ipv6.test(str);
+    });
     return this;
   }
 
@@ -181,12 +160,9 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   ipv4(): this {
-    this.test(
-      'ipv4',
-      (str: string): TestFunctionReturn => {
-        return ipv4.test(str);
-      }
-    );
+    this.test('ipv4', (str: string): TestFunctionReturn => {
+      return ipv4.test(str);
+    });
     return this;
   }
 
@@ -196,12 +172,9 @@ export class TypeInternet extends TypeBase {
    * @return {this}
    */
   ipv6(): this {
-    this.test(
-      'ipv6',
-      (str: string): TestFunctionReturn => {
-        return ipv6.test(str);
-      }
-    );
+    this.test('ipv6', (str: string): TestFunctionReturn => {
+      return ipv6.test(str);
+    });
     return this;
   }
 }

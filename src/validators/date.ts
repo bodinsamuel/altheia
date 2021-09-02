@@ -46,12 +46,9 @@ export class TypeDate extends TypeBase {
    * @return {this}
    */
   typeof(): this {
-    this.test(
-      'typeof',
-      (val: any): TestFunctionReturn => {
-        return !isNaN(Date.parse(val));
-      }
-    );
+    this.test('typeof', (val: any): TestFunctionReturn => {
+      return !isNaN(Date.parse(val));
+    });
     return this;
   }
 
@@ -61,12 +58,9 @@ export class TypeDate extends TypeBase {
    * @return {this}
    */
   iso(): this {
-    this.test(
-      'iso',
-      (date: string): TestFunctionReturn => {
-        return date.match(iso) !== null;
-      }
-    );
+    this.test('iso', (date: string): TestFunctionReturn => {
+      return date.match(iso) !== null;
+    });
     return this;
   }
 

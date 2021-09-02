@@ -82,7 +82,7 @@ export class TypeObject extends TypeBase {
       if (isPlainObject(array[1])) {
         options = { ...(array[1] as any) };
       }
-      only = (array[0] as unknown) as string[];
+      only = array[0] as unknown as string[];
     }
 
     this.test(
@@ -97,17 +97,15 @@ export class TypeObject extends TypeBase {
           return {
             valid: false,
             error: 'in',
-            errors: diff.map(
-              (label): ValidatorErrorRaw => {
-                return {
-                  test: this.createTestResult(
-                    this.createTest({ type: 'forbidden' }),
-                    false
-                  ),
-                  label,
-                };
-              }
-            ),
+            errors: diff.map((label): ValidatorErrorRaw => {
+              return {
+                test: this.createTestResult(
+                  this.createTest({ type: 'forbidden' }),
+                  false
+                ),
+                label,
+              };
+            }),
           };
         }
 
@@ -132,7 +130,7 @@ export class TypeObject extends TypeBase {
     let only = array;
     // handle someone passing literal array instead of multiple args
     if (array.length === 1 && Array.isArray(array[0])) {
-      only = (array[0] as unknown) as string[];
+      only = array[0] as unknown as string[];
     }
 
     this.test(
