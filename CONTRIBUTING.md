@@ -13,10 +13,7 @@ yarn test
 ## Releasing
 
 ```sh
-git pull --rebase
-
-GH_TOKEN="token" yarn semantic-release
-git push --tags
+GH_TOKEN="token" yarn semantic-release --ci=false
 yarn build
 yarn publish
 ```
