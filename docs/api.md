@@ -464,9 +464,9 @@ alt.object().schema(
 
 > Force any keys, to be the only one present in the object (**exclusive relationships**)
 
-Accept an optional second param:
+Accept an optional first param:
 
-- `{ oneIsRequired: boolean }` => `true` will return an error if none match, `false` (default) will not throw an error if none match.
+- If the first argument is `true`, it will return an error if none match, otherwise `false` (default) will not throw an error if none match.
 
 ```javascript
 // 'a', 'b', 'c', 'd'
