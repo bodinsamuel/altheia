@@ -1,3 +1,13 @@
+## [5.0.12](https://github.com/bodinsamuel/altheia/compare/v5.0.11...v5.0.12) (2021-09-02)
+
+
+### Bug Fixes
+
+* **deps:** upgrade everything ([4c40c72](https://github.com/bodinsamuel/altheia/commit/4c40c72f93039e3e9524c8a82d911e22c889f4c9))
+* add semantic-release ([7a022f6](https://github.com/bodinsamuel/altheia/commit/7a022f6efac132bb4189013af86dfeb3c273fd8d))
+* oneOf param in doc ([#552](https://github.com/bodinsamuel/altheia/issues/552)) ([2de610a](https://github.com/bodinsamuel/altheia/commit/2de610a507719feb03c21e32620c5ebd1af6b22a))
+* **ci:** use github actions ([#582](https://github.com/bodinsamuel/altheia/issues/582)) ([05c604e](https://github.com/bodinsamuel/altheia/commit/05c604e5db0f156c519d04e8de26d835d07b03aa))
+
 # Changelog
 
 ## [5.0.2](https://github.com/bodinsamuel/altheia/compare/v5.0.0...master) (2020-01-31)

@@ -1,6 +1,6 @@
 {
   "name": "altheia-async-data-validator",
-  "version": "5.0.11",
+  "version": "5.0.12",
   "description": "A very simple, fast and customizable async data validator",
   "keywords": [
     "validator",
