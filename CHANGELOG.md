@@ -1,3 +1,10 @@
+## [5.0.13](https://github.com/bodinsamuel/altheia/compare/v5.0.12...v5.0.13) (2022-01-17)
+
+
+### Bug Fixes
+
+* upgrade dependencies ([4c3f2a8](https://github.com/bodinsamuel/altheia/commit/4c3f2a85c0abd347f5625d6a3b03e32ca2872e6d))
+
 ## [5.0.12](https://github.com/bodinsamuel/altheia/compare/v5.0.11...v5.0.12) (2021-09-02)
 
 
