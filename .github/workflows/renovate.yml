@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Renovate Automatic Branch
-        uses: ./
+        uses: bodinsamuel/renovate-automatic-branch@v1
         with:
           github-token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           repo-owner: bodinsamuel
