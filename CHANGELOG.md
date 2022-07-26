@@ -1,3 +1,12 @@
+## [5.0.14](https://github.com/bodinsamuel/altheia/compare/v5.0.13...v5.0.14) (2022-07-26)
+
+
+### Bug Fixes
+
+* dependencies 2022-07-28 ([#728](https://github.com/bodinsamuel/altheia/issues/728)) ([3b3045d](https://github.com/bodinsamuel/altheia/commit/3b3045d38db10adeca31fe5ca65746adeeb0a133))
+* dependencies 2022-07-29 ([#735](https://github.com/bodinsamuel/altheia/issues/735)) ([c03fc2d](https://github.com/bodinsamuel/altheia/commit/c03fc2df1c689edb085c32dc9f221d0e07d091c7))
+* update node ([#734](https://github.com/bodinsamuel/altheia/issues/734)) ([1a8de05](https://github.com/bodinsamuel/altheia/commit/1a8de05aa6430029df92f070f673fe9be56d8e0a))
+
 ## [5.0.13](https://github.com/bodinsamuel/altheia/compare/v5.0.12...v5.0.13) (2022-01-17)
 
 
