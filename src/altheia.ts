@@ -65,6 +65,7 @@ const Instance = (lang?: LangList): AltheiaInstance => {
 
   inst.formatError = (
     { type, args, result },
+    // eslint-disable-next-line default-param-last
     label = 'value',
     position
   ): ValidatorErrorFormatted => {
