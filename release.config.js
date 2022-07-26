@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 module.exports = {
-  branches: 'master',
-  verifyConditions: ['@semantic-release/github'],
+  branches: ['main'],
+  verifyConditions: ['@semantic-release/github', '@semantic-release/npm'],
   prepare: [
     {
       path: '@semantic-release/changelog',
@@ -15,8 +15,5 @@ module.exports = {
         'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
     },
   ],
-  publish: ['@semantic-release/github'],
-  success: [],
-  fail: [],
-  npmPublish: false,
+  publish: ['@semantic-release/github', '@semantic-release/npm'],
 };
