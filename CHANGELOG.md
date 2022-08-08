@@ -1,3 +1,11 @@
+## [5.0.15](https://github.com/bodinsamuel/altheia/compare/v5.0.14...v5.0.15) (2022-08-08)
+
+
+### Bug Fixes
+
+* dependencies 2022-07-31 ([#743](https://github.com/bodinsamuel/altheia/issues/743)) ([72b945b](https://github.com/bodinsamuel/altheia/commit/72b945b2cf4fa404533d518cf876daacbf58a3ec)), closes [#744](https://github.com/bodinsamuel/altheia/issues/744) [#745](https://github.com/bodinsamuel/altheia/issues/745) [#746](https://github.com/bodinsamuel/altheia/issues/746) [#747](https://github.com/bodinsamuel/altheia/issues/747) [#752](https://github.com/bodinsamuel/altheia/issues/752) [#753](https://github.com/bodinsamuel/altheia/issues/753) [#748](https://github.com/bodinsamuel/altheia/issues/748) [#749](https://github.com/bodinsamuel/altheia/issues/749) [#750](https://github.com/bodinsamuel/altheia/issues/750) [#751](https://github.com/bodinsamuel/altheia/issues/751) [#755](https://github.com/bodinsamuel/altheia/issues/755)
+* dependencies 2022-08-07 ([#756](https://github.com/bodinsamuel/altheia/issues/756)) ([02b94bf](https://github.com/bodinsamuel/altheia/commit/02b94bfb0b4de44282385bdb58f7141ce00b5327)), closes [#757](https://github.com/bodinsamuel/altheia/issues/757) [#758](https://github.com/bodinsamuel/altheia/issues/758) [#759](https://github.com/bodinsamuel/altheia/issues/759) [#763](https://github.com/bodinsamuel/altheia/issues/763) [#764](https://github.com/bodinsamuel/altheia/issues/764) [#765](https://github.com/bodinsamuel/altheia/issues/765) [#762](https://github.com/bodinsamuel/altheia/issues/762) [#761](https://github.com/bodinsamuel/altheia/issues/761)
+
 ## [5.0.14](https://github.com/bodinsamuel/altheia/compare/v5.0.13...v5.0.14) (2022-07-26)
 
 
