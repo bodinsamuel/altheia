@@ -1895,10 +1895,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.7.3":
-  version: 18.7.3
-  resolution: "@types/node@npm:18.7.3"
-  checksum: f51ed436a112235ac068d739b4823090a37b869cc186b64dd5c250dd285139c286990fcbeff2fb3ecba5d605fa885de4275247d332e5b96eafdfbb1da62e3ced
+"@types/node@npm:18.7.13":
+  version: 18.7.13
+  resolution: "@types/node@npm:18.7.13"
+  checksum: 45431e7e89ecaf85c7d2c180d801c132a7c59e2f8ad578726b6d71cc74e3267c18f9ccdcad738bc0479790c078f0c79efb0e58da2c6be535c15995dbb19050c9
   languageName: node
   linkType: hard
 
@@ -2238,7 +2238,7 @@ __metadata:
     "@semantic-release/npm": 9.0.1
     "@types/jest": 28.1.8
     "@types/lodash": 4.14.178
-    "@types/node": 18.7.3
+    "@types/node": 18.7.13
     "@typescript-eslint/eslint-plugin": 5.33.0
     "@typescript-eslint/parser": 5.33.0
     eslint: 8.22.0
