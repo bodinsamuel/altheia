@@ -95,5 +95,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "packageManager": "yarn@3.2.2"
+  "packageManager": "yarn@3.2.4"
 }
