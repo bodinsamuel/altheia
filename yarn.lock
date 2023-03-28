@@ -1946,26 +1946,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semantic-release/npm@npm:9.0.2":
-  version: 9.0.2
-  resolution: "@semantic-release/npm@npm:9.0.2"
+"@semantic-release/npm@npm:10.0.2":
+  version: 10.0.2
+  resolution: "@semantic-release/npm@npm:10.0.2"
   dependencies:
     "@semantic-release/error": ^3.0.0
-    aggregate-error: ^3.0.0
-    execa: ^5.0.0
+    aggregate-error: ^4.0.1
+    execa: ^7.0.0
     fs-extra: ^11.0.0
-    lodash: ^4.17.15
+    lodash-es: ^4.17.21
     nerf-dart: ^1.0.0
-    normalize-url: ^6.0.0
-    npm: ^8.3.0
+    normalize-url: ^8.0.0
+    npm: ^9.5.0
     rc: ^1.2.8
-    read-pkg: ^5.0.0
+    read-pkg: ^7.0.0
     registry-auth-token: ^5.0.0
     semver: ^7.1.2
-    tempy: ^1.0.0
+    tempy: ^3.0.0
   peerDependencies:
-    semantic-release: ">=19.0.0"
-  checksum: e0493a06fc4c69929b06a86e117cf907ca9435e5496b47e49076c7be50a772b39279ce0b20c36f4384aaec892a91b106273efd795ff635fbe2f4c7aad6b84414
+    semantic-release: ">=20.1.0"
+  checksum: 48f8fde4c3f819973f1b7503ce7917dacee6614f172f705a7fc536899542e73fa65119fd071c004ff970d7b9022e0977eeaf5f2c17623ca92a3d212d35fcd80a
   languageName: node
   linkType: hard
 
@@ -2564,7 +2564,7 @@ __metadata:
     "@codechecks/client": 0.1.12
     "@semantic-release/changelog": 6.0.3
     "@semantic-release/git": 10.0.1
-    "@semantic-release/npm": 9.0.2
+    "@semantic-release/npm": 10.0.2
     "@types/jest": 28.1.6
     "@types/lodash": 4.14.191
     "@types/node": 18.11.3
