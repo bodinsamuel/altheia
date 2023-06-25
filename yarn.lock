@@ -2021,10 +2021,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.11.3":
-  version: 18.11.3
-  resolution: "@types/node@npm:18.11.3"
-  checksum: 3a2a9142d891a90a195c296149bf64a69cc0abcc42f543be911ab22b2e0ead85ff077f90af92f0f13f6e3e5e72501469200fd753dfd1101825d4646a89d3ee47
+"@types/node@npm:20.3.1":
+  version: 20.3.1
+  resolution: "@types/node@npm:20.3.1"
+  checksum: 63a393ab6d947be17320817b35d7277ef03728e231558166ed07ee30b09fd7c08861be4d746f10fdc63ca7912e8cd023939d4eab887ff6580ff704ff24ed810c
   languageName: node
   linkType: hard
 
@@ -2403,7 +2403,7 @@ __metadata:
     "@semantic-release/npm": 10.0.4
     "@types/jest": 28.1.6
     "@types/lodash": 4.14.195
-    "@types/node": 18.11.3
+    "@types/node": 20.3.1
     "@typescript-eslint/eslint-plugin": 5.60.0
     "@typescript-eslint/parser": 5.60.0
     eslint: 8.43.0
